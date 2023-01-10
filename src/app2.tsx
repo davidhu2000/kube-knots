@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api";
 import { useEffect } from "react";
 
-function App() {
+export function App() {
   useEffect(() => {
     invoke("get_pods").then((res) => {
       console.log("get_pods: ");
@@ -15,5 +15,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
