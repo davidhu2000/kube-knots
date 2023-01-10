@@ -1,17 +1,16 @@
-import { invoke } from "@tauri-apps/api";
-import { useEffect } from "react";
+import { Pods } from "./pods/pods";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export function App() {
-  useEffect(() => {
-    invoke("get_pods").then((res) => {
-      console.log("get_pods: ");
-      console.log(res);
-    });
-  });
-
   return (
-    <div className="container">
-      <h1>Kube Knots</h1>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="container">
+        <h1>Kube Knots</h1>
+
+        <Pods />
+      </div>
+    </QueryClientProvider>
   );
 }
