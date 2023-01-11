@@ -16,7 +16,6 @@ export function Namespaces({
     return <div>Error</div>;
   }
 
-  // create a select component that allows you to select a namespace
   return (
     <select name="namespaces" onChange={(e) => onChange(e.target.value)}>
       <option>All</option>

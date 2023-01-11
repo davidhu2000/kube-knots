@@ -14,8 +14,6 @@ export function Pods() {
 
   const handleNamespaceChange = (namespace: string) => {
     setNamespace(namespace);
-    // result.refetch();
-    // result.remove();
   };
 
   return (
