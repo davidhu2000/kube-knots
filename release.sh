@@ -1,7 +1,7 @@
 # automate release process locally
 # this script should be replaces by github actions
 
-yarn version patch
+npm version patch
 yarn tauri build
 version=$(grep version package.json | awk -F \" '{print $4}')
 

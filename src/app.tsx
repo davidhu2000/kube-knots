@@ -1,6 +1,6 @@
-import { Pods } from "./pods/pods";
-import { Namespaces } from "./namespaces/namespaces";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { Pods } from "./pods/pods";
 
 const queryClient = new QueryClient();
 
