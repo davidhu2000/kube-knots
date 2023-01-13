@@ -1,18 +1,34 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { PropsWithChildren } from "react";
 
+import { Layout } from "./layout";
+import { CurrentNamespaceProvider, NamespaceProvider } from "./namespaces/namespaces";
 import { Pods } from "./pods/pods";
 
 const queryClient = new QueryClient();
 
+type Provider = ({ children }: PropsWithChildren) => JSX.Element;
+
+const providers = [NamespaceProvider, CurrentNamespaceProvider];
+
+const composeProviders = (providers: Provider[]) => {
+  return providers.reduce((Prev, Curr) => ({ children }) => (
+    <Prev>
+      <Curr>{children}</Curr>
+    </Prev>
+  ));
+};
+
+const AppProviders = composeProviders(providers);
+
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="container">
-        <h1>Kube Knots</h1>
-
-        <h2>Pods</h2>
-        <Pods />
-      </div>
+      <AppProviders>
+        <Layout>
+          <Pods />
+        </Layout>
+      </AppProviders>
     </QueryClientProvider>
   );
 }
