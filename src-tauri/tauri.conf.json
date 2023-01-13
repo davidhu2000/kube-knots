@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Kube Knots",
+    "productName": "kube-knots",
     "version": "../package.json"
   },
   "tauri": {
