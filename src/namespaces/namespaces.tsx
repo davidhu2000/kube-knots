@@ -1,7 +1,7 @@
 import type { V1Namespace } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import { createContext, type PropsWithChildren, useContext, useState } from "react";
 
 const NamespaceContext = createContext<string[]>([]);
 

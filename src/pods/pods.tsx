@@ -30,6 +30,7 @@ export function Pods() {
           <tr>
             {["Name", "Status"].map((header) => (
               <th
+                key={header}
                 scope="col"
                 className="px-6 py-3 text-left text-sm font-bold uppercase text-gray-700"
               >
