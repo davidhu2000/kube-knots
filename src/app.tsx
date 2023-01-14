@@ -12,7 +12,8 @@ type Provider = ({ children }: PropsWithChildren) => JSX.Element;
 const providers = [NamespaceProvider, CurrentNamespaceProvider];
 
 const composeProviders = (providers: Provider[]) => {
-  return providers.reduce((Prev, Curr) => ({ children }) => (
+  // eslint-disable-next-line react/display-name
+  return providers.reduce((Prev, Curr) => ({ children }: PropsWithChildren) => (
     <Prev>
       <Curr>{children}</Curr>
     </Prev>
