@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
 
+import { CronJobs } from "./cron-jobs/cron-jobs";
 import { Layout } from "./layout";
 import { CurrentNamespaceProvider, NamespaceProvider } from "./namespaces/namespaces";
 import { Pods } from "./pods/pods";
@@ -27,7 +28,8 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <AppProviders>
         <Layout>
-          <Pods />
+          {/* <Pods /> */}
+          <CronJobs />
         </Layout>
       </AppProviders>
     </QueryClientProvider>
