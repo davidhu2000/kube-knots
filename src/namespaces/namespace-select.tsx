@@ -16,7 +16,7 @@ export function NamespaceSelect() {
   );
 
   return (
-    <Combobox as="div" value={namespace} onChange={updateNamespace}>
+    <Combobox as="div" value={namespace ?? "All namespaces"} onChange={updateNamespace}>
       <div className="relative mt-1">
         <Combobox.Input
           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
