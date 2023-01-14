@@ -33,27 +33,17 @@ export function NamespaceSelect() {
                 key={namespace}
                 value={namespace}
                 className={({ active }) =>
-                  `
-                    relative cursor-default select-none py-2 pl-3 pr-9
-                    ${active ? "bg-slate-600 text-white" : "text-gray-900"}
-                 `
+                  `relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 ${
+                    active ? "bg-gray-200" : ""
+                  }`
                 }
               >
-                {({ active, selected }) => (
+                {({ selected }) => (
                   <>
-                    <span
-                      className={`block cursor-pointer truncate ${selected ? "font-semibold" : ""}`}
-                    >
-                      {namespace}
-                    </span>
+                    <span className={`block cursor-pointer truncate`}>{namespace}</span>
 
                     {selected && (
-                      <span
-                        className={`
-                          absolute inset-y-0 right-0 flex items-center pr-4
-                          ${active ? "text-white" : "text-slate-600"}
-                       `}
-                      >
+                      <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-600">
                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                       </span>
                     )}
