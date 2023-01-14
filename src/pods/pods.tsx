@@ -2,6 +2,7 @@ import type { V1Pod } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 
+import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
 
 const noPod = {
@@ -25,33 +26,17 @@ export function Pods() {
 
   return (
     <div>
-      <table className="min-w-full divide-y divide-gray-300 rounded-md">
-        <thead className="bg-gray-200">
-          <tr>
-            {["Name", "Status"].map((header) => (
-              <th
-                key={header}
-                scope="col"
-                className="px-6 py-3 text-left text-sm font-bold uppercase text-gray-700"
-              >
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
+      <Table>
+        <TableHeader headers={["Name", "Status"]} />
+        <TableBody>
           {pods.map((pod) => (
             <tr key={pod.metadata?.uid}>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
-                {pod.metadata?.name}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
-                {pod.status?.phase}
-              </td>
+              <TableCell>{pod.metadata?.name}</TableCell>
+              <TableCell> {pod.status?.phase}</TableCell>
             </tr>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

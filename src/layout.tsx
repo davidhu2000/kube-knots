@@ -5,7 +5,7 @@ import { NamespaceSelect } from "./namespaces/namespace-select";
 
 const navigation = [
   { name: "Pods", href: "#" },
-  { name: "Jobs", href: "#" },
+  { name: "Cron Jobs", href: "#" },
 ];
 
 export function Layout({ children }: PropsWithChildren) {
@@ -33,7 +33,7 @@ export function Layout({ children }: PropsWithChildren) {
         </div>
       </div>
       <div className="flex flex-col pl-40">
-        <div className="sticky top-0 z-10 flex h-16 shrink-0 p-2 shadow">
+        <div className="sticky top-0 z-10 flex h-16 shrink-0 bg-gray-200 p-2 shadow">
           <NamespaceSelect />
         </div>
 
