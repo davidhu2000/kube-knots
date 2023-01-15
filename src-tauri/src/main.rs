@@ -3,15 +3,9 @@
     windows_subsystem = "windows"
 )]
 
-mod internal;
-mod namespaces;
-
 mod resources;
 
-use crate::{
-    namespaces::get_namespaces,
-    resources::{cron_jobs::get_cron_jobs, pods::get_pods},
-};
+use crate::resources::{cron_jobs::get_cron_jobs, namespaces::get_namespaces, pods::get_pods};
 
 fn main() {
     tauri::Builder::default()
