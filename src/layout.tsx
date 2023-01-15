@@ -3,11 +3,7 @@ import { Link } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
-
-const navigation = [
-  { name: "Pods", href: "/pods" },
-  { name: "Cron Jobs", href: "/cron-jobs" },
-] as const;
+import { navigationLinks } from "./router";
 
 export function Layout({ children }: PropsWithChildren) {
   return (
@@ -21,7 +17,7 @@ export function Layout({ children }: PropsWithChildren) {
 
         <div className="flex flex-1 flex-col overflow-y-auto">
           <nav className="flex-1 space-y-1 px-2 py-4">
-            {navigation.map((item) => (
+            {navigationLinks.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
