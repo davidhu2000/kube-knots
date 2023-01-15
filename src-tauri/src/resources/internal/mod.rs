@@ -1,7 +1,7 @@
 use k8s_openapi::NamespaceResourceScope;
-use kube::{api::ListParams, core::ObjectList, Api, Client};
+use kube::{Api, Client};
 
-pub async fn get_resource_list<T>(namespace: Option<String>) -> ObjectList<T>
+pub async fn get_api<T>(namespace: Option<String>) -> Api<T>
 where
     T: serde::de::DeserializeOwned
         + std::fmt::Debug
@@ -15,6 +15,5 @@ where
         Some(ns) => Api::namespaced(client, &ns),
         None => Api::all(client),
     };
-    let lp = ListParams::default();
-    return api.list(&lp).await.unwrap();
+    return api;
 }
