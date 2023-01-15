@@ -1,12 +1,13 @@
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Link } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
 
 const navigation = [
-  { name: "Pods", href: "#" },
-  { name: "Cron Jobs", href: "#" },
-];
+  { name: "Pods", href: "/pods" },
+  { name: "Cron Jobs", href: "/cron-jobs" },
+] as const;
 
 export function Layout({ children }: PropsWithChildren) {
   return (
@@ -21,13 +22,13 @@ export function Layout({ children }: PropsWithChildren) {
         <div className="flex flex-1 flex-col overflow-y-auto">
           <nav className="flex-1 space-y-1 px-2 py-4">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
