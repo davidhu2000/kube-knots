@@ -4,6 +4,7 @@
 )]
 
 mod cron_jobs;
+mod internal;
 mod namespaces;
 mod pods;
 
