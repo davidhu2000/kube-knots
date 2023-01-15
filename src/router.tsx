@@ -3,6 +3,7 @@ import { Outlet, createReactRouter, createRouteConfig } from "@tanstack/react-ro
 
 import { AppProviders } from "./app-providers";
 import { CronJobs } from "./cron-jobs/cron-jobs";
+import { Deployments } from "./deployments/deployments";
 import { Layout } from "./layout";
 import { Pods } from "./pods/pods";
 
@@ -17,23 +18,22 @@ const rootRoute = createRouteConfig({
   ),
 });
 
-const homeRoute = rootRoute.createRoute({
-  path: "/",
-  component: () => <div>TODO: figure out what to show by default</div>,
-});
-
-const podsRoute = rootRoute.createRoute({
-  path: "/pods",
-  component: Pods,
-});
-
-const cronJobsRoute = rootRoute.createRoute({
-  path: "/cron-jobs",
-  component: CronJobs,
-});
-
-const routeConfig = rootRoute.addChildren([homeRoute, podsRoute, cronJobsRoute]);
+const routeConfig = rootRoute.addChildren([
+  rootRoute.createRoute({
+    path: "/",
+    component: () => <div>TODO: figure out what to show by default</div>,
+  }),
+  rootRoute.createRoute({ path: "/pods", component: Pods }),
+  rootRoute.createRoute({ path: "/cron-jobs", component: CronJobs }),
+  rootRoute.createRoute({ path: "/deployments", component: Deployments }),
+]);
 export const router = createReactRouter({ routeConfig });
+
+export const navigationLinks = [
+  { name: "Cron Jobs", href: "/cron-jobs" },
+  { name: "Deployments", href: "/deployments" },
+  { name: "Pods", href: "/pods" },
+] as const;
 
 declare module "@tanstack/react-router" {
   interface RegisterRouter {
