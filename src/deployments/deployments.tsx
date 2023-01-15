@@ -14,7 +14,6 @@ export function Deployments() {
 
   const data = result.data?.items ?? [];
 
-  console.log(data);
   return (
     <div>
       <Table>
