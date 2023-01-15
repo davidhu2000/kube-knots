@@ -1,37 +1,16 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { PropsWithChildren } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { RouterProvider } from "@tanstack/react-router";
 
-import { CronJobs } from "./cron-jobs/cron-jobs";
-import { Layout } from "./layout";
-import { CurrentNamespaceProvider, NamespaceProvider } from "./namespaces/namespaces";
-import { Pods } from "./pods/pods";
+import { router } from "./router";
 
 const queryClient = new QueryClient();
-
-type Provider = ({ children }: PropsWithChildren) => JSX.Element;
-
-const providers = [NamespaceProvider, CurrentNamespaceProvider];
-
-const composeProviders = (providers: Provider[]) => {
-  // eslint-disable-next-line react/display-name
-  return providers.reduce((Prev, Curr) => ({ children }: PropsWithChildren) => (
-    <Prev>
-      <Curr>{children}</Curr>
-    </Prev>
-  ));
-};
-
-const AppProviders = composeProviders(providers);
 
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AppProviders>
-        <Layout>
-          {/* <Pods /> */}
-          <CronJobs />
-        </Layout>
-      </AppProviders>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
