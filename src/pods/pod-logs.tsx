@@ -32,7 +32,6 @@ export default function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsPro
   const logBottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 👇️ scroll to bottom every time messages change
     logBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [result.data]);
 
