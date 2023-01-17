@@ -28,15 +28,15 @@ jobs:
             const { data } = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: `${process.env.PACKAGE_VERSION}`,
-              name: `${process.env.PACKAGE_VERSION}`,
+              tag_name: `v${process.env.PACKAGE_VERSION}`,
+              name: `v${process.env.PACKAGE_VERSION}`,
               draft: true,
               prerelease: false
               generateReleaseNotes: true
             })
 
             return data.id
-  publish-tauri:
+  build-tauri:
     needs: create-release
     strategy:
       fail-fast: false
