@@ -9,13 +9,7 @@ interface PodLogsProps extends PropsWithChildren {
   description: string;
 }
 
-export default function Drawer({
-  isOpen,
-  handleClose,
-  title,
-  description,
-  children,
-}: PodLogsProps) {
+export function Drawer({ isOpen, handleClose, title, description, children }: PodLogsProps) {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={handleClose}>
