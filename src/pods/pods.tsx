@@ -12,17 +12,19 @@ function ActionGroup({ children }: PropsWithChildren) {
   return <span className="isolate inline-flex rounded-md shadow-sm">{children}</span>;
 }
 
+interface ActionButtonProps {
+  Icon: typeof PencilIcon;
+  label: string;
+  position: "left" | "right" | "middle";
+  onClick: () => void;
+}
+
 function ActionButton({
   Icon,
   label,
   position,
   onClick,
-}: {
-  Icon: typeof PencilIcon;
-  label: string;
-  position: "left" | "right" | "middle";
-  onClick: () => void;
-}) {
+}: ActionButtonProps) {
   const roundedClass =
     position === "left" ? "rounded-l-md" : position === "right" ? "rounded-r-md" : "";
 
