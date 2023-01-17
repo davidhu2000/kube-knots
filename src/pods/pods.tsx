@@ -2,12 +2,13 @@ import { BarsArrowDownIcon, PencilIcon } from "@heroicons/react/20/solid";
 import type { V1Pod } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
-import { type PropsWithChildren, useState } from "react";
+import { type PropsWithChildren, useState, lazy, Suspense } from "react";
 
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
-import PodEdit from "./pod-edit";
-import PodLogs from "./pod-logs";
+
+const PodEdit = lazy(() => import("./pod-edit").then((module) => ({ default: module.PodEdit })));
+const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
 function ActionGroup({ children }: PropsWithChildren) {
   return <span className="isolate inline-flex rounded-md shadow-sm">{children}</span>;
@@ -97,17 +98,20 @@ export function Pods() {
           ))}
         </TableBody>
       </Table>
-      <PodLogs
-        isOpen={podAction === "logs"}
-        handleClose={handleLogPanelClose}
-        selectedPod={selectedPod}
-      />
-
-      <PodEdit
-        isOpen={podAction === "edit"}
-        handleClose={handleEditPodClose}
-        selectedPod={selectedPod}
-      />
+      <Suspense fallback={<div>Loading Logs</div>}>
+        <PodLogs
+          isOpen={podAction === "logs"}
+          handleClose={handleLogPanelClose}
+          selectedPod={selectedPod}
+        />
+      </Suspense>
+      <Suspense fallback={<div>Loading Form</div>}>
+        <PodEdit
+          isOpen={podAction === "edit"}
+          handleClose={handleEditPodClose}
+          selectedPod={selectedPod}
+        />
+      </Suspense>
     </div>
   );
 }
