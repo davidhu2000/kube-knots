@@ -38,7 +38,7 @@ export default function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsPro
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={handleClose}>
-        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        {isOpen && <div className="fixed inset-0 bg-black/30" aria-hidden="true" />}
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
