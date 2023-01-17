@@ -1,4 +1,3 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { type V1Pod } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";

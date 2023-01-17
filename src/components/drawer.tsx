@@ -1,4 +1,3 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, type PropsWithChildren } from "react";
