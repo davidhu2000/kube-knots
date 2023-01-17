@@ -25,5 +25,9 @@ export function TableBody({ children }: { children: React.ReactNode }) {
 }
 
 export function TableCell({ children }: { children: React.ReactNode }) {
-  return <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">{children}</td>;
+  return (
+    <td className="max-w-xs overflow-scroll whitespace-nowrap px-6 py-4 text-sm text-gray-800">
+      {children}
+    </td>
+  );
 }
