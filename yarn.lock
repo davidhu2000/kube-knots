@@ -934,6 +934,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ace@npm:*":
+  version: 0.0.48
+  resolution: "@types/ace@npm:0.0.48"
+  checksum: 99225e6a7b9d91f11c6abe7641dc7d80d21af28a14701819241a9697fd80a696db83df6e2afa87dfccdf2fdbc93ee07b56f6056e9022cbc4e9f9db316fbda79a
+  languageName: node
+  linkType: hard
+
 "@types/caseless@npm:*":
   version: 0.12.2
   resolution: "@types/caseless@npm:0.12.2"
@@ -955,6 +962,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jsoneditor@npm:^9.9.0":
+  version: 9.9.0
+  resolution: "@types/jsoneditor@npm:9.9.0"
+  dependencies:
+    "@types/ace": "*"
+    ajv: ^6.12.0
+  checksum: 39d7cafc2e08c769e564f7b78b88b2d6275a55ee5137ac84f928ce058c0b83e7c52dc2b3503b5040457fae48aa664e9e96009b0b29966c6b9adc8164b21927d9
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:^18.11.18":
   version: 18.11.18
   resolution: "@types/node@npm:18.11.18"
@@ -966,6 +983,13 @@ __metadata:
   version: 10.17.60
   resolution: "@types/node@npm:10.17.60"
   checksum: 2cdb3a77d071ba8513e5e8306fa64bf50e3c3302390feeaeff1fd325dd25c8441369715dfc8e3701011a72fed5958c7dfa94eb9239a81b3c286caa4d97db6eef
+  languageName: node
+  linkType: hard
+
+"@types/prismjs@npm:^1.26.0":
+  version: 1.26.0
+  resolution: "@types/prismjs@npm:1.26.0"
+  checksum: cd5e7a6214c1f4213ec512a5fcf6d8fe37a56b813fc57ac95b5ff5ee074742bfdbd2f2730d9fd985205bf4586728e09baa97023f739e5aa1c9735a7c1ecbd11a
   languageName: node
   linkType: hard
 
@@ -1255,7 +1279,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^6.10.0, ajv@npm:^6.12.3, ajv@npm:^6.12.4":
+"ajv@npm:^6.10.0, ajv@npm:^6.12.0, ajv@npm:^6.12.3, ajv@npm:^6.12.4":
   version: 6.12.6
   resolution: "ajv@npm:6.12.6"
   dependencies:
@@ -3275,7 +3299,9 @@ __metadata:
     "@tauri-apps/api": ^1.2.0
     "@tauri-apps/cli": ^1.2.2
     "@trivago/prettier-plugin-sort-imports": ^4.0.0
+    "@types/jsoneditor": ^9.9.0
     "@types/node": ^18.11.18
+    "@types/prismjs": ^1.26.0
     "@types/react": ^18.0.26
     "@types/react-dom": ^18.0.10
     "@typescript-eslint/eslint-plugin": ^5.48.1
@@ -3288,8 +3314,10 @@ __metadata:
     eslint-plugin-tailwindcss: ^3.8.0
     postcss: ^8.4.21
     prettier: ^2.8.2
+    prismjs: ^1.29.0
     react: ^18.2.0
     react-dom: ^18.2.0
+    react-simple-code-editor: ^0.13.1
     tailwindcss: ^3.2.4
     typescript: ^4.9.4
     vite: ^4.0.4
@@ -4035,6 +4063,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prismjs@npm:^1.29.0":
+  version: 1.29.0
+  resolution: "prismjs@npm:1.29.0"
+  checksum: 007a8869d4456ff8049dc59404e32d5666a07d99c3b0e30a18bd3b7676dfa07d1daae9d0f407f20983865fd8da56de91d09cb08e6aa61f5bc420a27c0beeaf93
+  languageName: node
+  linkType: hard
+
 "promise-inflight@npm:^1.0.1":
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
@@ -4121,6 +4156,16 @@ __metadata:
   version: 0.14.0
   resolution: "react-refresh@npm:0.14.0"
   checksum: dc69fa8c993df512f42dd0f1b604978ae89bd747c0ed5ec595c0cc50d535fb2696619ccd98ae28775cc01d0a7c146a532f0f7fb81dc22e1977c242a4912312f4
+  languageName: node
+  linkType: hard
+
+"react-simple-code-editor@npm:^0.13.1":
+  version: 0.13.1
+  resolution: "react-simple-code-editor@npm:0.13.1"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+  checksum: 1d223e34ccac5d7f91318f28d5edab6ccb13c51b1afb502094b8475214321263bb44258d355978e1714e9360c9081fb9f38d3ae89071a06628407627c362cc45
   languageName: node
   linkType: hard
 

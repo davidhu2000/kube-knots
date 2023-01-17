@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useEffect, useRef } from "react";
 
-import Drawer from "../components/drawer";
+import { Drawer } from "../components/drawer";
 
 interface PodLogsProps {
   isOpen: boolean;
@@ -39,7 +39,7 @@ export default function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsPro
       isOpen={isOpen}
       handleClose={handleClose}
       title={selectedPod?.metadata?.name ?? ""}
-      description={`Container: {selectedPod?.spec?.containers[0].name}`}
+      description={`Container: ${selectedPod?.spec?.containers[0].name}`}
     >
       <pre className="h-full overflow-y-scroll rounded-md bg-gray-200 p-4 text-sm text-gray-500">
         {result.data}
