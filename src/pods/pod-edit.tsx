@@ -11,7 +11,7 @@ interface PodLogsProps {
   handleClose: () => void;
 }
 
-export default function PodEdit({ isOpen, selectedPod, handleClose }: PodLogsProps) {
+export function PodEdit({ isOpen, selectedPod, handleClose }: PodLogsProps) {
   const [code, setCode] = useState<string>(JSON.stringify(selectedPod, null, 4));
 
   const [showDiff, setShowDiff] = useState(false);

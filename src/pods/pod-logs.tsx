@@ -11,7 +11,7 @@ interface PodLogsProps {
   handleClose: () => void;
 }
 
-export default function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
+export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
   const podName = selectedPod?.metadata?.name;
   const namespace = selectedPod?.metadata?.namespace;
   const container = selectedPod?.spec?.containers[0].name;
