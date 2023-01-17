@@ -12,15 +12,14 @@
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@kubernetes/client-node": "^0.18.0",
+    "@monaco-editor/react": "^4.4.6",
     "@tanstack/react-query": "^4.22.0",
     "@tanstack/react-query-devtools": "^4.22.0",
     "@tanstack/react-router": "beta",
     "@tauri-apps/api": "^1.2.0",
     "date-fns": "^2.29.3",
-    "prismjs": "^1.29.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-simple-code-editor": "^0.13.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",

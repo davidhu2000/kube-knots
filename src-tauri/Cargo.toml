@@ -1,12 +1,12 @@
 [package]
 name = "kube-knots"
 version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "A Kuberenetes Manager"
+authors = ["David Hu"]
 license = ""
 repository = ""
 edition = "2021"
-rust-version = "1.57"
+rust-version = "1.66.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

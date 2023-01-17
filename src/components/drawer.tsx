@@ -1,12 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment, type PropsWithChildren } from "react";
+import { Fragment, type ReactNode, type PropsWithChildren } from "react";
 
 interface PodLogsProps extends PropsWithChildren {
   isOpen: boolean;
   handleClose: () => void;
   title: string;
-  description: string;
+  description: string | ReactNode;
 }
 
 export function Drawer({ isOpen, handleClose, title, description, children }: PodLogsProps) {
@@ -49,7 +49,7 @@ export function Drawer({ isOpen, handleClose, title, description, children }: Po
 
                     <div className="relative h-full flex-1">
                       <div className="absolute inset-0 h-full">
-                        <div className="h-full shadow-xl" aria-hidden="true">
+                        <div className="h-full overflow-scroll shadow-xl" aria-hidden="true">
                           {children}
                         </div>
                       </div>
