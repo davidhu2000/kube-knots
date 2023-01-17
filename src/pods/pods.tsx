@@ -6,6 +6,7 @@ import { type PropsWithChildren, useState } from "react";
 
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
+import PodEdit from "./pod-edit";
 import PodLogs from "./pod-logs";
 
 function ActionGroup({ children }: PropsWithChildren) {
@@ -19,12 +20,7 @@ interface ActionButtonProps {
   onClick: () => void;
 }
 
-function ActionButton({
-  Icon,
-  label,
-  position,
-  onClick,
-}: ActionButtonProps) {
+function ActionButton({ Icon, label, position, onClick }: ActionButtonProps) {
   const roundedClass =
     position === "left" ? "rounded-l-md" : position === "right" ? "rounded-r-md" : "";
 
@@ -51,13 +47,26 @@ export function Pods() {
 
   const pods = result.data?.items ?? [];
 
+  const [podAction, setPodAction] = useState<"logs" | "edit" | null>(null);
   const [selectedPod, setSelectedPod] = useState<V1Pod | null>(null);
 
-  const handleSelectPod = (pod: V1Pod) => {
+  const handleLogPanelOpen = (pod: V1Pod) => {
     setSelectedPod(pod);
+    setPodAction("logs");
+  };
+  const handleLogPanelClose = () => {
+    setSelectedPod(null);
+    setPodAction(null);
   };
 
-  const handleLogPanelClose = () => setSelectedPod(null);
+  const handleEditPodOpen = (pod: V1Pod) => {
+    setSelectedPod(pod);
+    setPodAction("edit");
+  };
+  const handleEditPodClose = () => {
+    setSelectedPod(null);
+    setPodAction(null);
+  };
 
   return (
     <div>
@@ -74,13 +83,13 @@ export function Pods() {
                     Icon={BarsArrowDownIcon}
                     label="Logs"
                     position="left"
-                    onClick={() => handleSelectPod(pod)}
+                    onClick={() => handleLogPanelOpen(pod)}
                   />
                   <ActionButton
                     Icon={PencilIcon}
                     label="Edit"
                     position="right"
-                    onClick={() => alert("Edit")}
+                    onClick={() => handleEditPodOpen(pod)}
                   />
                 </ActionGroup>
               </TableCell>
@@ -88,7 +97,17 @@ export function Pods() {
           ))}
         </TableBody>
       </Table>
-      <PodLogs isOpen={!!selectedPod} handleClose={handleLogPanelClose} selectedPod={selectedPod} />
+      <PodLogs
+        isOpen={podAction === "logs"}
+        handleClose={handleLogPanelClose}
+        selectedPod={selectedPod}
+      />
+
+      <PodEdit
+        isOpen={podAction === "edit"}
+        handleClose={handleEditPodClose}
+        selectedPod={selectedPod}
+      />
     </div>
   );
 }
