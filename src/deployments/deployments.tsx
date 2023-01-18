@@ -2,10 +2,15 @@ import { ArrowPathIcon, PencilIcon } from "@heroicons/react/20/solid";
 import type { V1Deployment } from "@kubernetes/client-node";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
+import { lazy, Suspense, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
+
+const DeploymentEdit = lazy(() =>
+  import("./deployment-edit").then((module) => ({ default: module.DeploymentEdit }))
+);
 
 export function Deployments() {
   const { namespace } = useCurrentNamespace();
@@ -31,8 +36,14 @@ export function Deployments() {
       alert(`Restarted deployment ${variables.metadata?.name}`);
     },
   });
-  const handleEdit = (item: V1Deployment) => {
-    alert(item.metadata?.name);
+
+  const [selected, setSelected] = useState<V1Deployment | null>(null);
+
+  const handleEditOpen = (deployment: V1Deployment) => {
+    setSelected(deployment);
+  };
+  const handleEditClose = () => {
+    setSelected(null);
   };
 
   return (
@@ -59,7 +70,7 @@ export function Deployments() {
                     Icon={PencilIcon}
                     label="Edit"
                     position="right"
-                    onClick={() => handleEdit(item)}
+                    onClick={() => handleEditOpen(item)}
                   />
                 </ActionGroup>
               </TableCell>
@@ -67,6 +78,14 @@ export function Deployments() {
           ))}
         </TableBody>
       </Table>
+
+      <Suspense fallback={<div>Loading Editor</div>}>
+        <DeploymentEdit
+          isOpen={!!selected}
+          handleClose={handleEditClose}
+          selectedDeployment={selected}
+        />
+      </Suspense>
     </div>
   );
 }
