@@ -8,8 +8,10 @@ import { ActionButton, ActionGroup } from "../components/action-group";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
 
-const DeploymentEdit = lazy(() =>
-  import("./deployment-edit").then((module) => ({ default: module.DeploymentEdit }))
+const ResourceEditDrawer = lazy(() =>
+  import("../components/resource-edit-drawer").then((module) => ({
+    default: module.ResourceEditDrawer,
+  }))
 );
 
 export function Deployments() {
@@ -80,10 +82,10 @@ export function Deployments() {
       </Table>
 
       <Suspense fallback={<div>Loading Editor</div>}>
-        <DeploymentEdit
+        <ResourceEditDrawer
           isOpen={!!selected}
           handleClose={handleEditClose}
-          selectedDeployment={selected}
+          selectedResource={selected}
         />
       </Suspense>
     </div>
