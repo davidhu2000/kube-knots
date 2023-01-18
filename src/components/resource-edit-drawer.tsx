@@ -1,31 +1,35 @@
 import { Switch } from "@headlessui/react";
-import { type V1Pod } from "@kubernetes/client-node";
+import { type V1ObjectMeta } from "@kubernetes/client-node";
 import Editor, { DiffEditor } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 
-import { Drawer } from "../components/drawer";
+import { Drawer } from "./drawer";
 
-interface PodLogsProps {
+interface ResourceEditDrawerProps<T> {
   isOpen: boolean;
-  selectedPod: V1Pod | null;
+  selectedResource: T | null;
   handleClose: () => void;
 }
 
-export function PodEdit({ isOpen, selectedPod, handleClose }: PodLogsProps) {
-  const [code, setCode] = useState<string>(JSON.stringify(selectedPod, null, 4));
+export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
+  isOpen,
+  selectedResource,
+  handleClose,
+}: ResourceEditDrawerProps<T>) {
+  const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));
 
   const [showDiff, setShowDiff] = useState(false);
 
   useEffect(() => {
-    setCode(JSON.stringify(selectedPod, null, 4));
+    setCode(JSON.stringify(selectedResource, null, 4));
     setShowDiff(false);
-  }, [selectedPod]);
+  }, [selectedResource]);
 
   return (
     <Drawer
       isOpen={isOpen}
       handleClose={handleClose}
-      title={selectedPod?.metadata?.name ?? ""}
+      title={selectedResource?.metadata?.name ?? ""}
       description={
         <Switch.Group as="div" className="flex items-center">
           <Switch
@@ -51,7 +55,7 @@ export function PodEdit({ isOpen, selectedPod, handleClose }: PodLogsProps) {
       {showDiff ? (
         <DiffEditor
           language="json"
-          original={JSON.stringify(selectedPod, null, 4)}
+          original={JSON.stringify(selectedResource, null, 4)}
           modified={code}
         />
       ) : (

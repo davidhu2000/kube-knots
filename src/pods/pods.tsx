@@ -2,15 +2,19 @@ import { BarsArrowDownIcon, PencilIcon } from "@heroicons/react/20/solid";
 import type { V1Pod } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
-import { type PropsWithChildren, useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
 
-const PodEdit = lazy(() => import("./pod-edit").then((module) => ({ default: module.PodEdit })));
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
+const ResourceEditDrawer = lazy(() =>
+  import("../components/resource-edit-drawer").then((module) => ({
+    default: module.ResourceEditDrawer,
+  }))
+);
 export function Pods() {
   const { namespace } = useCurrentNamespace();
 
@@ -78,10 +82,10 @@ export function Pods() {
         />
       </Suspense>
       <Suspense fallback={<div>Loading Form</div>}>
-        <PodEdit
+        <ResourceEditDrawer
           isOpen={podAction === "edit"}
           handleClose={handleEditPodClose}
-          selectedPod={selectedPod}
+          selectedResource={selectedPod}
         />
       </Suspense>
     </div>
