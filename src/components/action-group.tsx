@@ -5,7 +5,7 @@ export function ActionGroup({ children }: PropsWithChildren) {
   return <span className="isolate inline-flex rounded-md shadow-sm">{children}</span>;
 }
 
-export interface ActionButtonProps {
+interface ActionButtonProps {
   Icon: typeof PencilIcon;
   label: string;
   position: "left" | "right" | "middle";
