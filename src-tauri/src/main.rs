@@ -12,6 +12,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             cron_jobs::get_cron_jobs,
             deployments::get_deployments,
+            deployments::restart_deployment,
             jobs::get_jobs,
             pods::get_pod_logs,
             pods::get_pods,
