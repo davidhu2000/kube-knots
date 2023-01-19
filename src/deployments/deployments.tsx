@@ -1,12 +1,15 @@
-import { ArrowPathIcon, PencilIcon } from "@heroicons/react/20/solid";
+import { Dialog } from "@headlessui/react";
+import { ArrowPathIcon, PencilIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
 import type { V1Deployment } from "@kubernetes/client-node";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
+import { Modal } from "../components/modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
+import { ScaleDeploymentModal } from "./scale-deployment-modal";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -39,13 +42,17 @@ export function Deployments() {
     },
   });
 
+  const [action, setAction] = useState<"edit" | "scale" | null>(null);
   const [selected, setSelected] = useState<V1Deployment | null>(null);
 
-  const handleEditOpen = (deployment: V1Deployment) => {
+  const handleOpen = (deployment: V1Deployment, action: "edit" | "scale") => {
     setSelected(deployment);
+    setAction(action);
   };
-  const handleEditClose = () => {
+
+  const handleClose = () => {
     setSelected(null);
+    setAction(null);
   };
 
   return (
@@ -69,10 +76,16 @@ export function Deployments() {
                     onClick={() => restartMutation.mutate(item)}
                   />
                   <ActionButton
+                    Icon={ArrowsUpDownIcon}
+                    label="Scale"
+                    position="middle"
+                    onClick={() => handleOpen(item, "scale")}
+                  />
+                  <ActionButton
                     Icon={PencilIcon}
                     label="Edit"
                     position="right"
-                    onClick={() => handleEditOpen(item)}
+                    onClick={() => handleOpen(item, "edit")}
                   />
                 </ActionGroup>
               </TableCell>
@@ -83,10 +96,20 @@ export function Deployments() {
 
       <Suspense fallback={<div>Loading Editor</div>}>
         <ResourceEditDrawer
-          isOpen={!!selected}
-          handleClose={handleEditClose}
+          isOpen={action === "edit"}
+          handleClose={handleClose}
           selectedResource={selected}
         />
+      </Suspense>
+
+      <Suspense fallback={<div>Loading Scale Form</div>}>
+        {selected && (
+          <ScaleDeploymentModal
+            isOpen={action === "scale"}
+            handleClose={handleClose}
+            deployment={selected}
+          />
+        )}
       </Suspense>
     </div>
   );
