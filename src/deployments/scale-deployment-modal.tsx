@@ -31,7 +31,7 @@ export function ScaleDeploymentModal({ isOpen, handleClose, deployment }: ModalP
       <div className="fixed inset-0 bg-gray-500/75 transition-opacity" />
 
       <div className="fixed inset-0 z-10 overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div className="flex min-h-full items-end justify-center p-4 text-center">
           <Dialog.Panel className="relative rounded-lg bg-gray-100 p-4 text-left shadow-xl">
             <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
               Scale {deployment.metadata?.name}
@@ -47,7 +47,7 @@ export function ScaleDeploymentModal({ isOpen, handleClose, deployment }: ModalP
               onChange={(e) => setReplicas(parseInt(e.target.value ?? ""))}
               type="number"
               value={replicas}
-              className="mt-4 block w-full rounded-md border-gray-300 focus:ring-indigo-500"
+              className="mt-4 block w-full rounded-md border-gray-300 focus:ring-slate-500"
               step={1}
               min={0}
             />
