@@ -273,7 +273,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.16.7, @babel/runtime@npm:^7.7.6":
+"@babel/runtime@npm:^7.16.7":
   version: 7.20.7
   resolution: "@babel/runtime@npm:7.20.7"
   dependencies:
@@ -728,10 +728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solidjs/reactivity@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@solidjs/reactivity@npm:0.0.6"
-  checksum: bdfb951b3a20248562b0e4e76c417becbaf564401af4a6b1c89dd95c8686496025629183d6574f1b53f477570a08646f52a316572783ab5ca7efe6bc66b3d6ae
+"@solidjs/reactivity@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@solidjs/reactivity@npm:0.0.7"
+  checksum: 1b166aaa14c9eeaaa63db433ab9a2a166f5201ed81c767825621a31619524832f8a8e2f1692062ea0bf96785c9e47b030cf0f4bdc330d1fd616c5588bf55589a
   languageName: node
   linkType: hard
 
@@ -797,32 +797,32 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-router@npm:beta":
-  version: 0.0.1-beta.48
-  resolution: "@tanstack/react-router@npm:0.0.1-beta.48"
+  version: 0.0.1-beta.53
+  resolution: "@tanstack/react-router@npm:0.0.1-beta.53"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@solidjs/reactivity": ^0.0.6
-    "@tanstack/router-core": 0.0.1-beta.45
+    "@solidjs/reactivity": ^0.0.7
+    "@tanstack/router-core": 0.0.1-beta.53
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 889e8506da32a3ecec35b71844bdc23feee98bba3cb55d85a4845e7b03b941af5ec94dadccc645f8067ad3b0448b5c4b3f4aca0b207c0d13b196f03dd360a38e
+  checksum: 0c5087383e57bc53f771c7dc7dd0a9d18a5fc70573665df182537f49d05f0dcf4ed19daec2f8873e51071d71049dd2f5500795bba0474ffbbe28f5215072def6
   languageName: node
   linkType: hard
 
-"@tanstack/router-core@npm:0.0.1-beta.45":
-  version: 0.0.1-beta.45
-  resolution: "@tanstack/router-core@npm:0.0.1-beta.45"
+"@tanstack/router-core@npm:0.0.1-beta.53":
+  version: 0.0.1-beta.53
+  resolution: "@tanstack/router-core@npm:0.0.1-beta.53"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@solidjs/reactivity": ^0.0.6
-    history: ^5.2.0
+    "@solidjs/reactivity": ^0.0.7
+    immer: ^9.0.15
     tiny-invariant: ^1.3.1
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 3deab3a90b060a85b451531e993c9d432803a96b636a1857726e747f57f3c20ef45127d9c2a022d3c5ee62e1b16617cd298676f90bb2b19bd5046d98d42671ba
+  checksum: fb7302c43a7ec23cd74730f885f93c3866ba7d00d6c5a95b45d777de17d365cfb8bc13b6527dbdf88c12d7c3d4b5d9c571ebeb1ce530b2ec4318424013dc3c7e
   languageName: node
   linkType: hard
 
@@ -2809,15 +2809,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"history@npm:^5.2.0":
-  version: 5.3.0
-  resolution: "history@npm:5.3.0"
-  dependencies:
-    "@babel/runtime": ^7.7.6
-  checksum: d73c35df49d19ac172f9547d30a21a26793e83f16a78386d99583b5bf1429cc980799fcf1827eb215d31816a6600684fba9686ce78104e23bd89ec239e7c726f
-  languageName: node
-  linkType: hard
-
 "http-cache-semantics@npm:^4.1.0":
   version: 4.1.0
   resolution: "http-cache-semantics@npm:4.1.0"
@@ -2886,6 +2877,13 @@ __metadata:
   version: 5.2.4
   resolution: "ignore@npm:5.2.4"
   checksum: 3d4c309c6006e2621659311783eaea7ebcd41fe4ca1d78c91c473157ad6666a57a2df790fe0d07a12300d9aac2888204d7be8d59f9aaf665b1c7fcdb432517ef
+  languageName: node
+  linkType: hard
+
+"immer@npm:^9.0.15":
+  version: 9.0.18
+  resolution: "immer@npm:9.0.18"
+  checksum: 85b3153dd01fce73c40591d0d6d7cd95878dab49f8ec4744c044adac05e0dab847b30c26259c478a5f87f974897be6df2780ff5bf86c8a0a27578fdeb300eb10
   languageName: node
   linkType: hard
 
