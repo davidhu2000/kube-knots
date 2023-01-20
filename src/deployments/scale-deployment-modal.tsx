@@ -31,7 +31,7 @@ export function ScaleDeploymentModal({ isOpen, handleClose, deployment }: ModalP
       <div className="fixed inset-0 bg-gray-500/75 transition-opacity" />
 
       <div className="fixed inset-0 z-10 overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center">
+        <div className="flex min-h-full items-center justify-center p-4 text-center">
           <Dialog.Panel className="relative rounded-lg bg-gray-100 p-4 text-left shadow-xl">
             <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
               Scale {deployment.metadata?.name}
