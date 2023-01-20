@@ -27,20 +27,11 @@ export function Pods() {
   const [podAction, setPodAction] = useState<"logs" | "edit" | null>(null);
   const [selectedPod, setSelectedPod] = useState<V1Pod | null>(null);
 
-  const handleLogPanelOpen = (pod: V1Pod) => {
+  const handleOpen = (pod: V1Pod, action: "logs" | "edit") => {
     setSelectedPod(pod);
-    setPodAction("logs");
+    setPodAction(action);
   };
-  const handleLogPanelClose = () => {
-    setSelectedPod(null);
-    setPodAction(null);
-  };
-
-  const handleEditPodOpen = (pod: V1Pod) => {
-    setSelectedPod(pod);
-    setPodAction("edit");
-  };
-  const handleEditPodClose = () => {
+  const handleClose = () => {
     setSelectedPod(null);
     setPodAction(null);
   };
@@ -60,13 +51,13 @@ export function Pods() {
                     Icon={BarsArrowDownIcon}
                     label="Logs"
                     position="left"
-                    onClick={() => handleLogPanelOpen(pod)}
+                    onClick={() => handleOpen(pod, "logs")}
                   />
                   <ActionButton
                     Icon={PencilIcon}
                     label="Edit"
                     position="right"
-                    onClick={() => handleEditPodOpen(pod)}
+                    onClick={() => handleOpen(pod, "edit")}
                   />
                 </ActionGroup>
               </TableCell>
@@ -77,14 +68,14 @@ export function Pods() {
       <Suspense fallback={<div>Loading Logs</div>}>
         <PodLogs
           isOpen={podAction === "logs"}
-          handleClose={handleLogPanelClose}
+          handleClose={handleClose}
           selectedPod={selectedPod}
         />
       </Suspense>
       <Suspense fallback={<div>Loading Form</div>}>
         <ResourceEditDrawer
           isOpen={podAction === "edit"}
-          handleClose={handleEditPodClose}
+          handleClose={handleClose}
           selectedResource={selectedPod}
         />
       </Suspense>

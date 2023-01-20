@@ -22,10 +22,10 @@ const rootRoute = createRouteConfig({
 });
 
 export const routes = [
-  { name: "Cron Jobs", path: "/cron-jobs", component: Pods },
-  { name: "Deployments", path: "/deployments", component: CronJobs },
-  { name: "Jobs", path: "/jobs", component: Deployments },
-  { name: "Pods", path: "/pods", component: Jobs },
+  { name: "Cron Jobs", path: "/cron-jobs", component: CronJobs },
+  { name: "Deployments", path: "/deployments", component: Deployments },
+  { name: "Jobs", path: "/jobs", component: Jobs },
+  { name: "Pods", path: "/pods", component: Pods },
   { name: "Replica Sets", path: "/replica-sets", component: ReplicaSets },
   { name: "Testing", path: "/test-playground", component: TestPlayground },
 ] as const;
