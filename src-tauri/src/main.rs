@@ -5,7 +5,7 @@
 
 mod resources;
 
-use crate::resources::{cron_jobs, deployments, jobs, namespaces, pods};
+use crate::resources::{cron_jobs, deployments, jobs, namespaces, pods, replica_sets};
 
 fn main() {
     tauri::Builder::default()
@@ -18,6 +18,7 @@ fn main() {
             pods::get_pod_logs,
             pods::get_pods,
             namespaces::get_namespaces,
+            replica_sets::get_replica_sets
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

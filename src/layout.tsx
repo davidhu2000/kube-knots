@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
-import { navigationLinks } from "./router";
+import { routes } from "./router";
 
 export function Layout({ children }: PropsWithChildren) {
   return (
@@ -17,10 +17,10 @@ export function Layout({ children }: PropsWithChildren) {
 
         <div className="flex flex-1 flex-col overflow-y-auto">
           <nav className="flex-1 space-y-1 px-2 py-4">
-            {navigationLinks.map((item) => (
+            {routes.map((item) => (
               <Link
                 key={item.name}
-                to={item.href}
+                to={item.path}
                 className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
               >
                 {item.name}
