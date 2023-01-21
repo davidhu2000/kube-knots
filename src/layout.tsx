@@ -31,6 +31,8 @@ export function Layout({ children }: PropsWithChildren) {
                     key={item.name}
                     to={item.path}
                     className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
+                    search={{}}
+                    params={{}}
                   >
                     {item.name}
                   </Link>
