@@ -9,7 +9,7 @@ interface ModalProps {
   handleClose: () => void;
   deployment: V1Deployment;
 }
-export function ScaleDeploymentModal({ isOpen, handleClose, deployment }: ModalProps): JSX.Element {
+export function ScaleModal({ isOpen, handleClose, deployment }: ModalProps): JSX.Element {
   const [replicas, setReplicas] = useState<number>(deployment.spec?.replicas || 0);
 
   const scaleMutation = useMutation({

@@ -6,3 +6,4 @@ pub mod jobs;
 pub mod namespaces;
 pub mod pods;
 pub mod replica_sets;
+pub mod stateful_sets;
