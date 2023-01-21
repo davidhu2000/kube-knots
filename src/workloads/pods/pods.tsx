@@ -4,14 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useState, lazy, Suspense } from "react";
 
-import { ActionButton, ActionGroup } from "../components/action-group";
-import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useCurrentNamespace } from "../namespaces/namespaces";
+import { ActionButton, ActionGroup } from "../../components/action-group";
+import { Table, TableHeader, TableBody, TableCell } from "../../components/table";
+import { useCurrentNamespace } from "../../namespaces/namespaces";
 
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
 const ResourceEditDrawer = lazy(() =>
-  import("../components/resource-edit-drawer").then((module) => ({
+  import("../../components/resource-edit-drawer").then((module) => ({
     default: module.ResourceEditDrawer,
   }))
 );

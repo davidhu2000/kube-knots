@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { formatDistance } from "date-fns";
 
-import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useCurrentNamespace } from "../namespaces/namespaces";
+import { Table, TableHeader, TableBody, TableCell } from "../../components/table";
+import { useCurrentNamespace } from "../../namespaces/namespaces";
 
 export function Jobs() {
   const { namespace } = useCurrentNamespace();

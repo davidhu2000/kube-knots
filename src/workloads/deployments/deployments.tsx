@@ -4,13 +4,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense, useState } from "react";
 
-import { ActionButton, ActionGroup } from "../components/action-group";
-import { ScaleModal } from "../components/scale-modal";
-import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useCurrentNamespace } from "../namespaces/namespaces";
+import { ActionButton, ActionGroup } from "../../components/action-group";
+import { ScaleModal } from "../../components/scale-modal";
+import { Table, TableHeader, TableBody, TableCell } from "../../components/table";
+import { useCurrentNamespace } from "../../namespaces/namespaces";
 
 const ResourceEditDrawer = lazy(() =>
-  import("../components/resource-edit-drawer").then((module) => ({
+  import("../../components/resource-edit-drawer").then((module) => ({
     default: module.ResourceEditDrawer,
   }))
 );
