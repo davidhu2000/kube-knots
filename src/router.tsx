@@ -8,6 +8,7 @@ import { Jobs } from "./jobs/jobs";
 import { Layout } from "./layout";
 import { Pods } from "./pods/pods";
 import { ReplicaSets } from "./replica-sets/replica-sets";
+import { StatefulSets } from "./stateful-sets/stateful-sets";
 import { TestPlayground } from "./test-playground/test-playground";
 
 const rootRoute = createRouteConfig({
@@ -27,6 +28,7 @@ export const routes = [
   { name: "Jobs", path: "/jobs", component: Jobs },
   { name: "Pods", path: "/pods", component: Pods },
   { name: "Replica Sets", path: "/replica-sets", component: ReplicaSets },
+  { name: "Stateful Sets", path: "/stateful-sets", component: StatefulSets },
   { name: "Testing", path: "/test-playground", component: TestPlayground },
 ] as const;
 

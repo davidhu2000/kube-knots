@@ -1,13 +1,12 @@
-import { ArrowPathIcon, PencilIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
-import type { V1Deployment } from "@kubernetes/client-node";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import type { V1StatefulSet } from "@kubernetes/client-node";
+import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
-import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
+import { ScaleModal } from "../components/scale-modal";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -15,35 +14,25 @@ const ResourceEditDrawer = lazy(() =>
   }))
 );
 
-export function Deployments() {
+type Actions = "edit" | "logs" | "scale";
+
+export function StatefulSets() {
   const { namespace } = useCurrentNamespace();
 
   const result = useQuery(
     ["deployments", namespace],
     () => {
-      return invoke<{ items: V1Deployment[] }>(`get_deployments`, { namespace });
+      return invoke<{ items: V1StatefulSet[] }>(`get_stateful_sets`, { namespace });
     },
     { refetchInterval: 1000 }
   );
 
   const data = result.data?.items ?? [];
 
-  const restartMutation = useMutation({
-    mutationFn: (deployment: V1Deployment) => {
-      return invoke("restart_deployment", {
-        namespace: deployment.metadata?.namespace,
-        name: deployment.metadata?.name,
-      });
-    },
-    onSuccess: (_data, variables) => {
-      alert(`Restarted deployment ${variables.metadata?.name}`);
-    },
-  });
+  const [action, setAction] = useState<Actions | null>(null);
+  const [selected, setSelected] = useState<V1StatefulSet | null>(null);
 
-  const [action, setAction] = useState<"edit" | "scale" | null>(null);
-  const [selected, setSelected] = useState<V1Deployment | null>(null);
-
-  const handleOpen = (deployment: V1Deployment, action: "edit" | "scale") => {
+  const handleOpen = (deployment: V1StatefulSet, action: Actions) => {
     setSelected(deployment);
     setAction(action);
   };
@@ -68,19 +57,19 @@ export function Deployments() {
               <TableCell>
                 <ActionGroup>
                   <ActionButton
-                    label="restart"
+                    label="logs"
                     position="left"
-                    onClick={() => restartMutation.mutate(item)}
-                  />
-                  <ActionButton
-                    label="scale"
-                    position="middle"
-                    onClick={() => handleOpen(item, "scale")}
+                    onClick={() => handleOpen(item, "logs")}
                   />
                   <ActionButton
                     label="edit"
-                    position="right"
+                    position="middle"
                     onClick={() => handleOpen(item, "edit")}
+                  />
+                  <ActionButton
+                    label="scale"
+                    position="right"
+                    onClick={() => handleOpen(item, "scale")}
                   />
                 </ActionGroup>
               </TableCell>

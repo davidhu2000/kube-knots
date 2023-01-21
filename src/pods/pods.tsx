@@ -48,14 +48,12 @@ export function Pods() {
               <TableCell>
                 <ActionGroup>
                   <ActionButton
-                    Icon={BarsArrowDownIcon}
-                    label="Logs"
+                    label="logs"
                     position="left"
                     onClick={() => handleOpen(pod, "logs")}
                   />
                   <ActionButton
-                    Icon={PencilIcon}
-                    label="Edit"
+                    label="edit"
                     position="right"
                     onClick={() => handleOpen(pod, "edit")}
                   />
