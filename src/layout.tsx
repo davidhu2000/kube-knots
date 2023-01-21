@@ -1,6 +1,6 @@
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
 import { serviceRoutes, todoRoutes, workloadsRoutes } from "./router";
@@ -24,20 +24,18 @@ export function Layout({ children }: PropsWithChildren) {
         <div className="flex flex-1 flex-col overflow-y-auto">
           <nav className="flex-1 space-y-1 px-2 py-4">
             {sections.map(({ title, routes }) => (
-              <>
+              <span key={title}>
                 <h1 className="font-bold">{title}</h1>
                 {routes.map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
                     className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
-                    search={{}}
-                    params={{}}
                   >
                     {item.name}
                   </Link>
                 ))}
-              </>
+              </span>
             ))}
           </nav>
         </div>
