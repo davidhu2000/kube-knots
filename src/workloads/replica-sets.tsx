@@ -4,8 +4,15 @@ import { invoke } from "@tauri-apps/api";
 
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
+import { ResourceList } from "./shared/resource-list";
 
 export function ReplicaSets() {
+  return (
+    <ResourceList resourceName="replica_set" actions={[]} headers={["Name", "Images", "Pods"]} />
+  );
+}
+
+export function ReplicaSets2() {
   const { namespace } = useCurrentNamespace();
 
   const result = useQuery(["replica-sets", namespace], () => {

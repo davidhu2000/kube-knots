@@ -1,15 +1,19 @@
 import { Dialog } from "@headlessui/react";
-import { type V1Deployment } from "@kubernetes/client-node";
+import { V1ReplicaSet, V1StatefulSet, type V1Deployment } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useState } from "react";
 
-interface ModalProps {
+interface ModalProps<T> {
   isOpen: boolean;
   handleClose: () => void;
-  deployment: V1Deployment;
+  deployment: T;
 }
-export function ScaleModal({ isOpen, handleClose, deployment }: ModalProps): JSX.Element {
+export function ScaleModal<T extends V1Deployment | V1ReplicaSet | V1StatefulSet>({
+  isOpen,
+  handleClose,
+  deployment,
+}: ModalProps<T>): JSX.Element {
   const [replicas, setReplicas] = useState<number>(deployment.spec?.replicas || 0);
 
   const scaleMutation = useMutation({
