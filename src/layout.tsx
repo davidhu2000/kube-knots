@@ -26,7 +26,7 @@ export function Layout({ children }: PropsWithChildren) {
             {sections.map(({ title, routes }) => (
               <span key={title}>
                 <h1 className="font-bold">{title}</h1>
-                {workloadsRoutes.map((item) => (
+                {routes.map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
