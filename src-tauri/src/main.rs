@@ -3,9 +3,9 @@
     windows_subsystem = "windows"
 )]
 
-mod resources;
+mod workloads;
 
-use crate::resources::{
+use crate::workloads::{
     cron_jobs, deployments, jobs, namespaces, pods, replica_sets, stateful_sets,
 };
 
