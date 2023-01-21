@@ -7,6 +7,7 @@ import { ActionButton, ActionGroup } from "../components/action-group";
 import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useCurrentNamespace } from "../namespaces/namespaces";
+import { useGetResourceList } from "../queries/invoke";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -27,7 +28,9 @@ export function StatefulSets() {
     { refetchInterval: 1000 }
   );
 
-  const data = result.data?.items ?? [];
+  const {
+    data: { items },
+  } = useGetResourceList<V1StatefulSet>("get_stateful_sets");
 
   const [action, setAction] = useState<Actions | null>(null);
   const [selected, setSelected] = useState<V1StatefulSet | null>(null);
@@ -47,7 +50,7 @@ export function StatefulSets() {
       <Table>
         <TableHeader headers={["Name", "Image", "Pods", "Actions"]} />
         <TableBody>
-          {data.map((item) => (
+          {items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>

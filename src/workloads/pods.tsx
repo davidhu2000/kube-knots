@@ -1,12 +1,9 @@
-import { BarsArrowDownIcon, PencilIcon } from "@heroicons/react/20/solid";
 import type { V1Pod } from "@kubernetes/client-node";
-import { useQuery } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api";
 import { useState, lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useCurrentNamespace } from "../namespaces/namespaces";
+import { useGetResourceList } from "../queries/invoke";
 
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
@@ -16,13 +13,9 @@ const ResourceEditDrawer = lazy(() =>
   }))
 );
 export function Pods() {
-  const { namespace } = useCurrentNamespace();
-
-  const result = useQuery(["pods", namespace], () => {
-    return invoke<{ items: V1Pod[] }>("get_pods", { namespace });
-  });
-
-  const pods = result.data?.items ?? [];
+  const {
+    data: { items },
+  } = useGetResourceList<V1Pod>("get_pods");
 
   const [podAction, setPodAction] = useState<"logs" | "edit" | null>(null);
   const [selectedPod, setSelectedPod] = useState<V1Pod | null>(null);
@@ -41,7 +34,7 @@ export function Pods() {
       <Table>
         <TableHeader headers={["Name", "Status", "Actions"]} />
         <TableBody>
-          {pods.map((pod) => (
+          {items.map((pod) => (
             <tr key={pod.metadata?.uid}>
               <TableCell>{pod.metadata?.name}</TableCell>
               <TableCell>{pod.status?.phase}</TableCell>
