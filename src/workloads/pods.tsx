@@ -3,7 +3,8 @@ import { useState, lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useGetResourceList } from "../queries/invoke";
+import { useResourceActions } from "../hooks/use-resource-actions";
+import { useResourceList } from "../hooks/use-resource-list";
 
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
@@ -15,19 +16,12 @@ const ResourceEditDrawer = lazy(() =>
 export function Pods() {
   const {
     data: { items },
-  } = useGetResourceList<V1Pod>("get_pods");
+  } = useResourceList<V1Pod>("get_pods");
 
-  const [podAction, setPodAction] = useState<"logs" | "edit" | null>(null);
-  const [selectedPod, setSelectedPod] = useState<V1Pod | null>(null);
-
-  const handleOpen = (pod: V1Pod, action: "logs" | "edit") => {
-    setSelectedPod(pod);
-    setPodAction(action);
-  };
-  const handleClose = () => {
-    setSelectedPod(null);
-    setPodAction(null);
-  };
+  const { selected, handleOpen, handleClose, action } = useResourceActions<
+    V1Pod,
+    "logs" | "edit"
+  >();
 
   return (
     <div>
@@ -57,17 +51,13 @@ export function Pods() {
         </TableBody>
       </Table>
       <Suspense fallback={<div>Loading Logs</div>}>
-        <PodLogs
-          isOpen={podAction === "logs"}
-          handleClose={handleClose}
-          selectedPod={selectedPod}
-        />
+        <PodLogs isOpen={action === "logs"} handleClose={handleClose} selectedPod={selected} />
       </Suspense>
       <Suspense fallback={<div>Loading Form</div>}>
         <ResourceEditDrawer
-          isOpen={podAction === "edit"}
+          isOpen={action === "edit"}
           handleClose={handleClose}
-          selectedResource={selectedPod}
+          selectedResource={selected}
         />
       </Suspense>
     </div>

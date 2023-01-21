@@ -11,7 +11,7 @@ type Commands =
   | "get_replica_sets"
   | "get_stateful_sets";
 
-export function useGetResourceList<T>(command: Commands) {
+export function useResourceList<T>(command: Commands) {
   const { namespace } = useCurrentNamespace();
   const result = useQuery(
     [command, namespace],

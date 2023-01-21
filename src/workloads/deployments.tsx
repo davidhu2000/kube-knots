@@ -1,4 +1,4 @@
-import type { V1Deployment } from "@kubernetes/client-node";
+import { V1Deployment } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense, useState } from "react";
@@ -6,7 +6,8 @@ import { lazy, Suspense, useState } from "react";
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useGetResourceList } from "../queries/invoke";
+import { useResourceActions } from "../hooks/use-resource-actions";
+import { useResourceList } from "../hooks/use-resource-list";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -17,7 +18,12 @@ const ResourceEditDrawer = lazy(() =>
 export function Deployments() {
   const {
     data: { items },
-  } = useGetResourceList<V1Deployment>("get_deployments");
+  } = useResourceList<V1Deployment>("get_deployments");
+
+  const { selected, handleOpen, handleClose, action } = useResourceActions<
+    V1Deployment,
+    "edit" | "scale"
+  >();
 
   const restartMutation = useMutation({
     mutationFn: (deployment: V1Deployment) => {
@@ -30,19 +36,6 @@ export function Deployments() {
       alert(`Restarted deployment ${variables.metadata?.name}`);
     },
   });
-
-  const [action, setAction] = useState<"edit" | "scale" | null>(null);
-  const [selected, setSelected] = useState<V1Deployment | null>(null);
-
-  const handleOpen = (deployment: V1Deployment, action: "edit" | "scale") => {
-    setSelected(deployment);
-    setAction(action);
-  };
-
-  const handleClose = () => {
-    setSelected(null);
-    setAction(null);
-  };
 
   return (
     <div>

@@ -2,12 +2,12 @@ import { V1CronJob } from "@kubernetes/client-node";
 import { formatDistance } from "date-fns";
 
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useGetResourceList } from "../queries/invoke";
+import { useResourceList } from "../hooks/use-resource-list";
 
 export function CronJobs() {
   const {
     data: { items },
-  } = useGetResourceList<V1CronJob>("get_cron_jobs");
+  } = useResourceList<V1CronJob>("get_cron_jobs");
 
   return (
     <div>
