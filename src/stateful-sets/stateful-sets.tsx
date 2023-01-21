@@ -58,13 +58,18 @@ export function StatefulSets() {
                 <ActionGroup>
                   <ActionButton
                     label="logs"
-                    position="middle"
+                    position="left"
                     onClick={() => handleOpen(item, "logs")}
                   />
                   <ActionButton
                     label="edit"
-                    position="right"
+                    position="middle"
                     onClick={() => handleOpen(item, "edit")}
+                  />
+                  <ActionButton
+                    label="scale"
+                    position="right"
+                    onClick={() => handleOpen(item, "scale")}
                   />
                 </ActionGroup>
               </TableCell>
