@@ -3,7 +3,13 @@ import { Link } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
-import { serviceRoutes, workloadsRoutes } from "./router";
+import { serviceRoutes, todoRoutes, workloadsRoutes } from "./router";
+
+const sections = [
+  { title: "Workload", routes: workloadsRoutes },
+  { title: "Service", routes: serviceRoutes },
+  { title: "TODO", routes: todoRoutes },
+];
 
 export function Layout({ children }: PropsWithChildren) {
   return (
@@ -17,25 +23,19 @@ export function Layout({ children }: PropsWithChildren) {
 
         <div className="flex flex-1 flex-col overflow-y-auto">
           <nav className="flex-1 space-y-1 px-2 py-4">
-            <h1 className="font-bold">Workload</h1>
-            {workloadsRoutes.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
-              >
-                {item.name}
-              </Link>
-            ))}
-            <h1 className="font-bold">Service</h1>
-            {serviceRoutes.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
-              >
-                {item.name}
-              </Link>
+            {sections.map(({ title, routes }) => (
+              <>
+                <h1 className="font-bold">{title}</h1>
+                {routes.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </>
             ))}
           </nav>
         </div>
