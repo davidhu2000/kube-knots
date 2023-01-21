@@ -99,11 +99,7 @@ export function Deployments() {
 
       <Suspense fallback={<div>Loading Scale Form</div>}>
         {selected && (
-          <ScaleModal
-            isOpen={action === "scale"}
-            handleClose={handleClose}
-            deployment={selected}
-          />
+          <ScaleModal isOpen={action === "scale"} handleClose={handleClose} deployment={selected} />
         )}
       </Suspense>
     </div>

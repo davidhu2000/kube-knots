@@ -1,4 +1,9 @@
-import { ArrowPathIcon, ArrowsUpDownIcon, PencilIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowPathIcon,
+  ArrowsUpDownIcon,
+  PencilIcon,
+  BarsArrowDownIcon,
+} from "@heroicons/react/20/solid";
 import type { PropsWithChildren } from "react";
 
 export function ActionGroup({ children }: PropsWithChildren) {
@@ -16,7 +21,7 @@ interface ActionButtonProps {
 const getIcon = (label: Actions) => {
   switch (label) {
     case "logs":
-      return ArrowPathIcon;
+      return BarsArrowDownIcon;
     case "edit":
       return PencilIcon;
     case "scale":
