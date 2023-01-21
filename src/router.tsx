@@ -32,11 +32,13 @@ export const workloadsRoutes = [
   { name: "Stateful Sets", path: "/stateful-sets", component: StatefulSets },
 ] as const;
 
-export const serviceRoutes = [{ name: "Ingresses", path: "/ingresses", component: Ingresses }];
+export const serviceRoutes = [
+  { name: "Ingresses", path: "/ingresses", component: Ingresses },
+] as const;
 
 export const todoRoutes = [
   { name: "Testing", path: "/test-playground", component: TestPlayground },
-];
+] as const;
 
 const routeConfig = rootRoute.addChildren([
   rootRoute.createRoute({
