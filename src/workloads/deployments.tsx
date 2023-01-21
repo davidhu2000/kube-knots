@@ -1,13 +1,12 @@
-import { ArrowPathIcon, PencilIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
 import type { V1Deployment } from "@kubernetes/client-node";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useCurrentNamespace } from "../namespaces/namespaces";
+import { useGetResourceList } from "../queries/invoke";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -16,17 +15,9 @@ const ResourceEditDrawer = lazy(() =>
 );
 
 export function Deployments() {
-  const { namespace } = useCurrentNamespace();
-
-  const result = useQuery(
-    ["deployments", namespace],
-    () => {
-      return invoke<{ items: V1Deployment[] }>(`get_deployments`, { namespace });
-    },
-    { refetchInterval: 1000 }
-  );
-
-  const data = result.data?.items ?? [];
+  const {
+    data: { items },
+  } = useGetResourceList<V1Deployment>("get_deployments");
 
   const restartMutation = useMutation({
     mutationFn: (deployment: V1Deployment) => {
@@ -58,7 +49,7 @@ export function Deployments() {
       <Table>
         <TableHeader headers={["Name", "Image", "Pods", "Actions"]} />
         <TableBody>
-          {data.map((item) => (
+          {items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>
