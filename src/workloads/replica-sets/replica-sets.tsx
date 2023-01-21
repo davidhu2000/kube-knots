@@ -2,8 +2,8 @@ import type { V1ReplicaSet } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 
-import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useCurrentNamespace } from "../namespaces/namespaces";
+import { Table, TableHeader, TableBody, TableCell } from "../../components/table";
+import { useCurrentNamespace } from "../../namespaces/namespaces";
 
 export function ReplicaSets() {
   const { namespace } = useCurrentNamespace();
