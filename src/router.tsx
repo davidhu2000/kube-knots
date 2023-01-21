@@ -2,15 +2,15 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet, ReactRouter, createRouteConfig } from "@tanstack/react-router";
 
 import { AppProviders } from "./app-providers";
+import { Layout } from "./layout";
+import { Ingresses } from "./service/ingresses/ingresses";
+import { TestPlayground } from "./test-playground/test-playground";
 import { CronJobs } from "./workloads/cron-jobs/cron-jobs";
 import { Deployments } from "./workloads/deployments/deployments";
 import { Jobs } from "./workloads/jobs/jobs";
-import { Layout } from "./layout";
 import { Pods } from "./workloads/pods/pods";
 import { ReplicaSets } from "./workloads/replica-sets/replica-sets";
 import { StatefulSets } from "./workloads/stateful-sets/stateful-sets";
-import { TestPlayground } from "./test-playground/test-playground";
-import { Ingresses } from "./service/ingresses/ingresses";
 
 const rootRoute = createRouteConfig({
   component: () => (
@@ -32,14 +32,11 @@ export const workloadsRoutes = [
   { name: "Stateful Sets", path: "/stateful-sets", component: StatefulSets },
 ] as const;
 
-export const serviceRoutes = [
-  { name: "Ingresses", path: "/ingresses", component: Ingresses },
-]
+export const serviceRoutes = [{ name: "Ingresses", path: "/ingresses", component: Ingresses }];
 
 export const todoRoutes = [
   { name: "Testing", path: "/test-playground", component: TestPlayground },
-]
-
+];
 
 const routeConfig = rootRoute.addChildren([
   rootRoute.createRoute({

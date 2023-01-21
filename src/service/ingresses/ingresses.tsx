@@ -1,3 +1,3 @@
 export function Ingresses() {
-    return <div>Ingresses</div>
+  return <div>Ingresses</div>;
 }
