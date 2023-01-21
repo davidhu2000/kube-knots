@@ -2,12 +2,12 @@ import type { V1Job } from "@kubernetes/client-node";
 import { formatDistance } from "date-fns";
 
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useGetResourceList } from "../queries/invoke";
+import { useResourceList } from "../hooks/use-resource-list";
 
 export function Jobs() {
   const {
     data: { items },
-  } = useGetResourceList<V1Job>("get_jobs");
+  } = useResourceList<V1Job>("get_jobs");
 
   return (
     <div>

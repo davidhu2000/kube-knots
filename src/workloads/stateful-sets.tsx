@@ -1,13 +1,11 @@
 import type { V1StatefulSet } from "@kubernetes/client-node";
-import { useQuery } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useCurrentNamespace } from "../namespaces/namespaces";
-import { useGetResourceList } from "../queries/invoke";
+import { useResourceActions } from "../hooks/use-resource-actions";
+import { useResourceList } from "../hooks/use-resource-list";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -15,35 +13,15 @@ const ResourceEditDrawer = lazy(() =>
   }))
 );
 
-type Actions = "edit" | "logs" | "scale";
-
 export function StatefulSets() {
-  const { namespace } = useCurrentNamespace();
-
-  const result = useQuery(
-    ["deployments", namespace],
-    () => {
-      return invoke<{ items: V1StatefulSet[] }>(`get_stateful_sets`, { namespace });
-    },
-    { refetchInterval: 1000 }
-  );
-
   const {
     data: { items },
-  } = useGetResourceList<V1StatefulSet>("get_stateful_sets");
+  } = useResourceList<V1StatefulSet>("get_stateful_sets");
 
-  const [action, setAction] = useState<Actions | null>(null);
-  const [selected, setSelected] = useState<V1StatefulSet | null>(null);
-
-  const handleOpen = (deployment: V1StatefulSet, action: Actions) => {
-    setSelected(deployment);
-    setAction(action);
-  };
-
-  const handleClose = () => {
-    setSelected(null);
-    setAction(null);
-  };
+  const { selected, handleOpen, handleClose, action } = useResourceActions<
+    V1StatefulSet,
+    "edit" | "logs" | "scale"
+  >();
 
   return (
     <div>

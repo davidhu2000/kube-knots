@@ -1,12 +1,12 @@
 import type { V1ReplicaSet } from "@kubernetes/client-node";
 
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useGetResourceList } from "../queries/invoke";
+import { useResourceList } from "../hooks/use-resource-list";
 
 export function ReplicaSets() {
   const {
     data: { items },
-  } = useGetResourceList<V1ReplicaSet>("get_replica_sets");
+  } = useResourceList<V1ReplicaSet>("get_replica_sets");
 
   return (
     <div>
