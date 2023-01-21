@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useEffect, useRef } from "react";
 
-import { Drawer } from "../../components/drawer";
+import { Drawer } from "../components/drawer";
 
 interface PodLogsProps {
   isOpen: boolean;

@@ -5,12 +5,12 @@ import { AppProviders } from "./app-providers";
 import { Layout } from "./layout";
 import { Ingresses } from "./service/ingresses/ingresses";
 import { TestPlayground } from "./test-playground/test-playground";
-import { CronJobs } from "./workloads/cron-jobs/cron-jobs";
-import { Deployments } from "./workloads/deployments/deployments";
-import { Jobs } from "./workloads/jobs/jobs";
-import { Pods } from "./workloads/pods/pods";
-import { ReplicaSets } from "./workloads/replica-sets/replica-sets";
-import { StatefulSets } from "./workloads/stateful-sets/stateful-sets";
+import { CronJobs } from "./workloads/cron-jobs";
+import { Deployments } from "./workloads/deployments";
+import { Jobs } from "./workloads/jobs";
+import { Pods } from "./workloads/pods";
+import { ReplicaSets } from "./workloads/replica-sets";
+import { StatefulSets } from "./workloads/stateful-sets";
 
 const rootRoute = createRouteConfig({
   component: () => (
