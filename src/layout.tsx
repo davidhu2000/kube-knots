@@ -5,13 +5,13 @@ import { type PropsWithChildren } from "react";
 import { NamespaceSelect } from "./namespaces/namespace-select";
 import { serviceRoutes, todoRoutes, workloadsRoutes } from "./router";
 
-const sections = [
-  { title: "Workload", routes: workloadsRoutes },
-  { title: "Service", routes: serviceRoutes },
-  { title: "TODO", routes: todoRoutes },
-];
-
 export function Layout({ children }: PropsWithChildren) {
+  const sections = [
+    { title: "Workload", routes: workloadsRoutes },
+    { title: "Service", routes: serviceRoutes },
+    { title: "TODO", routes: todoRoutes },
+  ];
+
   return (
     <div>
       <div className="fixed inset-y-0 flex w-40 flex-col bg-gray-200">
@@ -26,7 +26,7 @@ export function Layout({ children }: PropsWithChildren) {
             {sections.map(({ title, routes }) => (
               <span key={title}>
                 <h1 className="font-bold">{title}</h1>
-                {routes.map((item) => (
+                {workloadsRoutes.map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
