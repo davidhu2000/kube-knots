@@ -26,7 +26,7 @@ export function Layout({ children }: PropsWithChildren) {
           <nav className="flex-1 space-y-1 px-2 py-4">
             {sections.map(({ title, routes }) => (
               <span key={title}>
-                <h1 className="font-bold">{title}</h1>
+                <h1 className="font-bold mt-4">{title}</h1>
                 {routes.map((item) => (
                   <Link
                     key={item.name}
