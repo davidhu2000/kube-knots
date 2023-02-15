@@ -5,7 +5,6 @@ import { AppProviders } from "./app-providers";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { Services } from "./networking/services";
-import { TestPlayground } from "./test-playground/test-playground";
 import { CronJobs } from "./workloads/cron-jobs";
 import { Deployments } from "./workloads/deployments";
 import { Jobs } from "./workloads/jobs";
