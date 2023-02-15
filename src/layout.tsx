@@ -4,13 +4,12 @@ import { Link } from "@tanstack/react-router";
 import { type PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
-import { networkingRoutes, todoRoutes, workloadsRoutes } from "./router";
+import { networkingRoutes, workloadsRoutes } from "./router";
 
 export function Layout({ children }: PropsWithChildren) {
   const sections = [
     { title: "Workload", routes: workloadsRoutes },
     { title: "Networking", routes: networkingRoutes },
-    { title: "TODO", routes: todoRoutes },
   ];
 
   return (
@@ -42,11 +41,11 @@ export function Layout({ children }: PropsWithChildren) {
         </div>
       </div>
       <div className="flex flex-col pl-40">
-        <div className="sticky top-0 z-10 flex h-16 shrink-0 bg-gray-200 p-2 shadow flex justify-between items-center w-full">
+        <div className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-between bg-gray-200 p-2 shadow">
           <NamespaceSelect />
 
           <Cog8ToothIcon
-            className="h-6 w-6 fill-gray-600 hover:fill-gray-800 cursor-pointer"
+            className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800"
             onClick={() => alert("settings")}
           />
         </div>
