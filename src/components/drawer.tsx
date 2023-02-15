@@ -27,7 +27,7 @@ export function Drawer({ isOpen, handleClose, title, description, children }: Po
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-4xl">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white p-6 shadow-xl">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-white dark:bg-gray-900 p-6 shadow-xl">
                     <div className="flex items-center justify-between">
                       <Dialog.Title className="text-lg font-medium text-gray-900">
                         {title}
@@ -39,7 +39,7 @@ export function Drawer({ isOpen, handleClose, title, description, children }: Po
 
                       <button
                         type="button"
-                        className="rounded-md p-2 text-gray-400 hover:bg-gray-200 hover:text-gray-600"
+                        className="rounded-md p-2 text-gray-400 dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200"
                         onClick={handleClose}
                       >
                         <span className="sr-only">Close</span>
