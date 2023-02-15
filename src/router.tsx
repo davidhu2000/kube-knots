@@ -38,10 +38,6 @@ export const networkingRoutes = [
   { name: "Services", path: "/services", component: Services },
 ] as const;
 
-export const todoRoutes = [
-  { name: "Testing", path: "/test-playground", component: TestPlayground },
-] as const;
-
 const routeTree = rootRoute.addChildren([
   new Route({
     getParentRoute: () => rootRoute,
@@ -50,7 +46,6 @@ const routeTree = rootRoute.addChildren([
   }),
   ...workloadsRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
   ...networkingRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
-  ...todoRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
 ]);
 
 export const router = new ReactRouter({ routeTree });
