@@ -15,14 +15,14 @@ export function Layout({ children }: PropsWithChildren) {
   return (
     <div>
       <div className="fixed inset-y-0 flex w-40 flex-col bg-gray-200">
-        <div className="flex h-16 items-center px-2 font-medium">
+        <div className="flex h-16 items-center px-4 font-medium">
           {/* TODO: update logo */}
           <DocumentMagnifyingGlassIcon className="mr-2 h-6 w-6" aria-hidden="true" />
           Kube Knots
         </div>
 
         <div className="flex flex-1 flex-col overflow-y-auto">
-          <nav className="flex-1 space-y-1 px-2 py-4">
+          <nav className="flex-1 space-y-1 p-4">
             {sections.map(({ title, routes }) => (
               <span key={title}>
                 <h1 className="mt-4 font-bold">{title}</h1>
