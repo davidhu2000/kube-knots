@@ -20,7 +20,7 @@ export function Layout({ children }: PropsWithChildren) {
 
   return (
     <div>
-      <div className="fixed inset-y-0 flex w-40 flex-col bg-gray-200">
+      <div className="fixed inset-y-0 flex w-40 flex-col bg-gray-200 dark:bg-gray-700">
         <div className="flex h-16 items-center px-4 font-medium">
           {/* TODO: update logo */}
           <DocumentMagnifyingGlassIcon className="mr-2 h-6 w-6" aria-hidden="true" />
@@ -36,7 +36,7 @@ export function Layout({ children }: PropsWithChildren) {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400"
+                    className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 dark:text-gray-100 hover:bg-gray-400 hover:dark:bg-gray-500"
                   >
                     {item.name}
                   </Link>
@@ -47,11 +47,11 @@ export function Layout({ children }: PropsWithChildren) {
         </div>
       </div>
       <div className="flex flex-col pl-40">
-        <div className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-between bg-gray-200 p-2 shadow">
+        <div className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-between bg-gray-200 dark:bg-gray-700 p-2 shadow">
           <NamespaceSelect />
 
           <Cog8ToothIcon
-            className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800"
+            className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200"
             onClick={() => setShowSetting(true)}
           />
           <Suspense fallback={<div>Loading Settings</div>}>

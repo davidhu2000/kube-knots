@@ -44,7 +44,7 @@ export function ActionButton({ label, position, onClick }: ActionButtonProps) {
       onClick={onClick}
       className={`relative ${
         position === "left" ? "" : "-ml-px"
-      } inline-flex items-center ${roundedClass} border border-gray-300 p-2 hover:bg-gray-50`}
+      } inline-flex items-center ${roundedClass} border border-gray-300 p-2 hover:bg-gray-50 hover:dark:bg-gray-700`}
     >
       <Icon className="mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
       {label[0].toUpperCase()}
