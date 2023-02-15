@@ -1,4 +1,4 @@
-import { V1CronJob } from "@kubernetes/client-node";
+import { type V1CronJob } from "@kubernetes/client-node";
 import { formatDistance } from "date-fns";
 
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";

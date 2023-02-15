@@ -6,7 +6,7 @@ use kube::{
     Api,
 };
 
-use super::internal::get_api;
+use crate::internal::get_api;
 
 #[tauri::command]
 pub async fn get_pods(namespace: Option<String>) -> ObjectList<Pod> {
