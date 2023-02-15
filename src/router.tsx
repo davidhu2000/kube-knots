@@ -1,9 +1,10 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Outlet, ReactRouter, createRouteConfig } from "@tanstack/react-router";
+import { Outlet, ReactRouter, RootRoute, Route } from "@tanstack/react-router";
 
 import { AppProviders } from "./app-providers";
 import { Layout } from "./layout";
-import { Ingresses } from "./service/ingresses/ingresses";
+import { Ingresses } from "./networking/ingresses";
+import { Services } from "./networking/services";
 import { TestPlayground } from "./test-playground/test-playground";
 import { CronJobs } from "./workloads/cron-jobs";
 import { Deployments } from "./workloads/deployments";
@@ -12,7 +13,7 @@ import { Pods } from "./workloads/pods";
 import { ReplicaSets } from "./workloads/replica-sets";
 import { StatefulSets } from "./workloads/stateful-sets";
 
-const rootRoute = createRouteConfig({
+const rootRoute = new RootRoute({
   component: () => (
     <AppProviders>
       <Layout>
@@ -32,25 +33,27 @@ export const workloadsRoutes = [
   { name: "Stateful Sets", path: "/stateful-sets", component: StatefulSets },
 ] as const;
 
-export const serviceRoutes = [
+export const networkingRoutes = [
   { name: "Ingresses", path: "/ingresses", component: Ingresses },
+  { name: "Services", path: "/services", component: Services },
 ] as const;
 
 export const todoRoutes = [
   { name: "Testing", path: "/test-playground", component: TestPlayground },
 ] as const;
 
-const routeConfig = rootRoute.addChildren([
-  rootRoute.createRoute({
+const routeTree = rootRoute.addChildren([
+  new Route({
+    getParentRoute: () => rootRoute,
     path: "/",
     component: () => <div>TODO: figure out what to show by default</div>,
   }),
-  ...workloadsRoutes.map((route) => rootRoute.createRoute(route)),
-  ...serviceRoutes.map((route) => rootRoute.createRoute(route)),
-  ...todoRoutes.map((route) => rootRoute.createRoute(route)),
+  ...workloadsRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
+  ...networkingRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
+  ...todoRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
 ]);
 
-export const router = new ReactRouter({ routeConfig });
+export const router = new ReactRouter({ routeTree });
 
 declare module "@tanstack/react-router" {
   interface RegisterRouter {

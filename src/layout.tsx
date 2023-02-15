@@ -4,12 +4,12 @@ import { Link } from "@tanstack/react-router";
 import { type PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
-import { serviceRoutes, todoRoutes, workloadsRoutes } from "./router";
+import { networkingRoutes, todoRoutes, workloadsRoutes } from "./router";
 
 export function Layout({ children }: PropsWithChildren) {
   const sections = [
     { title: "Workload", routes: workloadsRoutes },
-    { title: "Service", routes: serviceRoutes },
+    { title: "Networking", routes: networkingRoutes },
     { title: "TODO", routes: todoRoutes },
   ];
 
@@ -26,7 +26,7 @@ export function Layout({ children }: PropsWithChildren) {
           <nav className="flex-1 space-y-1 px-2 py-4">
             {sections.map(({ title, routes }) => (
               <span key={title}>
-                <h1 className="font-bold mt-4">{title}</h1>
+                <h1 className="mt-4 font-bold">{title}</h1>
                 {routes.map((item) => (
                   <Link
                     key={item.name}

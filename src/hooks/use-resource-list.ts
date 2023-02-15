@@ -4,6 +4,10 @@ import { invoke } from "@tauri-apps/api";
 import { useCurrentNamespace } from "../namespaces/namespaces";
 
 type Commands =
+  // networking
+  | "get_ingresses"
+  | "get_services"
+  // workloads
   | "get_cron_jobs"
   | "get_deployments"
   | "get_jobs"
