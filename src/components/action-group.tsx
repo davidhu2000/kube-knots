@@ -31,6 +31,7 @@ const getIcon = (label: Actions) => {
   }
 };
 
+// TODO: handle situation where there is only one button
 export function ActionButton({ label, position, onClick }: ActionButtonProps) {
   const roundedClass =
     position === "left" ? "rounded-l-md" : position === "right" ? "rounded-r-md" : "";
