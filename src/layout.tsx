@@ -1,16 +1,22 @@
 import { Cog8ToothIcon } from "@heroicons/react/20/solid";
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
-import { type PropsWithChildren } from "react";
+import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
 import { networkingRoutes, workloadsRoutes } from "./router";
+
+const Settings = lazy(() =>
+  import("./settings/settings").then((module) => ({ default: module.Settings }))
+);
 
 export function Layout({ children }: PropsWithChildren) {
   const sections = [
     { title: "Workload", routes: workloadsRoutes },
     { title: "Networking", routes: networkingRoutes },
   ];
+
+  const [showSetting, setShowSetting] = useState(false);
 
   return (
     <div>
@@ -46,8 +52,11 @@ export function Layout({ children }: PropsWithChildren) {
 
           <Cog8ToothIcon
             className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800"
-            onClick={() => alert("settings")}
+            onClick={() => setShowSetting(true)}
           />
+          <Suspense fallback={<div>Loading Settings</div>}>
+            <Settings isOpen={showSetting} handleClose={() => setShowSetting(false)} />
+          </Suspense>
         </div>
 
         <main className="flex-1">
