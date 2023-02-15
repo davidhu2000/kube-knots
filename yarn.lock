@@ -728,13 +728,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solidjs/reactivity@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "@solidjs/reactivity@npm:0.0.7"
-  checksum: 1b166aaa14c9eeaaa63db433ab9a2a166f5201ed81c767825621a31619524832f8a8e2f1692062ea0bf96785c9e47b030cf0f4bdc330d1fd616c5588bf55589a
-  languageName: node
-  linkType: hard
-
 "@tailwindcss/forms@npm:^0.5.3":
   version: 0.5.3
   resolution: "@tailwindcss/forms@npm:0.5.3"
@@ -797,32 +790,48 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-router@npm:beta":
-  version: 0.0.1-beta.53
-  resolution: "@tanstack/react-router@npm:0.0.1-beta.53"
+  version: 0.0.1-beta.82
+  resolution: "@tanstack/react-router@npm:0.0.1-beta.82"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@solidjs/reactivity": ^0.0.7
-    "@tanstack/router-core": 0.0.1-beta.53
+    "@tanstack/react-store": 0.0.1-beta.81
+    "@tanstack/router": 0.0.1-beta.82
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 3e3af045044b2d251b8753391233048bdce495ae47c756ff48724176ce2a03842ba9261ba21abf55986a66f1c2b419d18d30f402c8e8f1836c1900b32ca7e9b5
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-store@npm:0.0.1-beta.81":
+  version: 0.0.1-beta.81
+  resolution: "@tanstack/react-store@npm:0.0.1-beta.81"
+  dependencies:
+    "@tanstack/store": 0.0.1-beta.81
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 0c5087383e57bc53f771c7dc7dd0a9d18a5fc70573665df182537f49d05f0dcf4ed19daec2f8873e51071d71049dd2f5500795bba0474ffbbe28f5215072def6
+  checksum: 575f2e47da90dc3e3e801beba5e93c34f5411e64287f342c14bf99dd6ca2339c861e1b92d5543a2f146fd169ff77dc1360c4086c581c1f5f947e6d4842d8adc5
   languageName: node
   linkType: hard
 
-"@tanstack/router-core@npm:0.0.1-beta.53":
-  version: 0.0.1-beta.53
-  resolution: "@tanstack/router-core@npm:0.0.1-beta.53"
+"@tanstack/router@npm:0.0.1-beta.82":
+  version: 0.0.1-beta.82
+  resolution: "@tanstack/router@npm:0.0.1-beta.82"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@solidjs/reactivity": ^0.0.7
-    immer: ^9.0.15
+    "@tanstack/store": 0.0.1-beta.81
     tiny-invariant: ^1.3.1
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: fb7302c43a7ec23cd74730f885f93c3866ba7d00d6c5a95b45d777de17d365cfb8bc13b6527dbdf88c12d7c3d4b5d9c571ebeb1ce530b2ec4318424013dc3c7e
+    tiny-warning: ^1.0.3
+  checksum: 0f7ed51dd64c60f4cb74556101bf46cca27ebfa52e2c4ce099f093b32727a1c8ffe0e209ce023f7e4f435e1127757854cdc4aa5559cca490bfc094a6d1297a09
+  languageName: node
+  linkType: hard
+
+"@tanstack/store@npm:0.0.1-beta.81":
+  version: 0.0.1-beta.81
+  resolution: "@tanstack/store@npm:0.0.1-beta.81"
+  checksum: b97c8857c50ad1a047cc9cffa3044dd68e4746235e32ffb4d36d6fa56390224dc0f68d1baf27ecd84a23ac5cca7643a57edb60da8584963d571ea099eabf3c7b
   languageName: node
   linkType: hard
 
@@ -2880,13 +2889,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immer@npm:^9.0.15":
-  version: 9.0.18
-  resolution: "immer@npm:9.0.18"
-  checksum: 85b3153dd01fce73c40591d0d6d7cd95878dab49f8ec4744c044adac05e0dab847b30c26259c478a5f87f974897be6df2780ff5bf86c8a0a27578fdeb300eb10
-  languageName: node
-  linkType: hard
-
 "import-fresh@npm:^3.0.0, import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
@@ -4772,6 +4774,13 @@ __metadata:
   version: 1.3.1
   resolution: "tiny-invariant@npm:1.3.1"
   checksum: 872dbd1ff20a21303a2fd20ce3a15602cfa7fcf9b228bd694a52e2938224313b5385a1078cb667ed7375d1612194feaca81c4ecbe93121ca1baebe344de4f84c
+  languageName: node
+  linkType: hard
+
+"tiny-warning@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "tiny-warning@npm:1.0.3"
+  checksum: da62c4acac565902f0624b123eed6dd3509bc9a8d30c06e017104bedcf5d35810da8ff72864400ad19c5c7806fc0a8323c68baf3e326af7cb7d969f846100d71
   languageName: node
   linkType: hard
 
