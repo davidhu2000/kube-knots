@@ -1,6 +1,6 @@
 export function Table({ children }: { children: React.ReactNode }) {
   return (
-    <table className="min-w-full divide-y divide-gray-300 rounded-md dark:divide-gray-600">
+    <table className="min-w-full divide-y divide-gray-300 rounded-md border-2 border-solid border-gray-700 dark:divide-gray-600">
       {children}
     </table>
   );
@@ -26,7 +26,7 @@ export function TableHeader({ headers }: { headers: string[] }) {
 
 export function TableBody({ children }: { children: React.ReactNode }) {
   return (
-    <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
+    <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
       {children}
     </tbody>
   );
