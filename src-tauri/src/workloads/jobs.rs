@@ -11,3 +11,10 @@ pub async fn get_jobs(namespace: Option<String>) -> ObjectList<Job> {
 
     return api.list(&lp).await.unwrap();
 }
+
+#[tauri::command]
+pub async fn create_job(namespace: Option<String>, job: Job) -> Job {
+    let api: Api<Job> = get_api(namespace).await;
+
+    return api.create(&Default::default(), &job).await.unwrap();
+}
