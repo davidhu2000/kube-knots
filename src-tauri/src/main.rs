@@ -17,6 +17,7 @@ fn main() {
             workloads::deployments::get_deployments,
             workloads::deployments::restart_deployment,
             workloads::deployments::scale_deployment,
+            workloads::jobs::create_job,
             workloads::jobs::get_jobs,
             workloads::pods::get_pod_logs,
             workloads::pods::get_pods,
