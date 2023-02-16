@@ -3,7 +3,7 @@ import { type V1ObjectMeta } from "@kubernetes/client-node";
 import Editor, { DiffEditor } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 
-import { useTheme } from "../hooks/use-theme";
+import { useTheme } from "../providers/theme-provider";
 import { Drawer } from "./drawer";
 
 interface ResourceEditDrawerProps<T> {
