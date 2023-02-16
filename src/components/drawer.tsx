@@ -27,13 +27,13 @@ export function Drawer({ isOpen, handleClose, title, description, children }: Po
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-4xl">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white dark:bg-gray-900 p-6 shadow-xl">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-white p-6 shadow-xl dark:bg-gray-900">
                     <div className="flex items-center justify-between">
-                      <Dialog.Title className="text-lg font-medium text-gray-900">
+                      <Dialog.Title className="text-lg font-medium text-gray-900 dark:text-gray-100">
                         {title}
                       </Dialog.Title>
 
-                      <Dialog.Description className="text-sm text-gray-500">
+                      <Dialog.Description className="text-sm text-gray-500 dark:text-gray-300">
                         {description}
                       </Dialog.Description>
 
