@@ -19,7 +19,7 @@ export function NamespaceSelect() {
     <Combobox as="div" value={namespace ?? "All namespaces"} onChange={updateNamespace}>
       <div className="relative mt-1">
         <Combobox.Input
-          className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:bg-gray-900"
+          className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-gray-500 dark:bg-gray-800"
           onChange={(event) => setQuery(event.target.value)}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -27,7 +27,7 @@ export function NamespaceSelect() {
         </Combobox.Button>
 
         {filteredNamespaces.length > 0 && (
-          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none dark:bg-gray-900">
             {filteredNamespaces.map((namespace) => (
               <Combobox.Option
                 key={namespace}

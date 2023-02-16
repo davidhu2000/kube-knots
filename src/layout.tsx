@@ -47,7 +47,7 @@ export function Layout({ children }: PropsWithChildren) {
         </div>
       </div>
       <div className="flex flex-col pl-40">
-        <div className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-between bg-gray-200 dark:bg-gray-700 p-2 shadow">
+        <div className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-between bg-gray-200 p-2 shadow dark:bg-gray-700">
           <NamespaceSelect />
 
           <Cog8ToothIcon
@@ -62,7 +62,7 @@ export function Layout({ children }: PropsWithChildren) {
         <main className="flex-1">
           <div className="py-6">
             <div className="mx-auto max-w-7xl px-4">
-              <div className="py-4">{children}</div>
+              <div className="p-4">{children}</div>
             </div>
           </div>
         </main>

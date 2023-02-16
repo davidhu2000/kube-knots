@@ -41,7 +41,7 @@ export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
       title={selectedPod?.metadata?.name ?? ""}
       description={`Container: ${selectedPod?.spec?.containers[0].name}`}
     >
-      <pre className="h-full overflow-y-scroll rounded-md bg-gray-200 p-4 text-sm text-gray-500">
+      <pre className="h-full overflow-y-scroll rounded-md bg-gray-200 p-4 text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-300">
         {result.data}
         <div ref={logBottomRef} />
       </pre>
