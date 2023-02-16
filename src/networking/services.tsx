@@ -27,7 +27,7 @@ export function Services() {
                 <ActionGroup>
                   <ActionButton
                     label="edit"
-                    position="right"
+                    position="single"
                     onClick={() => handleOpen(item, "edit")}
                   />
                 </ActionGroup>
