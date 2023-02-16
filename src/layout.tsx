@@ -19,7 +19,7 @@ export function Layout({ children }: PropsWithChildren) {
   const [showSetting, setShowSetting] = useState(false);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="fixed inset-y-0 flex w-40 flex-col bg-gray-200 dark:bg-gray-700 dark:text-gray-100">
         <div className="flex h-16 items-center px-4 font-medium">
           {/* TODO: update logo */}
