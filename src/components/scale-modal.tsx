@@ -1,4 +1,3 @@
-import { Dialog } from "@headlessui/react";
 import { type V1Deployment } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";

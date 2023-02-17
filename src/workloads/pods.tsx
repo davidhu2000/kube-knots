@@ -1,5 +1,5 @@
 import type { V1Pod } from "@kubernetes/client-node";
-import { useState, lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";

@@ -67,7 +67,7 @@ export function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose
         values={languages}
       />
 
-      {/* <ModalButton label="Save" onClick={handleClose} /> */}
+      <ModalButton label="Close" onClick={handleClose} />
     </BaseModal>
   );
 }
