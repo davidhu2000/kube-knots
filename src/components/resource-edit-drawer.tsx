@@ -4,7 +4,7 @@ import Editor, { DiffEditor } from "@monaco-editor/react";
 import yaml from "js-yaml";
 import { useEffect, useState } from "react";
 
-import { useLanguage } from "../providers/language-provider";
+import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
 import { Drawer } from "./drawer";
 
@@ -50,7 +50,7 @@ export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
   selectedResource,
   handleClose,
 }: ResourceEditDrawerProps<T>) {
-  const { language } = useLanguage();
+  const { language } = useDefaultLanguage();
   const { theme } = useTheme();
 
   const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));

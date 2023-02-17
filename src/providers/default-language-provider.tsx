@@ -1,9 +1,9 @@
-import { createContext, type PropsWithChildren, useContext, useState, useEffect } from "react";
+import { createContext, type PropsWithChildren, useContext, useState } from "react";
 
 type Language = "json" | "yaml";
 const languages: Language[] = ["json", "yaml"];
 
-const LanguageContext = createContext<{
+const DefaultLanguageContext = createContext<{
   language: Language;
   languages: Language[];
   changeLanguage: (theme: Language) => void;
@@ -15,9 +15,9 @@ const LanguageContext = createContext<{
   },
 });
 
-export const useLanguage = () => useContext(LanguageContext);
+export const useDefaultLanguage = () => useContext(DefaultLanguageContext);
 
-export function LanguageProvider({ children }: PropsWithChildren) {
+export function DefaultLanguageProvider({ children }: PropsWithChildren) {
   const preferredLanguage = (localStorage.getItem("preferred-language") || "yaml") as Language;
 
   const [language, setLanguage] = useState<Language>(preferredLanguage);
@@ -28,8 +28,8 @@ export function LanguageProvider({ children }: PropsWithChildren) {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, changeLanguage, languages }}>
+    <DefaultLanguageContext.Provider value={{ language, changeLanguage, languages }}>
       {children}
-    </LanguageContext.Provider>
+    </DefaultLanguageContext.Provider>
   );
 }

@@ -1,7 +1,7 @@
 import { RadioGroup } from "@headlessui/react";
 
 import { BaseModal, ModalButton } from "../components/modal";
-import { useLanguage } from "../providers/language-provider";
+import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
 
 interface RadioButtonGroupProp<T> {
@@ -55,7 +55,7 @@ function RadioButtonGroup<T extends string>({
 export function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () => void }) {
   const { theme, changeTheme, themes } = useTheme();
 
-  const { language, changeLanguage, languages } = useLanguage();
+  const { language, changeLanguage, languages } = useDefaultLanguage();
 
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose} title="Settings">
