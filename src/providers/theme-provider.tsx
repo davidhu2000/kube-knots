@@ -1,13 +1,16 @@
 import { createContext, type PropsWithChildren, useContext, useState, useEffect } from "react";
 
 type Themes = "dark" | "light" | "system";
+const themes: Themes[] = ["dark", "light", "system"];
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
 const ThemeContext = createContext<{
   theme: Themes;
+  themes: Themes[];
   changeTheme: (theme: Themes) => void;
 }>({
   theme: systemTheme,
+  themes,
   changeTheme: () => {
     throw new Error("Make sure to wrap the app with ThemeProvider");
   },
@@ -58,5 +61,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
     }
   }, [theme]);
 
-  return <ThemeContext.Provider value={{ theme, changeTheme }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ theme, changeTheme, themes }}>{children}</ThemeContext.Provider>
+  );
 }
