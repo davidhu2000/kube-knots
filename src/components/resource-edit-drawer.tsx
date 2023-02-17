@@ -4,6 +4,7 @@ import Editor, { DiffEditor } from "@monaco-editor/react";
 import yaml from "js-yaml";
 import { useEffect, useState } from "react";
 
+import { useLanguage } from "../providers/language-provider";
 import { useTheme } from "../providers/theme-provider";
 import { Drawer } from "./drawer";
 
@@ -49,11 +50,12 @@ export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
   selectedResource,
   handleClose,
 }: ResourceEditDrawerProps<T>) {
-  const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));
-  const [showYaml, setShowYaml] = useState(false);
-  const [showDiff, setShowDiff] = useState(false);
-
+  const { language } = useLanguage();
   const { theme } = useTheme();
+
+  const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));
+  const [showYaml, setShowYaml] = useState(language === "yaml");
+  const [showDiff, setShowDiff] = useState(false);
 
   useEffect(() => {
     if (showYaml) {
@@ -63,6 +65,10 @@ export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
     }
     setShowDiff(false);
   }, [selectedResource]);
+
+  useEffect(() => {
+    setShowYaml(language === "yaml");
+  }, [language]);
 
   const handleShowYaml = (showYaml: boolean) => {
     if (showYaml) {
