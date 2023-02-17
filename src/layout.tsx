@@ -36,7 +36,7 @@ export function Layout({ children }: PropsWithChildren) {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 dark:text-gray-100 hover:bg-gray-400 hover:dark:bg-gray-500"
+                    className="group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400 dark:text-gray-100 hover:dark:bg-gray-500"
                   >
                     {item.name}
                   </Link>
@@ -60,10 +60,8 @@ export function Layout({ children }: PropsWithChildren) {
         </div>
 
         <main className="flex-1">
-          <div className="py-6">
-            <div className="mx-auto max-w-7xl px-4">
-              <div className="p-4">{children}</div>
-            </div>
+          <div className="mx-auto max-w-7xl">
+            <div className="p-4">{children}</div>
           </div>
         </main>
       </div>

@@ -1,5 +1,5 @@
 import type { V1StatefulSet } from "@kubernetes/client-node";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { ScaleModal } from "../components/scale-modal";

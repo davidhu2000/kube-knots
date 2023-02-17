@@ -36,7 +36,7 @@ interface ModalButtonProps {
 export function ModalButton({ label, onClick }: ModalButtonProps): JSX.Element {
   return (
     <button
-      className="mt-4 w-full rounded-md bg-gray-200 px-4 py-2 text-base text-gray-800 shadow-sm hover:bg-gray-300"
+      className="mt-4 w-full rounded-md bg-gray-200 px-4 py-2 text-base text-gray-200 text-gray-800 shadow-sm hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
       onClick={onClick}
     >
       {label}
