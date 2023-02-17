@@ -34,14 +34,16 @@ export function ScaleModal({ isOpen, handleClose, deployment }: ModalProps): JSX
       title={`Scale ${deployment.metadata?.name}`}
     >
       <div className="mt-2">
-        <p className="text-sm text-gray-500">Current replica count: {deployment.spec?.replicas}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-300">
+          Current replica count: {deployment.spec?.replicas}
+        </p>
       </div>
 
       <input
         onChange={(e) => setReplicas(parseInt(e.target.value ?? ""))}
         type="number"
         value={replicas}
-        className="mt-4 block w-full rounded-md border-gray-300 focus:ring-slate-500"
+        className="mt-4 block w-full rounded-md border-gray-300 focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:focus:ring-slate-500 sm:text-sm"
         step={1}
         min={0}
       />
