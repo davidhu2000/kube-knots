@@ -11,6 +11,7 @@ export function restartMutation(resourceType: "stateful_set" | "deployment") {
       });
     },
     onSuccess: (_data, variables) => {
+      // TODO: a better way to do this
       alert(`Restarted ${resourceType.replace("_", " ")} ${variables.metadata?.name}`);
     },
   });
