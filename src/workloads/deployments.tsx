@@ -1,6 +1,4 @@
 import { type V1Deployment } from "@kubernetes/client-node";
-import { useMutation } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
@@ -8,6 +6,7 @@ import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
+import { restartMutation } from "./restart-mutation";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -25,17 +24,7 @@ export function Deployments() {
     "edit" | "scale"
   >();
 
-  const restartMutation = useMutation({
-    mutationFn: (deployment: V1Deployment) => {
-      return invoke("restart_deployment", {
-        namespace: deployment.metadata?.namespace,
-        name: deployment.metadata?.name,
-      });
-    },
-    onSuccess: (_data, variables) => {
-      alert(`Restarted deployment ${variables.metadata?.name}`);
-    },
-  });
+  const restartResource = restartMutation("deployment");
 
   return (
     <div>
@@ -54,7 +43,7 @@ export function Deployments() {
                   <ActionButton
                     label="restart"
                     position="left"
-                    onClick={() => restartMutation.mutate(item)}
+                    onClick={() => restartResource.mutate(item)}
                   />
                   <ActionButton
                     label="scale"
