@@ -9,6 +9,7 @@ import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
+import { PodTerminal } from "./pod-terminal";
 
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
@@ -17,77 +18,6 @@ const ResourceEditDrawer = lazy(() =>
     default: module.ResourceEditDrawer,
   }))
 );
-
-function Terminal({ pod }: { pod: V1Pod }) {
-  const [command, setCommand] = useState("");
-  const [output, setOutput] = useState<string[]>([]);
-
-  const podName = pod.metadata?.name;
-  const namespace = pod.metadata?.namespace;
-  const container = pod.spec?.containers[0].name;
-
-  const execMutation = useMutation({
-    mutationFn: (command: string) => {
-      return invoke<string>(`exec_pod`, {
-        namespace,
-        podName,
-        container,
-        command,
-      });
-    },
-    onSuccess: (data) => {
-      setOutput((prevOutput) => [...prevOutput, `> ${command}`, data]);
-      setCommand("");
-    },
-  });
-
-  function handleCommand(event) {
-    event.preventDefault();
-    // process the command and add the output to the output state
-    // setOutput((prevOutput) => [...prevOutput, `> ${command}`, `Output for ${command}`]);
-    execMutation.mutate(command);
-    // setCommand("");
-  }
-
-  const bottomRef = useScrollBottom([output]);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-    setCommand(event.target.value);
-  }
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  // function handleContainerClick() {
-  //   inputRef.current?.focus();
-  // }
-
-  return (
-    <div
-      className="h-full w-full overflow-scroll rounded-lg bg-gray-200 p-4 text-gray-900 dark:bg-black dark:text-gray-100"
-      // onClick={handleContainerClick}
-    >
-      {output.map((line, index) => (
-        <p key={index} className="mb-2">
-          {line}
-        </p>
-      ))}
-      <form onSubmit={handleCommand} className="flex w-full">
-        <span className="text-green-600 dark:text-green-400">{">"}</span>
-        <input
-          ref={inputRef}
-          type="text"
-          value={command}
-          onChange={handleInputChange}
-          className="ml-1 flex-1 grow border-none bg-transparent p-0 focus:outline-none focus:ring-0"
-        />
-      </form>
-      <div ref={bottomRef} />
-    </div>
-  );
-}
 
 export function Pods() {
   const {
@@ -149,7 +79,7 @@ export function Pods() {
           // TODO: support multiple containers
           description={`Terminal for ${selected?.metadata?.name} - ${selected?.spec?.containers[0]?.name}`}
         >
-          {selected && <Terminal pod={selected} />}
+          {selected && <PodTerminal pod={selected} />}
         </Drawer>
       </Suspense>
     </div>

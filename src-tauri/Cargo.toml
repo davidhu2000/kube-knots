@@ -23,7 +23,7 @@ openssl = { version = "0.10.35", features = ["vendored"] }
 tokio = { version = "1.25.0", features = ["macros"] }
 tokio-util = { version = "0.7.7", features = ["io"] }
 futures = "0.3"
-
+tungstenite = "0.18.0"
 
 [features]
 # by default Tauri runs in production mode
