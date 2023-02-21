@@ -45,13 +45,24 @@ function ToggleButton({ checked, onChange, checkedLabel, uncheckedLabel }: Toggl
   );
 }
 
+function getEditorTheme(
+  theme: ReturnType<typeof useTheme>["theme"],
+  systemTheme: ReturnType<typeof useTheme>["systemTheme"]
+) {
+  if (theme === "system") {
+    return systemTheme === "dark" ? "vs-dark" : "light";
+  }
+
+  return theme === "dark" ? "vs-dark" : "light";
+}
+
 export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
   isOpen,
   selectedResource,
   handleClose,
 }: ResourceEditDrawerProps<T>) {
   const { language } = useDefaultLanguage();
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
 
   const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));
   const [showYaml, setShowYaml] = useState(language === "yaml");
@@ -83,7 +94,8 @@ export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
     setShowYaml(showYaml);
   };
 
-  const editorTheme = theme === "dark" ? "vs-dark" : "light";
+  const editorTheme = getEditorTheme(theme, systemTheme);
+
   const editorLanguage = showYaml ? "yaml" : "json";
 
   return (
