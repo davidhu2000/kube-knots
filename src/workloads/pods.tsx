@@ -1,5 +1,5 @@
 import type { V1Pod } from "@kubernetes/client-node";
-import { lazy, Suspense, useState } from "react";
+import { type ChangeEvent, lazy, Suspense, useEffect, useRef, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Drawer } from "../components/drawer";
@@ -28,13 +28,25 @@ function Terminal() {
   }
 
   const bottomRef = useScrollBottom([output]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  function handleInputChange(event) {
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     setCommand(event.target.value);
   }
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  function handleContainerClick() {
+    inputRef.current?.focus();
+  }
+
   return (
-    <div className="h-full w-full overflow-scroll rounded-lg bg-gray-100 p-4 text-gray-900 dark:bg-black dark:text-gray-100">
+    <div
+      className="h-full w-full overflow-scroll rounded-lg bg-gray-200 p-4 text-gray-900 dark:bg-black dark:text-gray-100"
+      onClick={handleContainerClick}
+    >
       {output.map((line, index) => (
         <p key={index} className="mb-2">
           {line}
@@ -43,6 +55,7 @@ function Terminal() {
       <form onSubmit={handleCommand} className="flex w-full">
         <span className="text-green-600 dark:text-green-400">{">"}</span>
         <input
+          ref={inputRef}
           type="text"
           value={command}
           onChange={handleInputChange}
