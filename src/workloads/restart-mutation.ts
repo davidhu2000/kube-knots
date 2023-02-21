@@ -2,9 +2,9 @@ import type { V1StatefulSet, V1Deployment } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 
-export function restartMutation(resourceType: "stateful_set" | "deployment") {
+export function restartMutation(resourceType: "deployment" | "stateful_set") {
   return useMutation({
-    mutationFn: (resource: V1StatefulSet | V1Deployment) => {
+    mutationFn: (resource: V1Deployment | V1StatefulSet) => {
       return invoke<boolean>(`restart_${resourceType}`, {
         namespace: resource.metadata?.namespace,
         name: resource.metadata?.name,

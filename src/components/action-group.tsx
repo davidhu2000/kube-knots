@@ -6,6 +6,7 @@ import {
   PlusIcon,
   PlayIcon,
   TrashIcon,
+  CommandLineIcon,
 } from "@heroicons/react/20/solid";
 import type { PropsWithChildren } from "react";
 
@@ -13,11 +14,12 @@ export function ActionGroup({ children }: PropsWithChildren) {
   return <span className="isolate inline-flex rounded-md shadow-sm">{children}</span>;
 }
 
-export type Actions = "logs" | "edit" | "scale" | "restart" | "trigger" | "create" | "delete";
+export type Actions =
+  "create" | "delete" | "edit" | "exec" | "logs" | "restart" | "scale" | "trigger";
 
 interface ActionButtonProps {
   label: Actions;
-  position: "left" | "right" | "middle" | "single";
+  position: "left" | "middle" | "right" | "single";
   onClick: () => void;
 }
 
@@ -37,6 +39,8 @@ const getIcon = (label: Actions) => {
       return PlayIcon;
     case "delete":
       return TrashIcon;
+    case "exec":
+      return CommandLineIcon;
   }
 };
 

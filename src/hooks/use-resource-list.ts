@@ -4,15 +4,13 @@ import { invoke } from "@tauri-apps/api";
 import { useCurrentNamespace } from "../namespaces/namespaces";
 
 type Commands =
-  // networking
-  | "get_ingresses"
-  | "get_services"
-  // workloads
   | "get_cron_jobs"
   | "get_deployments"
+  | "get_ingresses"
   | "get_jobs"
   | "get_pods"
   | "get_replica_sets"
+  | "get_services"
   | "get_stateful_sets";
 
 export function useResourceList<T>(command: Commands) {

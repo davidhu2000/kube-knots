@@ -1,6 +1,6 @@
 export function Table({ children }: { children: React.ReactNode }) {
   return (
-    <table className="min-w-full divide-y divide-gray-300 rounded-md border-2 border-solid border-gray-700 dark:divide-gray-600">
+    <table className="min-w-full divide-y divide-gray-300 rounded-md border-2 border-solid dark:divide-gray-600 dark:border-gray-700">
       {children}
     </table>
   );

@@ -2,6 +2,7 @@ import type { V1Pod } from "@kubernetes/client-node";
 import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
+import { Drawer } from "../components/drawer";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
@@ -20,7 +21,7 @@ export function Pods() {
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1Pod,
-    "logs" | "edit"
+    "edit" | "exec" | "logs"
   >();
 
   return (
@@ -38,6 +39,11 @@ export function Pods() {
                     label="logs"
                     position="left"
                     onClick={() => handleOpen(pod, "logs")}
+                  />
+                  <ActionButton
+                    label="exec"
+                    position="middle"
+                    onClick={() => handleOpen(pod, "exec")}
                   />
                   <ActionButton
                     label="edit"
@@ -59,6 +65,17 @@ export function Pods() {
           handleClose={handleClose}
           selectedResource={selected}
         />
+      </Suspense>
+      <Suspense fallback={<div>Loading Drawer</div>}>
+        <Drawer
+          isOpen={action === "exec"}
+          handleClose={handleClose}
+          title="Terminal"
+          // TODO: support multiple containers
+          description={`Terminal for ${selected?.metadata?.name} - ${selected?.spec?.containers[0]?.name}`}
+        >
+          <div className="flex justify-end"></div>
+        </Drawer>
       </Suspense>
     </div>
   );

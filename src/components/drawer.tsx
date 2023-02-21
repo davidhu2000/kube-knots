@@ -2,14 +2,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, type ReactNode, type PropsWithChildren } from "react";
 
-interface PodLogsProps extends PropsWithChildren {
+interface DrawerProps extends PropsWithChildren {
   isOpen: boolean;
   handleClose: () => void;
   title: string;
-  description: string | ReactNode;
+  description: ReactNode | string;
 }
 
-export function Drawer({ isOpen, handleClose, title, description, children }: PodLogsProps) {
+export function Drawer({ isOpen, handleClose, title, description, children }: DrawerProps) {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={handleClose}>
