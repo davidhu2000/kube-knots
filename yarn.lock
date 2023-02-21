@@ -3343,6 +3343,7 @@ __metadata:
     prettier: ^2.8.2
     react: ^18.2.0
     react-dom: ^18.2.0
+    react-terminal-ui: ^1.0.1
     tailwindcss: ^3.2.4
     typescript: ^4.9.4
     vite: ^4.0.4
@@ -4174,6 +4175,16 @@ __metadata:
   version: 0.14.0
   resolution: "react-refresh@npm:0.14.0"
   checksum: dc69fa8c993df512f42dd0f1b604978ae89bd747c0ed5ec595c0cc50d535fb2696619ccd98ae28775cc01d0a7c146a532f0f7fb81dc22e1977c242a4912312f4
+  languageName: node
+  linkType: hard
+
+"react-terminal-ui@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "react-terminal-ui@npm:1.0.1"
+  peerDependencies:
+    react: ">16.13.0"
+    react-dom: ">16.13.0"
+  checksum: 353cf12e963b610368520cf6ec20bcbfa4d5fe90c1213b435849e8c8bdd59c2589d64dbdaf232de77cb982f5205275bbc5579070a22b946c9c08be67ee9650ac
   languageName: node
   linkType: hard
 
