@@ -1,6 +1,4 @@
 import type { V1StatefulSet } from "@kubernetes/client-node";
-import { useMutation } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
