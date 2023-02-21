@@ -1,4 +1,6 @@
 import type { V1StatefulSet } from "@kubernetes/client-node";
+import { useMutation } from "@tanstack/react-query";
+import { invoke } from "@tauri-apps/api";
 import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
@@ -20,8 +22,20 @@ export function StatefulSets() {
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1StatefulSet,
-    "edit" | "logs" | "scale"
+    "edit" | "scale"
   >();
+
+  const restartMutation = useMutation({
+    mutationFn: (deployment: V1StatefulSet) => {
+      return invoke("restart_stateful_set", {
+        namespace: deployment.metadata?.namespace,
+        name: deployment.metadata?.name,
+      });
+    },
+    onSuccess: (_data, variables) => {
+      alert(`Restarted stateful set ${variables.metadata?.name}`);
+    },
+  });
 
   return (
     <div>
@@ -38,19 +52,19 @@ export function StatefulSets() {
               <TableCell>
                 <ActionGroup>
                   <ActionButton
-                    label="logs"
+                    label="restart"
                     position="left"
-                    onClick={() => handleOpen(item, "logs")}
-                  />
-                  <ActionButton
-                    label="edit"
-                    position="middle"
-                    onClick={() => handleOpen(item, "edit")}
+                    onClick={() => restartMutation.mutate(item)}
                   />
                   <ActionButton
                     label="scale"
-                    position="right"
+                    position="middle"
                     onClick={() => handleOpen(item, "scale")}
+                  />
+                  <ActionButton
+                    label="edit"
+                    position="right"
+                    onClick={() => handleOpen(item, "edit")}
                   />
                 </ActionGroup>
               </TableCell>

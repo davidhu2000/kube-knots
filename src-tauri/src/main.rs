@@ -24,6 +24,7 @@ fn main() {
             workloads::namespaces::get_namespaces,
             workloads::replica_sets::get_replica_sets,
             workloads::stateful_sets::get_stateful_sets,
+            workloads::stateful_sets::restart_stateful_set,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
