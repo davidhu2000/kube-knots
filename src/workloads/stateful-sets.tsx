@@ -8,6 +8,7 @@ import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
+import { restartMutation } from "./restart-mutation";
 
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
@@ -25,17 +26,7 @@ export function StatefulSets() {
     "edit" | "scale"
   >();
 
-  const restartMutation = useMutation({
-    mutationFn: (deployment: V1StatefulSet) => {
-      return invoke("restart_stateful_set", {
-        namespace: deployment.metadata?.namespace,
-        name: deployment.metadata?.name,
-      });
-    },
-    onSuccess: (_data, variables) => {
-      alert(`Restarted stateful set ${variables.metadata?.name}`);
-    },
-  });
+  const restartResource = restartMutation("stateful_set");
 
   return (
     <div>
@@ -54,7 +45,7 @@ export function StatefulSets() {
                   <ActionButton
                     label="restart"
                     position="left"
-                    onClick={() => restartMutation.mutate(item)}
+                    onClick={() => restartResource.mutate(item)}
                   />
                   <ActionButton
                     label="scale"
