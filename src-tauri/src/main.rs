@@ -21,6 +21,7 @@ fn main() {
             workloads::jobs::get_jobs,
             workloads::pods::get_pod_logs,
             workloads::pods::get_pods,
+            workloads::pods::exec_pod,
             workloads::namespaces::get_namespaces,
             workloads::replica_sets::get_replica_sets,
             workloads::stateful_sets::get_stateful_sets,

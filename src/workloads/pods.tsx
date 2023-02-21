@@ -1,4 +1,6 @@
 import type { V1Pod } from "@kubernetes/client-node";
+import { useMutation } from "@tanstack/react-query";
+import { invoke } from "@tauri-apps/api";
 import { type ChangeEvent, lazy, Suspense, useEffect, useRef, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
@@ -16,15 +18,35 @@ const ResourceEditDrawer = lazy(() =>
   }))
 );
 
-function Terminal() {
+function Terminal({ pod }: { pod: V1Pod }) {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState<string[]>([]);
+
+  const podName = pod.metadata?.name;
+  const namespace = pod.metadata?.namespace;
+  const container = pod.spec?.containers[0].name;
+
+  const execMutation = useMutation({
+    mutationFn: (command: string) => {
+      return invoke<string>(`exec_pod`, {
+        namespace,
+        podName,
+        container,
+        command,
+      });
+    },
+    onSuccess: (data) => {
+      setOutput((prevOutput) => [...prevOutput, `> ${command}`, data]);
+      setCommand("");
+    },
+  });
 
   function handleCommand(event) {
     event.preventDefault();
     // process the command and add the output to the output state
-    setOutput((prevOutput) => [...prevOutput, `> ${command}`, `Output for ${command}`]);
-    setCommand("");
+    // setOutput((prevOutput) => [...prevOutput, `> ${command}`, `Output for ${command}`]);
+    execMutation.mutate(command);
+    // setCommand("");
   }
 
   const bottomRef = useScrollBottom([output]);
@@ -38,14 +60,14 @@ function Terminal() {
     inputRef.current?.focus();
   }, []);
 
-  function handleContainerClick() {
-    inputRef.current?.focus();
-  }
+  // function handleContainerClick() {
+  //   inputRef.current?.focus();
+  // }
 
   return (
     <div
       className="h-full w-full overflow-scroll rounded-lg bg-gray-200 p-4 text-gray-900 dark:bg-black dark:text-gray-100"
-      onClick={handleContainerClick}
+      // onClick={handleContainerClick}
     >
       {output.map((line, index) => (
         <p key={index} className="mb-2">
@@ -127,7 +149,7 @@ export function Pods() {
           // TODO: support multiple containers
           description={`Terminal for ${selected?.metadata?.name} - ${selected?.spec?.containers[0]?.name}`}
         >
-          <Terminal />
+          {selected && <Terminal pod={selected} />}
         </Drawer>
       </Suspense>
     </div>
