@@ -1,9 +1,9 @@
 import { type V1Pod } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
-import { useEffect, useRef } from "react";
 
 import { Drawer } from "../components/drawer";
+import { useScrollBottom } from "../hooks/use-scroll-bottom";
 
 interface PodLogsProps {
   isOpen: boolean;
@@ -28,11 +28,7 @@ export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
     { enabled: !!podName, refetchInterval: 5000 }
   );
 
-  const logBottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    logBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [result.data]);
+  const logBottomRef = useScrollBottom([result.data]);
 
   return (
     <Drawer
