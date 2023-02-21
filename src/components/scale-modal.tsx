@@ -1,4 +1,4 @@
-import { type V1Deployment } from "@kubernetes/client-node";
+import { type V1StatefulSet, type V1Deployment } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useState } from "react";
@@ -8,34 +8,32 @@ import { BaseModal, ModalButton } from "./modal";
 interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
-  deployment: V1Deployment;
+  resource: V1Deployment | V1StatefulSet;
 }
-export function ScaleModal({ isOpen, handleClose, deployment }: ModalProps): JSX.Element {
-  const [replicas, setReplicas] = useState<number>(deployment.spec?.replicas || 0);
+export function ScaleModal({ isOpen, handleClose, resource }: ModalProps): JSX.Element {
+  const [replicas, setReplicas] = useState<number>(resource.spec?.replicas || 0);
+
+  const type = resource.kind?.toLowerCase() === "deployment" ? "deployment" : "stateful_set";
 
   const scaleMutation = useMutation({
     mutationFn: (replicas: number) => {
-      return invoke("scale_deployment", {
-        namespace: deployment.metadata?.namespace,
-        name: deployment.metadata?.name,
+      return invoke(`scale_${type}`, {
+        namespace: resource.metadata?.namespace,
+        name: resource.metadata?.name,
         replicas,
       });
     },
     onSuccess: (_data, variables) => {
       handleClose();
-      alert(`Scaled deployment ${deployment.metadata?.name} to ${variables} replicas`);
+      alert(`Scaled ${type.replace("_", " ")} ${resource.metadata?.name} to ${variables} replicas`);
     },
   });
 
   return (
-    <BaseModal
-      isOpen={isOpen}
-      handleClose={handleClose}
-      title={`Scale ${deployment.metadata?.name}`}
-    >
+    <BaseModal isOpen={isOpen} handleClose={handleClose} title={`Scale ${resource.metadata?.name}`}>
       <div className="mt-2">
         <p className="text-sm text-gray-500 dark:text-gray-300">
-          Current replica count: {deployment.spec?.replicas}
+          Current replica count: {resource.spec?.replicas}
         </p>
       </div>
 

@@ -74,7 +74,7 @@ export function StatefulSets() {
 
       <Suspense fallback={<div>Loading Scale Form</div>}>
         {selected && (
-          <ScaleModal isOpen={action === "scale"} handleClose={handleClose} deployment={selected} />
+          <ScaleModal isOpen={action === "scale"} handleClose={handleClose} resource={selected} />
         )}
       </Suspense>
     </div>
