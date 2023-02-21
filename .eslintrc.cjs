@@ -12,5 +12,6 @@ module.exports = {
   ignorePatterns: ["src-tauri/target", "dist", "*.js"],
   rules: {
     "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/sort-type-constituents": "error",
   },
 };

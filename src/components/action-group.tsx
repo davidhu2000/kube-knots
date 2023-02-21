@@ -15,18 +15,11 @@ export function ActionGroup({ children }: PropsWithChildren) {
 }
 
 export type Actions =
-  | "create"
-  | "delete"
-  | "edit"
-  | "exec"
-  | "logs"
-  | "scale"
-  | "restart"
-  | "trigger";
+  "create" | "delete" | "edit" | "exec" | "logs" | "restart" | "scale" | "trigger";
 
 interface ActionButtonProps {
   label: Actions;
-  position: "left" | "right" | "middle" | "single";
+  position: "left" | "middle" | "right" | "single";
   onClick: () => void;
 }
 

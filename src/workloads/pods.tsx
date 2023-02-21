@@ -1,12 +1,11 @@
 import type { V1Pod } from "@kubernetes/client-node";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Drawer } from "../components/drawer";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
-import { useTheme } from "../providers/theme-provider";
 
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
@@ -22,10 +21,8 @@ export function Pods() {
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1Pod,
-    "logs" | "edit" | "exec"
+    "edit" | "exec" | "logs"
   >();
-
-  const { theme, systemTheme } = useTheme();
 
   return (
     <div>

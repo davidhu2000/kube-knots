@@ -6,7 +6,7 @@ interface DrawerProps extends PropsWithChildren {
   isOpen: boolean;
   handleClose: () => void;
   title: string;
-  description: string | ReactNode;
+  description: ReactNode | string;
 }
 
 export function Drawer({ isOpen, handleClose, title, description, children }: DrawerProps) {
