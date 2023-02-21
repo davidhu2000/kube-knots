@@ -1,6 +1,5 @@
 import type { V1Pod } from "@kubernetes/client-node";
 import { lazy, Suspense, useState } from "react";
-import Terminal, { ColorMode, TerminalOutput } from "react-terminal-ui";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Drawer } from "../components/drawer";
@@ -27,19 +26,6 @@ export function Pods() {
   >();
 
   const { theme, systemTheme } = useTheme();
-
-  const [terminalLineData, setTerminalLineData] = useState([
-    <TerminalOutput key="1">sample output</TerminalOutput>,
-  ]);
-
-  const colorMode =
-    theme === "system"
-      ? systemTheme === "dark"
-        ? ColorMode.Dark
-        : ColorMode.Light
-      : theme === "dark"
-      ? ColorMode.Dark
-      : ColorMode.Light;
 
   return (
     <div>
@@ -91,18 +77,7 @@ export function Pods() {
           // TODO: support multiple containers
           description={`Terminal for ${selected?.metadata?.name} - ${selected?.spec?.containers[0]?.name}`}
         >
-          <Terminal
-            name={selected?.metadata?.name}
-            colorMode={colorMode}
-            onInput={(terminalInput) =>
-              setTerminalLineData((prev) => [
-                ...prev,
-                <TerminalOutput key={prev.length + 1}>{terminalInput}</TerminalOutput>,
-              ])
-            }
-          >
-            {terminalLineData}
-          </Terminal>
+          <div className="flex justify-end"></div>
         </Drawer>
       </Suspense>
     </div>
