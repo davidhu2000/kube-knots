@@ -25,7 +25,6 @@ function setupWebSocket() {
     console.log("WebSocket error:", event);
   };
 
-  console.log(socket);
   return socket;
 }
 
@@ -48,7 +47,6 @@ export function PodTerminal({ pod }: { pod: V1Pod }) {
       });
     },
     onMutate: () => {
-      console.log("hi");
       setSocket(setupWebSocket());
     },
     onSuccess: (data) => {

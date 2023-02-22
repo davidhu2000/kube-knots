@@ -69,8 +69,14 @@ async fn get_output(mut attached: AttachedProcess) -> String {
     out
 }
 
-async fn accept_connection(peer: SocketAddr, stream: TcpStream) {
-    if let Err(e) = handle_connection(peer, stream).await {
+async fn accept_connection(
+    peer: SocketAddr,
+    stream: TcpStream,
+    namespace: Option<String>,
+    pod_name: String,
+    container: Option<String>,
+) {
+    if let Err(e) = handle_connection(peer, stream, namespace, pod_name, container).await {
         match e {
             Error::ConnectionClosed | Error::Protocol(_) | Error::Utf8 => (),
             err => error!("Error processing connection: {}", err),
@@ -78,22 +84,37 @@ async fn accept_connection(peer: SocketAddr, stream: TcpStream) {
     }
 }
 
-async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
+async fn handle_connection(
+    peer: SocketAddr,
+    stream: TcpStream,
+    namespace: Option<String>,
+    pod_name: String,
+    container: Option<String>,
+) -> Result<()> {
     let ws_stream = accept_async(stream).await.expect("Failed to accept");
     // println!("New WebSocket connection: {}", peer);
     let (mut ws_sender, mut ws_receiver) = ws_stream.split();
-    let mut interval = tokio::time::interval(Duration::from_millis(1000));
+    // let mut interval = tokio::time::interval(Duration::from_millis(1000));
+
+    let pods: Api<Pod> = get_api(namespace).await;
+
+    let mut lp = AttachParams::default().stderr(false);
+    lp.container = container;
+
     loop {
         tokio::select! {
             msg = ws_receiver.next() => {
                 match msg {
                     Some(msg) => {
-                        println!("Received a message from {}: {:?}", peer, msg);
                         let msg = msg.unwrap();
                         if msg.is_text() ||msg.is_binary() {
+                            let attached =  pods.exec(&pod_name, vec![msg.to_string()], &lp).await.unwrap();
+                            let output = get_output(attached).await;
+
                             println!("Received a message from {}: {}", peer, msg);
+                            // println!("Received a message from {}: {}", peer, msg);
                             // info!("Received a message from {}: {}", peer, msg);
-                            ws_sender.send(msg).await?;
+                            ws_sender.send(Message::Text(output)).await?;
                         } else if msg.is_close() {
                             break;
                         }
@@ -118,19 +139,23 @@ pub async fn exec_pod(namespace: Option<String>, pod_name: String, container: Op
     let addr = "127.0.0.1:20010";
     let listener = TcpListener::bind(&addr).await.expect("Can't listen");
 
-    let pods: Api<Pod> = get_api(namespace).await;
+    // let mut lp = AttachParams::default().stderr(false);
+    // lp.container = container;
 
-    let mut lp = AttachParams::default().stderr(false);
-    lp.container = container;
-
-    let attached = pods.exec(&pod_name, vec!["ls"], &lp).await;
+    // let attached = pods.exec(&pod_name, vec!["ls"], &lp).await;
 
     while let Ok((stream, _)) = listener.accept().await {
         let peer = stream
             .peer_addr()
             .expect("connected streams should have a peer address");
         // println!("Peer address: {}", peer);
-        tokio::spawn(accept_connection(peer, stream));
+        tokio::spawn(accept_connection(
+            peer,
+            stream,
+            namespace.clone(),
+            pod_name.clone(),
+            container.clone(),
+        ));
     }
 
     // return 20010;
