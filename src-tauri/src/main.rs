@@ -8,7 +8,8 @@ mod internal;
 pub mod networking;
 pub mod workloads;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             networking::ingresses::get_ingresses,

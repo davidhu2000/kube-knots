@@ -1,15 +1,16 @@
-use futures::StreamExt;
+use crate::internal::get_api;
+use futures::{SinkExt, StreamExt};
 use k8s_openapi::api::core::v1::Pod;
 use kube::{
     api::{AttachParams, AttachedProcess, ListParams, LogParams},
     core::ObjectList,
     Api,
 };
-use std::sync::mpsc::{channel, Receiver, Sender};
-use std::{net::TcpListener, thread};
-use tungstenite::{accept, Message};
-
-use crate::internal::get_api;
+use log::{error, info};
+use std::{net::SocketAddr, time::Duration};
+use tokio::net::{TcpListener, TcpStream};
+use tokio_tungstenite::{accept_async, tungstenite::Error};
+use tungstenite::{Message, Result};
 
 #[tauri::command]
 pub async fn get_pods(namespace: Option<String>) -> ObjectList<Pod> {
@@ -33,42 +34,7 @@ pub async fn get_pod_logs(
     return log_string;
 }
 
-#[tauri::command]
-pub fn exec_pod(namespace: Option<String>, pod_name: String, container: Option<String>) -> u16 {
-    let (tx, rx): (Sender<u16>, Receiver<u16>) = channel();
-
-    thread::spawn(move || {
-        let server = TcpListener::bind("127.0.0.1:0").unwrap();
-
-        tx.send(server.local_addr().unwrap().port()).unwrap();
-
-        for stream in server.incoming() {
-            let mut websocket = accept(stream.unwrap()).unwrap();
-
-            loop {
-                let msg = websocket.read_message().unwrap();
-
-                // print msg
-                println!("{:?}", msg);
-
-                if msg.is_close() {
-                    break;
-                }
-
-                if msg.is_text() {
-                    println!("Received: {}", msg.to_text().unwrap());
-                    let response = "Hello from the server!".to_string();
-                    websocket.write_message(Message::Text(response)).unwrap();
-                }
-            }
-        }
-    });
-
-    let port = rx.recv().unwrap();
-
-    return port;
-}
-
+#[warn(dead_code)]
 async fn run_exec_pod_websocket_server(
     namespace: Option<String>,
     pod_name: String,
@@ -101,4 +67,71 @@ async fn get_output(mut attached: AttachedProcess) -> String {
         .join("");
     attached.join().await.unwrap();
     out
+}
+
+async fn accept_connection(peer: SocketAddr, stream: TcpStream) {
+    if let Err(e) = handle_connection(peer, stream).await {
+        match e {
+            Error::ConnectionClosed | Error::Protocol(_) | Error::Utf8 => (),
+            err => error!("Error processing connection: {}", err),
+        }
+    }
+}
+
+async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
+    let ws_stream = accept_async(stream).await.expect("Failed to accept");
+    // println!("New WebSocket connection: {}", peer);
+    let (mut ws_sender, mut ws_receiver) = ws_stream.split();
+    let mut interval = tokio::time::interval(Duration::from_millis(1000));
+    loop {
+        tokio::select! {
+            msg = ws_receiver.next() => {
+                match msg {
+                    Some(msg) => {
+                        println!("Received a message from {}: {:?}", peer, msg);
+                        let msg = msg.unwrap();
+                        if msg.is_text() ||msg.is_binary() {
+                            println!("Received a message from {}: {}", peer, msg);
+                            // info!("Received a message from {}: {}", peer, msg);
+                            ws_sender.send(msg).await?;
+                        } else if msg.is_close() {
+                            break;
+                        }
+                    }
+                    None => {
+                        println!("Connection {} closed.", peer);
+                        break
+                    },
+                }
+            }
+            // _ = interval.tick() => {
+            //     ws_sender.send(Message::Text("tick".to_owned())).await?;
+            // }
+        }
+    }
+
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn exec_pod(namespace: Option<String>, pod_name: String, container: Option<String>) {
+    let addr = "127.0.0.1:20010";
+    let listener = TcpListener::bind(&addr).await.expect("Can't listen");
+
+    let pods: Api<Pod> = get_api(namespace).await;
+
+    let mut lp = AttachParams::default().stderr(false);
+    lp.container = container;
+
+    let attached = pods.exec(&pod_name, vec!["ls"], &lp).await;
+
+    while let Ok((stream, _)) = listener.accept().await {
+        let peer = stream
+            .peer_addr()
+            .expect("connected streams should have a peer address");
+        // println!("Peer address: {}", peer);
+        tokio::spawn(accept_connection(peer, stream));
+    }
+
+    // return 20010;
 }

@@ -5,56 +5,57 @@ import { useState, useRef, type ChangeEvent, useEffect } from "react";
 
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
 
-let socket: WebSocket;
+function setupWebSocket() {
+  const port = 20010;
+  const socket = new WebSocket(`ws://127.0.0.1:${port}`);
+
+  socket.onopen = () => {
+    console.log("Connected to WebSocket server!");
+  };
+
+  socket.onclose = () => {
+    console.log("WebSocket server closed.");
+  };
+
+  socket.onmessage = (event) => {
+    console.log("Received message:", event.data);
+  };
+
+  socket.onerror = (event) => {
+    console.log("WebSocket error:", event);
+  };
+
+  console.log(socket);
+  return socket;
+}
 
 export function PodTerminal({ pod }: { pod: V1Pod }) {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState<string[]>([]);
+
+  const [socket, setSocket] = useState<WebSocket>();
 
   const podName = pod.metadata?.name;
   const namespace = pod.metadata?.namespace;
   const container = pod.spec?.containers[0].name;
 
   const execMutation = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       return invoke<number>(`exec_pod`, {
         namespace,
         podName,
         container,
       });
     },
+    onMutate: () => {
+      console.log("hi");
+      setSocket(setupWebSocket());
+    },
     onSuccess: (data) => {
-      socket = new WebSocket(`ws://127.0.0.1:${data}`);
-
-      // socket.addEventListener("open", (event) => {
-      //   console.log("Connected to WebSocket server!");
-      //   socket.send("test");
-      // });
-
-      socket.onopen = (event) => {
-        console.log("Connected to WebSocket server!");
-        // socket.send("test");
-      };
-
-      socket.onclose = (event) => {
-        console.log("WebSocket server closed.");
-      };
-
-      socket.onmessage = (event) => {
-        console.log("Received message:", event.data);
-      };
-
-      socket.onerror = (event) => {
-        console.log("WebSocket error:", event);
-      };
-
-      // socket.addEventListener("message", (event) => {
-      //   console.log("Received message:", event.data);
-      // });
-
-      // socket.addEventListener("close", (event) => {
-      //   console.log("WebSocket server closed.");
-      // });
+      console.log("data", data);
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 
@@ -67,12 +68,12 @@ export function PodTerminal({ pod }: { pod: V1Pod }) {
     // process the command and add the output to the output state
     // setOutput((prevOutput) => [...prevOutput, `> ${command}`, `Output for ${command}`]);
     // execMutation.mutate(command);
-    if (command === "close") {
-      socket.close();
-      return;
-    }
 
-    socket.send(command);
+    console.log("command", command);
+
+    console.log(socket);
+
+    socket?.send(command);
 
     setCommand("");
   }
@@ -86,17 +87,14 @@ export function PodTerminal({ pod }: { pod: V1Pod }) {
 
   useEffect(() => {
     inputRef.current?.focus();
+
+    return () => {
+      socket?.close();
+    };
   }, []);
 
-  // function handleContainerClick() {
-  //   inputRef.current?.focus();
-  // }
-
   return (
-    <div
-      className="h-full w-full overflow-scroll rounded-lg bg-gray-200 p-4 text-gray-900 dark:bg-black dark:text-gray-100"
-      // onClick={handleContainerClick}
-    >
+    <div className="h-full w-full overflow-scroll rounded-lg bg-gray-200 p-4 text-gray-900 dark:bg-black dark:text-gray-100">
       {output.map((line, index) => (
         <p key={index} className="mb-2">
           {line}
