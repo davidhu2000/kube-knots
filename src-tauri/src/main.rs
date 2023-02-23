@@ -19,6 +19,7 @@ fn main() {
             workloads::deployments::scale_deployment,
             workloads::jobs::create_job,
             workloads::jobs::get_jobs,
+            workloads::pod_metrics::get_pod_metrics,
             workloads::pods::get_pod_logs,
             workloads::pods::get_pods,
             workloads::namespaces::get_namespaces,

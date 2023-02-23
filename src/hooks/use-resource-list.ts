@@ -8,6 +8,7 @@ type Commands =
   | "get_deployments"
   | "get_ingresses"
   | "get_jobs"
+  | "get_pod_metrics"
   | "get_pods"
   | "get_replica_sets"
   | "get_services"
