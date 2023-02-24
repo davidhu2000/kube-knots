@@ -81,7 +81,7 @@ function ResourceUsage({ usage, request }: ResourceUsageProps) {
       <div className="box-content h-4 w-10 rounded-sm border">
         <div
           className={`h-4 ${percent >= 80 ? "bg-red-500" : "bg-green-500"}`}
-          style={{ width: (percent * 40) / 10 }}
+          style={{ width: Math.min((percent * 40) / 100, 40) }}
         />
       </div>
       <div className="mt-1">{percent}%</div>
