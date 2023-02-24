@@ -1,4 +1,4 @@
-import type { V1Pod } from "@kubernetes/client-node";
+import type { PodMetric, V1Pod } from "@kubernetes/client-node";
 import { type ChangeEvent, lazy, Suspense, useEffect, useRef, useState } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
@@ -7,6 +7,8 @@ import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
+import type { CPU, Memory } from "./metric-converter";
+import { convertCpuToNanoCpu, convertMemoryToBytes } from "./metric-converter";
 
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
@@ -67,10 +69,34 @@ function Terminal() {
   );
 }
 
+interface ResourceUsageProps {
+  usage: number;
+  request: number;
+}
+function ResourceUsage({ usage, request }: ResourceUsageProps) {
+  const percent = Math.round((usage / request) * 100);
+
+  return (
+    <div className="">
+      <div className="box-content h-4 w-10 rounded-sm border">
+        <div
+          className={`h-4 ${percent >= 80 ? "bg-red-500" : "bg-green-500"}`}
+          style={{ width: Math.min((percent * 40) / 100, 40) }}
+        />
+      </div>
+      <div className="mt-1">{percent}%</div>
+    </div>
+  );
+}
+
 export function Pods() {
   const {
     data: { items },
   } = useResourceList<V1Pod>("get_pods");
+
+  const {
+    data: { items: metrics },
+  } = useResourceList<PodMetric>("get_pod_metrics");
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1Pod,
@@ -80,33 +106,52 @@ export function Pods() {
   return (
     <div>
       <Table>
-        <TableHeader headers={["Name", "Status", "Actions"]} />
+        <TableHeader headers={["Name", "Status", "CPU", "Memory", "Actions"]} />
         <TableBody>
-          {items.map((pod) => (
-            <tr key={pod.metadata?.uid}>
-              <TableCell>{pod.metadata?.name}</TableCell>
-              <TableCell>{pod.status?.phase}</TableCell>
-              <TableCell>
-                <ActionGroup>
-                  <ActionButton
-                    label="logs"
-                    position="left"
-                    onClick={() => handleOpen(pod, "logs")}
-                  />
-                  <ActionButton
-                    label="exec"
-                    position="middle"
-                    onClick={() => handleOpen(pod, "exec")}
-                  />
-                  <ActionButton
-                    label="edit"
-                    position="right"
-                    onClick={() => handleOpen(pod, "edit")}
-                  />
-                </ActionGroup>
-              </TableCell>
-            </tr>
-          ))}
+          {items.map((pod) => {
+            const metric = metrics.find((metric) => metric.metadata.name === pod.metadata?.name);
+
+            // TODO: handle multiple containers
+            const usage = metric?.containers[0].usage;
+            const requests = pod.spec?.containers[0].resources?.requests;
+
+            const cpuUsage = convertCpuToNanoCpu((usage?.cpu ?? "0") as CPU);
+            const cpuRequest = convertCpuToNanoCpu((requests?.cpu ?? "0") as CPU);
+            const memoryUsage = convertMemoryToBytes((usage?.memory ?? "0") as Memory);
+            const memoryRequest = convertMemoryToBytes((requests?.memory ?? "0") as Memory);
+
+            return (
+              <tr key={pod.metadata?.uid}>
+                <TableCell>{pod.metadata?.name}</TableCell>
+                <TableCell>{pod.status?.phase}</TableCell>
+                <TableCell>
+                  <ResourceUsage usage={cpuUsage} request={cpuRequest} />
+                </TableCell>
+                <TableCell>
+                  <ResourceUsage usage={memoryUsage} request={memoryRequest} />
+                </TableCell>
+                <TableCell>
+                  <ActionGroup>
+                    <ActionButton
+                      label="logs"
+                      position="left"
+                      onClick={() => handleOpen(pod, "logs")}
+                    />
+                    <ActionButton
+                      label="exec"
+                      position="middle"
+                      onClick={() => handleOpen(pod, "exec")}
+                    />
+                    <ActionButton
+                      label="edit"
+                      position="right"
+                      onClick={() => handleOpen(pod, "edit")}
+                    />
+                  </ActionGroup>
+                </TableCell>
+              </tr>
+            );
+          })}
         </TableBody>
       </Table>
       <Suspense fallback={<div>Loading Logs</div>}>
