@@ -111,6 +111,7 @@ export function Pods() {
           {items.map((pod) => {
             const metric = metrics.find((metric) => metric.metadata.name === pod.metadata?.name);
 
+            // TODO: handle multiple containers
             const usage = metric?.containers[0].usage;
             const requests = pod.spec?.containers[0].resources?.requests;
 
