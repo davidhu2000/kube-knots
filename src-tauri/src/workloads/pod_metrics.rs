@@ -48,10 +48,7 @@ impl k8s_openapi::Metadata for PodMetrics {
 }
 
 #[tauri::command]
-pub async fn get_pod_metrics(
-    namespace: Option<String>,
-    // pod_name: String,
-) -> Result<ObjectList<PodMetrics>, String> {
+pub async fn get_pod_metrics(namespace: Option<String>) -> Result<ObjectList<PodMetrics>, String> {
     // https://github.com/kube-rs/kube/issues/492
     let client = Client::try_default().await.unwrap();
 
