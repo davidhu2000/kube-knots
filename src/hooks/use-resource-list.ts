@@ -6,6 +6,7 @@ import { useCurrentNamespace } from "../namespaces/namespaces";
 type Commands =
   | "get_cron_jobs"
   | "get_deployments"
+  | "get_events"
   | "get_ingresses"
   | "get_jobs"
   | "get_pod_metrics"

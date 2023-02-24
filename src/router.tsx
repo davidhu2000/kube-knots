@@ -2,6 +2,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet, ReactRouter, RootRoute, Route } from "@tanstack/react-router";
 
 import { AppProviders } from "./app-providers";
+import { Events } from "./clusters/events";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { Services } from "./networking/services";
@@ -37,6 +38,8 @@ export const networkingRoutes = [
   { name: "Services", path: "/services", component: Services },
 ] as const;
 
+export const clusterRoutes = [{ name: "Events", path: "/events", component: Events }];
+
 const routeTree = rootRoute.addChildren([
   new Route({
     getParentRoute: () => rootRoute,
@@ -45,6 +48,7 @@ const routeTree = rootRoute.addChildren([
   }),
   ...workloadsRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
   ...networkingRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
+  ...clusterRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
 ]);
 
 export const router = new ReactRouter({ routeTree });
