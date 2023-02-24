@@ -69,6 +69,26 @@ function Terminal() {
   );
 }
 
+interface ResourceUsageProps {
+  usage: number;
+  request: number;
+}
+function ResourceUsage({ usage, request }: ResourceUsageProps) {
+  const percent = Math.round((usage / request) * 100);
+
+  return (
+    <div className="">
+      <div className="box-content h-4 w-10 rounded-sm border">
+        <div
+          className={`h-4 ${percent >= 80 ? "bg-red-500" : "bg-green-500"}`}
+          style={{ width: (percent * 40) / 10 }}
+        />
+      </div>
+      <div className="mt-1">{percent}%</div>
+    </div>
+  );
+}
+
 export function Pods() {
   const {
     data: { items },
@@ -103,8 +123,12 @@ export function Pods() {
               <tr key={pod.metadata?.uid}>
                 <TableCell>{pod.metadata?.name}</TableCell>
                 <TableCell>{pod.status?.phase}</TableCell>
-                <TableCell>{Math.round((cpuUsage / cpuRequest) * 100)}%</TableCell>
-                <TableCell>{Math.round((memoryUsage / memoryRequest) * 100)}%</TableCell>
+                <TableCell>
+                  <ResourceUsage usage={cpuUsage} request={cpuRequest} />
+                </TableCell>
+                <TableCell>
+                  <ResourceUsage usage={memoryUsage} request={memoryRequest} />
+                </TableCell>
                 <TableCell>
                   <ActionGroup>
                     <ActionButton
