@@ -57,10 +57,8 @@ pub async fn get_pod_metrics(
 
     let api: Api<PodMetrics> = match namespace {
         Some(ns) => Api::<PodMetrics>::namespaced(client, &ns),
-        None => Api::<PodMetrics>::namespaced(client, "default"),
+        None => Api::<PodMetrics>::all(client),
     };
-
-    // let metrics_result = api.get(&pod_name).await;
 
     let lp = ListParams::default();
     let metrics_result = api.list(&lp).await;

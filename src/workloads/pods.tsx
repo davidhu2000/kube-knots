@@ -99,8 +99,6 @@ export function Pods() {
             const memoryUsage = convertMemoryToBytes((usage?.memory ?? "0") as Memory);
             const memoryRequest = convertMemoryToBytes((requests?.memory ?? "0") as Memory);
 
-            console.log("cpuUsage", cpuUsage, "cpuRequest", cpuRequest);
-
             return (
               <tr key={pod.metadata?.uid}>
                 <TableCell>{pod.metadata?.name}</TableCell>
