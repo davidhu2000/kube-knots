@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 
 import { NamespaceSelect } from "./namespaces/namespace-select";
-import { networkingRoutes, workloadsRoutes } from "./router";
+import { clusterRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
 const Settings = lazy(() =>
   import("./settings/settings").then((module) => ({ default: module.Settings }))
@@ -14,6 +14,7 @@ export function Layout({ children }: PropsWithChildren) {
   const sections = [
     { title: "Workload", routes: workloadsRoutes },
     { title: "Networking", routes: networkingRoutes },
+    { title: "Cluster", routes: clusterRoutes },
   ];
 
   const [showSetting, setShowSetting] = useState(false);
