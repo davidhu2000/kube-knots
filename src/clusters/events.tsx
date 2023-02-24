@@ -9,12 +9,19 @@ export function Events() {
     data: { items },
   } = useResourceList<CoreV1Event>("get_events");
 
+  const events = items.sort((a, b) => {
+    if (a.lastTimestamp && b.lastTimestamp) {
+      return new Date(b.lastTimestamp).getTime() - new Date(a.lastTimestamp).getTime();
+    }
+    return 0;
+  });
+
   return (
     <div>
       <Table>
         <TableHeader headers={["Reason", "Message", "Source", "Last Seen"]} />
         <TableBody>
-          {items.map((item) => (
+          {events.map((item) => (
             <tr key={item.message}>
               <TableCell>{item.reason}</TableCell>
               <TableCell>{item.message}</TableCell>
