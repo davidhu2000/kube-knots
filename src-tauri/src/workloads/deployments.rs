@@ -20,36 +20,37 @@ pub async fn get_deployments(namespace: Option<String>) -> Result<ObjectList<Dep
 }
 
 #[tauri::command]
-pub async fn restart_deployment(namespace: Option<String>, name: String) -> bool {
+pub async fn restart_deployment(namespace: Option<String>, name: String) -> Result<bool, String> {
     let api: Api<Deployment> = get_api(namespace).await;
     println!("{}", name);
     let resource = api.restart(&name).await;
 
-    let result = match resource {
-        Ok(_resource) => true,
+    return match resource {
+        Ok(_resource) => Ok(true),
         Err(err) => {
             println!("Error restarting deployment: {}", err);
-            return false;
+            return Err(err.to_string());
         }
     };
-    return result;
 }
 
 #[tauri::command]
-pub async fn scale_deployment(namespace: Option<String>, name: String, replicas: u8) -> bool {
+pub async fn scale_deployment(
+    namespace: Option<String>,
+    name: String,
+    replicas: u8,
+) -> Result<bool, String> {
     let api: Api<Deployment> = get_api(namespace).await;
     let spec = serde_json::json!({ "spec": { "replicas": replicas }});
     let pp = PatchParams::default();
     let patch = Patch::Merge(&spec);
     let resource = api.patch_scale(&name, &pp, &patch).await;
 
-    let result = match resource {
-        Ok(_resource) => true,
+    return match resource {
+        Ok(_resource) => Ok(true),
         Err(err) => {
             println!("Error scaling deployment: {}", err);
-            return false;
+            return Err(err.to_string());
         }
     };
-
-    return result;
 }

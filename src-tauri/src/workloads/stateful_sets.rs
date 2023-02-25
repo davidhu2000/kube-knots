@@ -22,35 +22,36 @@ pub async fn get_stateful_sets(
 }
 
 #[tauri::command]
-pub async fn restart_stateful_set(namespace: Option<String>, name: String) -> bool {
+pub async fn restart_stateful_set(namespace: Option<String>, name: String) -> Result<bool, String> {
     let api: Api<StatefulSet> = get_api(namespace).await;
     let resource = api.restart(&name).await;
 
-    let result = match resource {
-        Ok(_resource) => true,
+    return match resource {
+        Ok(_resource) => Ok(true),
         Err(err) => {
             println!("Error restarting stateful set: {}", err);
-            return false;
+            return Err(err.to_string());
         }
     };
-    return result;
 }
 
 #[tauri::command]
-pub async fn scale_stateful_set(namespace: Option<String>, name: String, replicas: u8) -> bool {
+pub async fn scale_stateful_set(
+    namespace: Option<String>,
+    name: String,
+    replicas: u8,
+) -> Result<bool, String> {
     let api: Api<StatefulSet> = get_api(namespace).await;
     let spec = serde_json::json!({ "spec": { "replicas": replicas }});
     let pp = PatchParams::default();
     let patch = Patch::Merge(&spec);
     let resource = api.patch_scale(&name, &pp, &patch).await;
 
-    let result = match resource {
-        Ok(_resource) => true,
+    return match resource {
+        Ok(_resource) => Ok(true),
         Err(err) => {
-            println!("Error scaling StatefulSet: {}", err);
-            return false;
+            println!("Error scaling deployment: {}", err);
+            return Err(err.to_string());
         }
     };
-
-    return result;
 }
