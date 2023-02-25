@@ -5,6 +5,8 @@ use kube::{
     Client,
 };
 
+// TODO: fix this to take into account the context
+
 #[tauri::command]
 pub async fn get_nodes() -> Result<ObjectList<Node>, String> {
     let client = Client::try_default().await.unwrap();
