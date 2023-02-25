@@ -3,13 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { createContext, type PropsWithChildren, useContext, useState } from "react";
 
+import { useCurrentContext } from "../providers/current-context-provider";
+
 const NamespaceContext = createContext<string[]>([]);
 
 export const useNamespace = () => useContext(NamespaceContext);
 
 export function NamespaceProvider({ children }: PropsWithChildren) {
+  const { currentContext } = useCurrentContext();
   const result = useQuery(["namespaces"], () => {
-    return invoke<{ items: V1Namespace[] }>("get_namespaces");
+    return invoke<{ items: V1Namespace[] }>("get_namespaces", { context: currentContext });
   });
 
   const namespaces = result.data?.items.map((item) => item.metadata?.name ?? "");
