@@ -3,7 +3,7 @@ import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
 import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 
-import { Contexts } from "./core/contexts";
+import { ContextSelect } from "./core/contexts";
 import { NamespaceSelect } from "./namespaces/namespace-select";
 import { clusterRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
@@ -53,7 +53,7 @@ export function Layout({ children }: PropsWithChildren) {
           <NamespaceSelect />
 
           {/* TODO: figure out where to put context info */}
-          <Contexts />
+          <ContextSelect />
 
           <Cog8ToothIcon
             className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200"
