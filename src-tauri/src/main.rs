@@ -6,6 +6,7 @@
 mod internal;
 
 pub mod cluster;
+pub mod core;
 pub mod networking;
 pub mod workloads;
 
@@ -16,6 +17,7 @@ fn main() {
             cluster::node_metrics::get_node_metrics,
             cluster::namespaces::get_namespaces,
             cluster::nodes::get_nodes,
+            core::config::get_config,
             networking::ingresses::get_ingresses,
             networking::services::get_services,
             workloads::cron_jobs::get_cron_jobs,

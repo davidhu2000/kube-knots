@@ -8,8 +8,11 @@ use kube::{
 use crate::internal::get_api;
 
 #[tauri::command]
-pub async fn get_deployments(namespace: Option<String>) -> Result<ObjectList<Deployment>, String> {
-    let api: Api<Deployment> = get_api(namespace).await;
+pub async fn get_deployments(
+    context: Option<String>,
+    namespace: Option<String>,
+) -> Result<ObjectList<Deployment>, String> {
+    let api: Api<Deployment> = get_api(context, namespace).await;
     let lp = ListParams::default();
     let result = api.list(&lp).await;
 
@@ -20,8 +23,12 @@ pub async fn get_deployments(namespace: Option<String>) -> Result<ObjectList<Dep
 }
 
 #[tauri::command]
-pub async fn restart_deployment(namespace: Option<String>, name: String) -> Result<bool, String> {
-    let api: Api<Deployment> = get_api(namespace).await;
+pub async fn restart_deployment(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    let api: Api<Deployment> = get_api(context, namespace).await;
     println!("{}", name);
     let resource = api.restart(&name).await;
 
@@ -36,11 +43,12 @@ pub async fn restart_deployment(namespace: Option<String>, name: String) -> Resu
 
 #[tauri::command]
 pub async fn scale_deployment(
+    context: Option<String>,
     namespace: Option<String>,
     name: String,
     replicas: u8,
 ) -> Result<bool, String> {
-    let api: Api<Deployment> = get_api(namespace).await;
+    let api: Api<Deployment> = get_api(context, namespace).await;
     let spec = serde_json::json!({ "spec": { "replicas": replicas }});
     let pp = PatchParams::default();
     let patch = Patch::Merge(&spec);

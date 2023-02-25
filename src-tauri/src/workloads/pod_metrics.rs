@@ -47,6 +47,8 @@ impl k8s_openapi::Metadata for PodMetrics {
     }
 }
 
+// TODO: fix this to take into account the context
+
 #[tauri::command]
 pub async fn get_pod_metrics(namespace: Option<String>) -> Result<ObjectList<PodMetrics>, String> {
     // https://github.com/kube-rs/kube/issues/492

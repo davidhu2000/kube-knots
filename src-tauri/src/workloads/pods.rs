@@ -9,8 +9,11 @@ use kube::{
 use crate::internal::get_api;
 
 #[tauri::command]
-pub async fn get_pods(namespace: Option<String>) -> Result<ObjectList<Pod>, String> {
-    let api: Api<Pod> = get_api(namespace).await;
+pub async fn get_pods(
+    context: Option<String>,
+    namespace: Option<String>,
+) -> Result<ObjectList<Pod>, String> {
+    let api: Api<Pod> = get_api(context, namespace).await;
     let lp = ListParams::default();
     let result = api.list(&lp).await;
 
@@ -22,11 +25,12 @@ pub async fn get_pods(namespace: Option<String>) -> Result<ObjectList<Pod>, Stri
 
 #[tauri::command]
 pub async fn get_pod_logs(
+    context: Option<String>,
     namespace: Option<String>,
     pod_name: String,
     container_name: Option<String>,
 ) -> Result<String, String> {
-    let pods: Api<Pod> = get_api(namespace).await;
+    let pods: Api<Pod> = get_api(context, namespace).await;
 
     let mut lp = LogParams::default();
     lp.container = container_name;
