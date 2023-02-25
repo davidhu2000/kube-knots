@@ -3,6 +3,7 @@ import { Outlet, ReactRouter, RootRoute, Route } from "@tanstack/react-router";
 
 import { AppProviders } from "./app-providers";
 import { Events } from "./clusters/events";
+import { Nodes } from "./clusters/nodes";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { Services } from "./networking/services";
@@ -38,7 +39,10 @@ export const networkingRoutes = [
   { name: "Services", path: "/services", component: Services },
 ] as const;
 
-export const clusterRoutes = [{ name: "Events", path: "/events", component: Events }];
+export const clusterRoutes = [
+  { name: "Events", path: "/events", component: Events },
+  { name: "Nodes", path: "/nodes", component: Nodes },
+];
 
 const routeTree = rootRoute.addChildren([
   new Route({
