@@ -4,12 +4,17 @@ use kube::{api::ListParams, core::ObjectList, Api};
 use crate::internal::get_api;
 
 #[tauri::command]
-pub async fn get_jobs(namespace: Option<String>) -> ObjectList<Job> {
+pub async fn get_jobs(namespace: Option<String>) -> Result<ObjectList<Job>, String> {
     let api: Api<Job> = get_api(namespace).await;
 
     let lp = ListParams::default();
 
-    return api.list(&lp).await.unwrap();
+    let result = api.list(&lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
 }
 
 #[tauri::command]

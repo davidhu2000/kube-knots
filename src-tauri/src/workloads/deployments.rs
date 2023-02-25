@@ -8,10 +8,15 @@ use kube::{
 use crate::internal::get_api;
 
 #[tauri::command]
-pub async fn get_deployments(namespace: Option<String>) -> ObjectList<Deployment> {
+pub async fn get_deployments(namespace: Option<String>) -> Result<ObjectList<Deployment>, String> {
     let api: Api<Deployment> = get_api(namespace).await;
     let lp = ListParams::default();
-    return api.list(&lp).await.unwrap();
+    let result = api.list(&lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
 }
 
 #[tauri::command]
