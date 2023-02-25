@@ -4,7 +4,7 @@ use kube::{
     Api, Client, Config,
 };
 
-pub async fn get_api<T>(context: Option<String>, namespace: Option<String>) -> Api<T>
+pub async fn get_resource_api<T>(context: Option<String>, namespace: Option<String>) -> Api<T>
 where
     T: serde::de::DeserializeOwned
         + std::fmt::Debug
@@ -13,6 +13,16 @@ where
         + kube::Resource<Scope = NamespaceResourceScope>,
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
+    let client = get_client_with_context(context).await;
+
+    let api: Api<T> = match namespace {
+        Some(ns) => Api::<T>::namespaced(client, &ns),
+        None => Api::<T>::all(client),
+    };
+    return api;
+}
+
+pub async fn get_client_with_context(context: Option<String>) -> Client {
     let kubeconfig = Kubeconfig::read().unwrap();
 
     let client = match context {
@@ -38,9 +48,5 @@ where
         None => Client::try_default().await.unwrap(),
     };
 
-    let api: Api<T> = match namespace {
-        Some(ns) => Api::<T>::namespaced(client, &ns),
-        None => Api::<T>::all(client),
-    };
-    return api;
+    return client;
 }

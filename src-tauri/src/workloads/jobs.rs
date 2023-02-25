@@ -1,14 +1,14 @@
 use k8s_openapi::api::batch::v1::Job;
 use kube::{api::ListParams, core::ObjectList, Api};
 
-use crate::internal::get_api;
+use crate::internal::get_resource_api;
 
 #[tauri::command]
 pub async fn get_jobs(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<Job>, String> {
-    let api: Api<Job> = get_api(context, namespace).await;
+    let api: Api<Job> = get_resource_api(context, namespace).await;
 
     let lp = ListParams::default();
 
@@ -26,7 +26,7 @@ pub async fn create_job(
     namespace: Option<String>,
     job: Job,
 ) -> Result<Job, String> {
-    let api: Api<Job> = get_api(context, namespace).await;
+    let api: Api<Job> = get_resource_api(context, namespace).await;
 
     let result = api.create(&Default::default(), &job).await;
 

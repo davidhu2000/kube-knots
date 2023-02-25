@@ -1,14 +1,14 @@
 use k8s_openapi::api::core::v1::Event;
 use kube::{api::ListParams, core::ObjectList, Api};
 
-use crate::internal::get_api;
+use crate::internal::get_resource_api;
 
 #[tauri::command]
 pub async fn get_events(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<Event>, String> {
-    let api: Api<Event> = get_api(context, namespace).await;
+    let api: Api<Event> = get_resource_api(context, namespace).await;
 
     let lp = ListParams::default();
 

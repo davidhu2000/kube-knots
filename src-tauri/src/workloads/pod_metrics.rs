@@ -5,7 +5,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::get_api;
+use crate::internal::get_resource_api;
 
 #[derive(serde::Deserialize, serde::Serialize, Clone, Debug)]
 pub struct PodMetricsContainer {
@@ -49,15 +49,13 @@ impl k8s_openapi::Metadata for PodMetrics {
     }
 }
 
-// TODO: fix this to take into account the context
-
 #[tauri::command]
 pub async fn get_pod_metrics(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<PodMetrics>, String> {
     // https://github.com/kube-rs/kube/issues/492
-    let api: Api<PodMetrics> = get_api(context, namespace).await;
+    let api: Api<PodMetrics> = get_resource_api(context, namespace).await;
 
     let lp = ListParams::default();
     let metrics_result = api.list(&lp).await;

@@ -1,9 +1,10 @@
 use kube::{
     api::ListParams,
     core::{ObjectList, Request},
-    Client,
 };
 use serde::{Deserialize, Serialize};
+
+use crate::internal::get_client_with_context;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Usage {
@@ -19,11 +20,9 @@ pub struct NodeMetrics {
     window: String,
 }
 
-// TODO: fix this to take into account the context
-
 #[tauri::command]
-pub async fn get_node_metrics() -> Result<ObjectList<NodeMetrics>, String> {
-    let client = Client::try_default().await.unwrap();
+pub async fn get_node_metrics(context: Option<String>) -> Result<ObjectList<NodeMetrics>, String> {
+    let client = get_client_with_context(context).await;
     let request = Request::new("/apis/metrics.k8s.io/v1beta1/nodes");
     let result = client
         .clone()

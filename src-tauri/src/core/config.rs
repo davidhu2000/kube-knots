@@ -1,7 +1,4 @@
-use kube::{
-    config::{KubeConfigOptions, Kubeconfig},
-    Client, Config,
-};
+use kube::config::Kubeconfig;
 
 #[tauri::command]
 pub fn get_config() -> Result<Kubeconfig, String> {
