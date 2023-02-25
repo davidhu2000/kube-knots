@@ -27,6 +27,9 @@ export function ScaleModal({ isOpen, handleClose, resource }: ModalProps): JSX.E
       handleClose();
       alert(`Scaled ${type.replace("_", " ")} ${resource.metadata?.name} to ${variables} replicas`);
     },
+    onError: (_data) => {
+      alert(_data);
+    },
   });
 
   return (

@@ -18,8 +18,13 @@ pub async fn get_jobs(namespace: Option<String>) -> Result<ObjectList<Job>, Stri
 }
 
 #[tauri::command]
-pub async fn create_job(namespace: Option<String>, job: Job) -> Job {
+pub async fn create_job(namespace: Option<String>, job: Job) -> Result<Job, String> {
     let api: Api<Job> = get_api(namespace).await;
 
-    return api.create(&Default::default(), &job).await.unwrap();
+    let result = api.create(&Default::default(), &job).await;
+
+    return match result {
+        Ok(item) => Ok(item),
+        Err(e) => Err(e.to_string()),
+    };
 }
