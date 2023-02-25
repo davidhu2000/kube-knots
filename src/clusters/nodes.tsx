@@ -28,7 +28,7 @@ export function Nodes() {
   return (
     <div>
       <Table>
-        <TableHeader headers={["Name", "CPU", "Memory", "Pods", "Created"]} />
+        <TableHeader headers={["Name", "CPU", "Memory", "Pods", "Created", "Actions"]} />
         <TableBody>
           {items.map((item) => {
             const metric = nodeMetrics.find((m) => m.metadata?.name === item.metadata?.name);
