@@ -39,8 +39,8 @@ where
     };
 
     let api: Api<T> = match namespace {
-        Some(ns) => Api::namespaced(client, &ns),
-        None => Api::all(client),
+        Some(ns) => Api::<T>::namespaced(client, &ns),
+        None => Api::<T>::all(client),
     };
     return api;
 }
