@@ -9,9 +9,10 @@ use crate::internal::get_api;
 
 #[tauri::command]
 pub async fn get_stateful_sets(
+    context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<StatefulSet>, String> {
-    let api: Api<StatefulSet> = get_api(namespace).await;
+    let api: Api<StatefulSet> = get_api(context, namespace).await;
     let lp = ListParams::default();
     let result = api.list(&lp).await;
 
@@ -22,8 +23,12 @@ pub async fn get_stateful_sets(
 }
 
 #[tauri::command]
-pub async fn restart_stateful_set(namespace: Option<String>, name: String) -> Result<bool, String> {
-    let api: Api<StatefulSet> = get_api(namespace).await;
+pub async fn restart_stateful_set(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    let api: Api<StatefulSet> = get_api(context, namespace).await;
     let resource = api.restart(&name).await;
 
     return match resource {
@@ -37,11 +42,12 @@ pub async fn restart_stateful_set(namespace: Option<String>, name: String) -> Re
 
 #[tauri::command]
 pub async fn scale_stateful_set(
+    context: Option<String>,
     namespace: Option<String>,
     name: String,
     replicas: u8,
 ) -> Result<bool, String> {
-    let api: Api<StatefulSet> = get_api(namespace).await;
+    let api: Api<StatefulSet> = get_api(context, namespace).await;
     let spec = serde_json::json!({ "spec": { "replicas": replicas }});
     let pp = PatchParams::default();
     let patch = Patch::Merge(&spec);

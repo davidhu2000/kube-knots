@@ -19,6 +19,8 @@ pub struct NodeMetrics {
     window: String,
 }
 
+// TODO: fix this to take into account the context
+
 #[tauri::command]
 pub async fn get_node_metrics() -> Result<ObjectList<NodeMetrics>, String> {
     let client = Client::try_default().await.unwrap();
