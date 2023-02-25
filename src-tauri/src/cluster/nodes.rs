@@ -2,17 +2,16 @@ use k8s_openapi::api::core::v1::Node;
 use kube::{
     api::ListParams,
     core::{ObjectList, Request},
-    Client,
 };
 
-// TODO: fix this to take into account the context
+use crate::internal::get_client_with_context;
 
 #[tauri::command]
-pub async fn get_nodes() -> Result<ObjectList<Node>, String> {
-    let client = Client::try_default().await.unwrap();
+pub async fn get_nodes(context: Option<String>) -> Result<ObjectList<Node>, String> {
+    let client = get_client_with_context(context).await;
+
     let request = Request::new("/api/v1/nodes");
     let result = client
-        .clone()
         .request::<ObjectList<Node>>(request.list(&ListParams::default()).unwrap())
         .await;
 

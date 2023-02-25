@@ -6,14 +6,14 @@ use kube::{
     Api,
 };
 
-use crate::internal::get_api;
+use crate::internal::get_resource_api;
 
 #[tauri::command]
 pub async fn get_pods(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<Pod>, String> {
-    let api: Api<Pod> = get_api(context, namespace).await;
+    let api: Api<Pod> = get_resource_api(context, namespace).await;
     let lp = ListParams::default();
     let result = api.list(&lp).await;
 
@@ -30,7 +30,7 @@ pub async fn get_pod_logs(
     pod_name: String,
     container_name: Option<String>,
 ) -> Result<String, String> {
-    let pods: Api<Pod> = get_api(context, namespace).await;
+    let pods: Api<Pod> = get_resource_api(context, namespace).await;
 
     let mut lp = LogParams::default();
     lp.container = container_name;
