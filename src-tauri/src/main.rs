@@ -14,6 +14,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             cluster::events::get_events,
             cluster::node_metrics::get_node_metrics,
+            cluster::namespaces::get_namespaces,
             cluster::nodes::get_nodes,
             networking::ingresses::get_ingresses,
             networking::services::get_services,
@@ -26,7 +27,6 @@ fn main() {
             workloads::pod_metrics::get_pod_metrics,
             workloads::pods::get_pod_logs,
             workloads::pods::get_pods,
-            workloads::namespaces::get_namespaces,
             workloads::replica_sets::get_replica_sets,
             workloads::stateful_sets::get_stateful_sets,
             workloads::stateful_sets::restart_stateful_set,

@@ -4,8 +4,13 @@ use kube::{api::ListParams, core::ObjectList, Api};
 use crate::internal::get_api;
 
 #[tauri::command]
-pub async fn get_cron_jobs(namespace: Option<String>) -> ObjectList<CronJob> {
+pub async fn get_cron_jobs(namespace: Option<String>) -> Result<ObjectList<CronJob>, String> {
     let api: Api<CronJob> = get_api(namespace).await;
     let lp = ListParams::default();
-    return api.list(&lp).await.unwrap();
+    let result = api.list(&lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
 }

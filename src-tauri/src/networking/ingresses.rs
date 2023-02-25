@@ -4,8 +4,14 @@ use kube::{api::ListParams, core::ObjectList, Api};
 use crate::internal::get_api;
 
 #[tauri::command]
-pub async fn get_ingresses(namespace: Option<String>) -> ObjectList<Ingress> {
+pub async fn get_ingresses(namespace: Option<String>) -> Result<ObjectList<Ingress>, String> {
     let api: Api<Ingress> = get_api(namespace).await;
     let lp = ListParams::default();
-    return api.list(&lp).await.unwrap();
+
+    let result = api.list(&lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
 }
