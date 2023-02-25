@@ -3,12 +3,11 @@ import { type ChangeEvent, lazy, Suspense, useEffect, useRef, useState } from "r
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Drawer } from "../components/drawer";
+import { CpuUsage, MemoryUsage } from "../components/resource-usage";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
-import type { CPU, Memory } from "./metric-converter";
-import { convertCpuToNanoCpu, convertMemoryToBytes } from "./metric-converter";
 
 const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
@@ -69,26 +68,6 @@ function Terminal() {
   );
 }
 
-interface ResourceUsageProps {
-  usage: number;
-  request: number;
-}
-function ResourceUsage({ usage, request }: ResourceUsageProps) {
-  const percent = Math.round((usage / request) * 100);
-
-  return (
-    <div className="">
-      <div className="box-content h-4 w-10 rounded-sm border">
-        <div
-          className={`h-4 ${percent >= 80 ? "bg-red-500" : "bg-green-500"}`}
-          style={{ width: Math.min((percent * 40) / 100, 40) }}
-        />
-      </div>
-      <div className="mt-1">{percent}%</div>
-    </div>
-  );
-}
-
 export function Pods() {
   const {
     data: { items },
@@ -115,20 +94,15 @@ export function Pods() {
             const usage = metric?.containers[0].usage;
             const requests = pod.spec?.containers[0].resources?.requests;
 
-            const cpuUsage = convertCpuToNanoCpu((usage?.cpu ?? "0") as CPU);
-            const cpuRequest = convertCpuToNanoCpu((requests?.cpu ?? "0") as CPU);
-            const memoryUsage = convertMemoryToBytes((usage?.memory ?? "0") as Memory);
-            const memoryRequest = convertMemoryToBytes((requests?.memory ?? "0") as Memory);
-
             return (
               <tr key={pod.metadata?.uid}>
                 <TableCell>{pod.metadata?.name}</TableCell>
                 <TableCell>{pod.status?.phase}</TableCell>
                 <TableCell>
-                  <ResourceUsage usage={cpuUsage} request={cpuRequest} />
+                  <CpuUsage usage={usage?.cpu} request={requests?.cpu} />
                 </TableCell>
                 <TableCell>
-                  <ResourceUsage usage={memoryUsage} request={memoryRequest} />
+                  <MemoryUsage usage={usage?.memory} request={requests?.memory} />
                 </TableCell>
                 <TableCell>
                   <ActionGroup>

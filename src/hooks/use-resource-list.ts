@@ -9,6 +9,8 @@ type Commands =
   | "get_events"
   | "get_ingresses"
   | "get_jobs"
+  | "get_node_metrics"
+  | "get_nodes"
   | "get_pod_metrics"
   | "get_pods"
   | "get_replica_sets"

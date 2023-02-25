@@ -13,6 +13,8 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             cluster::events::get_events,
+            cluster::node_metrics::get_node_metrics,
+            cluster::nodes::get_nodes,
             networking::ingresses::get_ingresses,
             networking::services::get_services,
             workloads::cron_jobs::get_cron_jobs,
