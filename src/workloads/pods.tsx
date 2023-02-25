@@ -1,5 +1,13 @@
 import type { PodMetric, V1Pod } from "@kubernetes/client-node";
-import { type ChangeEvent, lazy, Suspense, useEffect, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Drawer } from "../components/drawer";
@@ -21,7 +29,7 @@ function Terminal() {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState<string[]>([]);
 
-  function handleCommand(event: SubmitEvent) {
+  function handleCommand(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     // process the command and add the output to the output state
     setOutput((prevOutput) => [...prevOutput, `> ${command}`, `Output for ${command}`]);
