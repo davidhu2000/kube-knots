@@ -21,7 +21,7 @@ function Terminal() {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState<string[]>([]);
 
-  function handleCommand(event) {
+  function handleCommand(event: SubmitEvent) {
     event.preventDefault();
     // process the command and add the output to the output state
     setOutput((prevOutput) => [...prevOutput, `> ${command}`, `Output for ${command}`]);
