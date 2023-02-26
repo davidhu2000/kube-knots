@@ -1651,6 +1651,7 @@ version = "0.0.0"
 dependencies = [
  "k8s-openapi",
  "kube",
+ "log",
  "openssl",
  "serde",
  "serde_json",

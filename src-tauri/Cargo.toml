@@ -21,6 +21,7 @@ kube = { version = "0.78.0", features = ["runtime", "derive"] }
 k8s-openapi = { version = "0.17.0", features = ["v1_26"] }
 openssl = { version = "0.10.35", features = ["vendored"] }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
+log = "0.4"
 
 [features]
 # by default Tauri runs in production mode
