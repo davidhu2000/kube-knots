@@ -1,9 +1,11 @@
+use std::process::{Child, Command};
+
 use k8s_openapi::NamespaceResourceScope;
 use kube::{
     config::{KubeConfigOptions, Kubeconfig},
     Api, Client, Config,
 };
-use tracing::{debug, warn};
+use tracing::warn;
 
 pub async fn get_resource_api<T>(context: Option<String>, namespace: Option<String>) -> Api<T>
 where
