@@ -10,7 +10,7 @@ export function useResource<T>(command: Commands) {
   const { namespace } = useCurrentNamespace();
   const { currentContext } = useCurrentContext();
   const result = useQuery(
-    [command, namespace],
+    [command, currentContext, namespace],
     () => {
       return invoke<T>(command, { namespace, context: currentContext });
     },

@@ -1,7 +1,5 @@
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet, ReactRouter, RootRoute, Route } from "@tanstack/react-router";
 
-import { AppProviders } from "./app-providers";
 import { Events } from "./clusters/events";
 import { Nodes } from "./clusters/nodes";
 import { Layout } from "./layout";
@@ -16,12 +14,9 @@ import { StatefulSets } from "./workloads/stateful-sets";
 
 const rootRoute = new RootRoute({
   component: () => (
-    <AppProviders>
-      <Layout>
-        <Outlet />
-      </Layout>
-      <ReactQueryDevtools />
-    </AppProviders>
+    <Layout>
+      <Outlet />
+    </Layout>
   ),
 });
 
