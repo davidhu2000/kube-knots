@@ -48,7 +48,15 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
 
             warn!("get_client_with_context 4: {:?}", config);
 
-            let c = Client::try_from(config).unwrap();
+            let c = Client::try_from(config);
+
+            let c = match c {
+                Ok(c) => c,
+                Err(e) => {
+                    warn!("get_client_with_context error: {:?}", e);
+                    Client::try_default().await.unwrap()
+                }
+            }
 
             warn!("get_client_with_context 5");
             c
