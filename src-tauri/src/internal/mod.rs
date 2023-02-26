@@ -30,6 +30,13 @@ where
 pub async fn get_client_with_context(context: Option<String>) -> Client {
     let kubeconfig = Kubeconfig::read().unwrap();
 
+    let c: Child = Command::new("ls")
+        .spawn()
+        .expect("ls command failed to start");
+
+    let c1 = c.wait_with_output().unwrap();
+    warn!("get_client_with_context status: {:?}", c1);
+
     let a: Child = Command::new("which")
         .arg("gke-gcloud-auth-plugin")
         .spawn()
