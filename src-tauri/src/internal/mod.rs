@@ -41,7 +41,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         .expect("gke command failed to start");
     warn!("get_client_with_context status: {}", b.wait().unwrap());
 
-    warn!("get_client_with_context 1: {:?}", kubeconfig);
+    warn!("get_client_with_context 1");
 
     let client = match context {
         Some(c) => {
