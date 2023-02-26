@@ -12,7 +12,16 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "all": true,
+      "shell": {
+        "open": true,
+        "scope": [
+          {
+            "name": "gke-gcloud-auth-plugin",
+            "cmd": "gke-gcloud-auth-plugin"
+          }
+        ]
+      }
     },
     "bundle": {
       "active": true,
