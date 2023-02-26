@@ -3,7 +3,7 @@ use kube::{
     config::{KubeConfigOptions, Kubeconfig},
     Api, Client, Config,
 };
-use log::{debug, warn};
+use tracing::{debug, warn};
 
 pub async fn get_resource_api<T>(context: Option<String>, namespace: Option<String>) -> Api<T>
 where
@@ -28,7 +28,7 @@ where
 pub async fn get_client_with_context(context: Option<String>) -> Client {
     let kubeconfig = Kubeconfig::read().unwrap();
 
-    warn!("get_client_with_context 1");
+    warn!("get_client_with_context 1: {:?}", kubeconfig);
 
     let client = match context {
         Some(c) => {
@@ -56,7 +56,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
                     warn!("get_client_with_context error: {:?}", e);
                     Client::try_default().await.unwrap()
                 }
-            }
+            };
 
             warn!("get_client_with_context 5");
             c

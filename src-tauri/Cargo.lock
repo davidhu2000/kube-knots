@@ -1658,6 +1658,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tauri-plugin-log",
+ "tracing",
 ]
 
 [[package]]
