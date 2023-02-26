@@ -3,6 +3,7 @@
     windows_subsystem = "windows"
 )]
 
+use log::warn;
 use tauri_plugin_log::LogTarget;
 
 mod internal;
@@ -18,8 +19,8 @@ fn main() {
     let mut a: Child = Command::new("which")
         .arg("gke-gcloud-auth-plugin")
         .spawn()
-        .expect("ls command failed to start");
-    println!("status: {}", a.wait().unwrap());
+        .expect("gke command failed to start");
+    warn!("status: {}", a.wait().unwrap());
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
