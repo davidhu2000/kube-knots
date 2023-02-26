@@ -3,6 +3,8 @@
     windows_subsystem = "windows"
 )]
 
+use tauri_plugin_log::LogTarget;
+
 mod internal;
 
 pub mod cluster;
@@ -34,6 +36,11 @@ fn main() {
             workloads::stateful_sets::restart_stateful_set,
             workloads::stateful_sets::scale_stateful_set,
         ])
+        .plugin(
+            tauri_plugin_log::Builder::default()
+                .targets([LogTarget::LogDir, LogTarget::Stdout])
+                .build(),
+        )
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
