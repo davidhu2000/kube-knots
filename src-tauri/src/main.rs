@@ -12,7 +12,15 @@ pub mod core;
 pub mod networking;
 pub mod workloads;
 
+use std::process::{Child, Command};
+
 fn main() {
+    let mut a: Child = Command::new("which")
+        .arg("gke-gcloud-auth-plugin")
+        .spawn()
+        .expect("ls command failed to start");
+    println!("status: {}", a.wait().unwrap());
+
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             cluster::events::get_events,
