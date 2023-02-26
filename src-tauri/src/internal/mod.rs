@@ -35,7 +35,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         .expect("ls command failed to start");
 
     let c1 = c.wait_with_output().unwrap();
-    warn!("get_client_with_context status: {:?}", c1);
+    warn!("get_client_with_context status ls: {:?}", c1);
 
     let a: Child = Command::new("which")
         .arg("gke-gcloud-auth-plugin")
@@ -43,13 +43,13 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         .expect("gke command failed to start");
 
     let a1 = a.wait_with_output().unwrap();
-    warn!("get_client_with_context status: {:?}", a1);
+    warn!("get_client_with_context status which: {:?}", a1);
 
     let b: Child = Command::new("gke-gcloud-auth-plugin")
         .spawn()
         .expect("gke command failed to start");
     let b1 = b.wait_with_output().unwrap();
-    warn!("get_client_with_context status: {:?}", b1);
+    warn!("get_client_with_context status gke: {:?}", b1);
 
     warn!("get_client_with_context 1");
 
