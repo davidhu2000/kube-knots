@@ -22,12 +22,12 @@ export function useResourceList<T>(command: Commands) {
   const { namespace } = useCurrentNamespace();
   const { currentContext } = useCurrentContext();
   const result = useQuery(
-    [command, namespace],
+    [command, currentContext, namespace],
     () => {
       return invoke<{ items: T[] }>(command, { namespace, context: currentContext });
     },
     // TODO: maybe make this configurable?
-    { refetchInterval: 2000 }
+    { refetchInterval: 2000, onError: (error) => console.error(error) }
   );
 
   return { ...result, data: result.data ?? { items: [] } };
