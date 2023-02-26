@@ -3,7 +3,6 @@
     windows_subsystem = "windows"
 )]
 
-use log::warn;
 use tauri_plugin_log::LogTarget;
 
 mod internal;
@@ -13,20 +12,7 @@ pub mod core;
 pub mod networking;
 pub mod workloads;
 
-use std::process::{Child, Command};
-
 fn main() {
-    let mut a: Child = Command::new("which")
-        .arg("gke-gcloud-auth-plugin")
-        .spawn()
-        .expect("gke command failed to start");
-    warn!("status: {}", a.wait().unwrap());
-
-    let mut b: Child = Command::new("gke-gcloud-auth-plugin")
-        .spawn()
-        .expect("gke command failed to start");
-    warn!("status: {}", b.wait().unwrap());
-
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             cluster::events::get_events,
