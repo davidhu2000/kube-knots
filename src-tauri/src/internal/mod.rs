@@ -34,15 +34,20 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         .arg("$PATH")
         .spawn()
         .expect("echo command failed to start");
-
     let c1 = c.wait_with_output().unwrap();
     warn!("get_client_with_context status echo: {:?}", c1);
+
+    let a: Child = Command::new("which")
+        .arg("brew")
+        .spawn()
+        .expect("brew command failed to start");
+    let a1 = a.wait_with_output().unwrap();
+    warn!("get_client_with_context status which: {:?}", a1);
 
     let a: Child = Command::new("which")
         .arg("gke-gcloud-auth-plugin")
         .spawn()
         .expect("gke command failed to start");
-
     let a1 = a.wait_with_output().unwrap();
     warn!("get_client_with_context status which: {:?}", a1);
 
