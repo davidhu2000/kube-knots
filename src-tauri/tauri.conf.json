@@ -27,6 +27,12 @@
             "cmd": "brew",
             "sidecar": false,
             "args": true
+          },
+          {
+            "name": "which",
+            "cmd": "which",
+            "sidecar": false,
+            "args": true
           }
         ]
       }
