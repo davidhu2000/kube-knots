@@ -39,13 +39,13 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
     //     c.wait_with_output().unwrap()
     // );
 
-    let a: Child = Command::new("which")
-        .arg("brew")
-        .spawn()
-        .expect("brew command failed to start");
-    warn!(
-        "get_client_with_context status which brew: {:?}",
-        a.wait_with_output().unwrap()
+    // let a: Child = Command::new("which")
+    //     .arg("brew")
+    //     .spawn()
+    //     .expect("brew command failed to start");
+    // warn!(
+    //     "get_client_with_context status which brew: {:?}",
+    //     a.wait_with_output().unwrap()
     );
 
     let e: Child = Command::new("brew")
@@ -57,14 +57,14 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         e.wait_with_output().unwrap()
     );
 
-    let a: Child = Command::new("which")
-        .arg("gke-gcloud-auth-plugin")
-        .spawn()
-        .expect("gke command failed to start");
-    warn!(
-        "get_client_with_context status which gke-gcloud-auth-plugin: {:?}",
-        a.wait_with_output().unwrap()
-    );
+    // let a: Child = Command::new("which")
+    //     .arg("gke-gcloud-auth-plugin")
+    //     .spawn()
+    //     .expect("gke command failed to start");
+    // warn!(
+    //     "get_client_with_context status which gke-gcloud-auth-plugin: {:?}",
+    //     a.wait_with_output().unwrap()
+    // );
 
     let b: Child = Command::new("gke-gcloud-auth-plugin")
         .spawn()
