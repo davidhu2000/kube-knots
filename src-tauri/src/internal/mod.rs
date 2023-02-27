@@ -66,13 +66,13 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
     //     a.wait_with_output().unwrap()
     // );
 
-    let b: Child = Command::new("gke-gcloud-auth-plugin")
-        .spawn()
-        .expect("gke command failed to start");
-    warn!(
-        "get_client_with_context status gke: {:?}",
-        b.wait_with_output().unwrap()
-    );
+    // let b: Child = Command::new("gke-gcloud-auth-plugin")
+    //     .spawn()
+    //     .expect("gke command failed to start");
+    // warn!(
+    //     "get_client_with_context status gke: {:?}",
+    //     b.wait_with_output().unwrap()
+    // );
 
     warn!("get_client_with_context 1");
 
