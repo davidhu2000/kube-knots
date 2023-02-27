@@ -18,7 +18,15 @@
         "scope": [
           {
             "name": "gke-gcloud-auth-plugin",
-            "cmd": "gke-gcloud-auth-plugin"
+            "cmd": "gke-gcloud-auth-plugin",
+            "sidecar": false,
+            "args": true
+          },
+          {
+            "name": "brew",
+            "cmd": "brew",
+            "sidecar": false,
+            "args": true
           }
         ]
       }
