@@ -42,7 +42,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         .spawn()
         .expect("brew command failed to start");
     let a1 = a.wait_with_output().unwrap();
-    warn!("get_client_with_context status which: {:?}", a1);
+    warn!("get_client_with_context status which brew: {:?}", a1);
 
     let a: Child = Command::new("which")
         .arg("gke-gcloud-auth-plugin")
