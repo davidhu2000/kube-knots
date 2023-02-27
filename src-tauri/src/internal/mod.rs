@@ -5,7 +5,7 @@ use kube::{
     config::{KubeConfigOptions, Kubeconfig},
     Api, Client, Config,
 };
-use tracing::warn;
+use log::warn;
 
 pub async fn get_resource_api<T>(context: Option<String>, namespace: Option<String>) -> Api<T>
 where
