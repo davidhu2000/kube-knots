@@ -46,7 +46,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
     // warn!(
     //     "get_client_with_context status which brew: {:?}",
     //     a.wait_with_output().unwrap()
-    );
+    // );
 
     let e: Child = Command::new("brew")
         .arg("--version")
