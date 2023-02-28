@@ -1,4 +1,5 @@
 import { type V1Ingress } from "@kubernetes/client-node";
+import { formatDistance } from "date-fns";
 import { Suspense } from "react";
 
 import { ActionGroup, ActionButton } from "../components/action-group";
@@ -16,13 +17,18 @@ export function Ingresses() {
   return (
     <QueryWrapper query={resourceListQuery}>
       <Table>
-        <TableHeader headers={["Name", "Image", "Pods", "Actions"]} />
+        <TableHeader headers={["Name", "Hosts", "Created", "Actions"]} />
         <TableBody>
           {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
-              <TableCell>hi</TableCell>
-              <TableCell>hi</TableCell>
+              <TableCell>{item.spec?.rules?.map((rule) => rule.host).join(",")}</TableCell>
+              <TableCell>
+                {item.metadata?.creationTimestamp &&
+                  formatDistance(new Date(item.metadata.creationTimestamp), new Date(), {
+                    addSuffix: true,
+                  })}
+              </TableCell>
               <TableCell>
                 <ActionGroup>
                   <ActionButton
