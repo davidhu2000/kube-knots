@@ -27,13 +27,15 @@ export function Nodes() {
   return (
     <QueryWrapper query={resourceListQuery}>
       <Table>
-        <TableHeader headers={["Name", "CPU", "Memory", "Pods", "Created", "Actions"]} />
+        <TableHeader headers={["Name", "CPU", "Memory", "Status", "Created", "Actions"]} />
         <TableBody>
           {resourceListQuery.data.items.map((item) => {
             const metric = nodeMetrics.find((m) => m.metadata?.name === item.metadata?.name);
 
             const requests = item.status?.capacity;
             const usage = metric?.usage;
+
+            const conditions = item.status?.conditions?.find((c) => c.status === "True");
 
             return (
               <tr key={item.metadata?.name}>
@@ -46,7 +48,7 @@ export function Nodes() {
                   <MemoryUsage usage={usage?.memory} request={requests?.memory} />
                 </TableCell>
 
-                <TableCell>{requests?.pods}</TableCell>
+                <TableCell>{conditions?.type}</TableCell>
 
                 <TableCell>
                   {item.metadata?.creationTimestamp &&
