@@ -15,6 +15,7 @@
       "all": true,
       "shell": {
         "open": true,
+        "execute": true,
         "scope": [
           {
             "name": "gke-gcloud-auth-plugin",
@@ -25,13 +26,7 @@
           {
             "name": "brew",
             "cmd": "brew",
-            "sidecar": false,
-            "args": true
-          },
-          {
-            "name": "which",
-            "cmd": "which",
-            "sidecar": false,
+            "sidecar": true,
             "args": true
           }
         ]

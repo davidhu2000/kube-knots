@@ -1,4 +1,4 @@
-use std::process::{ Command};
+use std::process::Command;
 
 use k8s_openapi::NamespaceResourceScope;
 use kube::{
@@ -30,27 +30,7 @@ where
 pub async fn get_client_with_context(context: Option<String>) -> Client {
     let kubeconfig = Kubeconfig::read().unwrap();
 
-    // let c: Child = Command::new("echo")
-    //     .arg("$PATH")
-    //     .spawn()
-    //     .expect("echo command failed to start");
-    // warn!(
-    //     "get_client_with_context status echo: {:?}",
-    //     c.wait_with_output().unwrap()
-    // );
-
-    // let a: Child = Command::new("which")
-    //     .arg("brew")
-    //     .spawn()
-    //     .expect("brew command failed to start");
-    // warn!(
-    //     "get_client_with_context status which brew: {:?}",
-    //     a.wait_with_output().unwrap()
-    // );
-
-    let e = Command::new("brew").arg("--version").spawn();
-
-    match e {
+    match Command::new("brew").arg("--version").spawn() {
         Ok(e) => {
             warn!("get_client_with_context ok brew --version: {:?}", e);
             let e1 = e.wait_with_output();
@@ -69,22 +49,24 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         }
     };
 
-    // let a: Child = Command::new("which")
-    //     .arg("gke-gcloud-auth-plugin")
-    //     .spawn()
-    //     .expect("gke command failed to start");
-    // warn!(
-    //     "get_client_with_context status which gke-gcloud-auth-plugin: {:?}",
-    //     a.wait_with_output().unwrap()
-    // );
+    match Command::new("brew").arg("--version").spawn() {
+        Ok(e) => {
+            warn!("get_client_with_context ok brew --version: {:?}", e);
+            let e1 = e.wait_with_output();
 
-    // let b: Child = Command::new("gke-gcloud-auth-plugin")
-    //     .spawn()
-    //     .expect("gke command failed to start");
-    // warn!(
-    //     "get_client_with_context status gke: {:?}",
-    //     b.wait_with_output().unwrap()
-    // );
+            match e1 {
+                Ok(e1) => {
+                    warn!("get_client_with_context ok brew --version: {:?}", e1);
+                }
+                Err(e1) => {
+                    warn!("get_client_with_context error brew --version: {:?}", e1);
+                }
+            }
+        }
+        Err(e) => {
+            warn!("get_client_with_context error brew --version: {:?}", e);
+        }
+    };
 
     warn!("get_client_with_context 1");
 
