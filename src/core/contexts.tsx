@@ -1,66 +1,37 @@
-import { Combobox } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
-
+import { BaseModal, ModalButton } from "../components/modal";
+import { RadioButtonGroup } from "../components/radio-button-group";
 import { useCurrentContext } from "../providers/current-context-provider";
 
 export function Context() {
   const { currentContext } = useCurrentContext();
 
-  return <div className="bg-gray-200 dark:bg-gray-700 dark:text-gray-100">{currentContext}</div>;
+  return (
+    <div className="rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600">
+      {currentContext}
+    </div>
+  );
 }
 
-// TODO: figure out better UX for picking context.
-// this is copied from namespace selector and didn't refactor it to be more generic
-// since it's not clear what the UX should be for
-// possible option is putting context in the settings modal?
-export function ContextSelect() {
-  const [query, setQuery] = useState("");
+export function ContextSwitcher({
+  isOpen,
+  handleClose,
+}: {
+  isOpen: boolean;
+  handleClose: () => void;
+}) {
   const { currentContext, changeCurrentContext, availableContexts } = useCurrentContext();
 
-  const filteredContexts = availableContexts.filter((context) => {
-    return context.name.toLowerCase().includes(query.toLowerCase());
-  });
-
   return (
-    <Combobox as="div" value={currentContext} onChange={changeCurrentContext}>
-      <div className="relative mt-1">
-        <Combobox.Input
-          className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100"
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-          <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </Combobox.Button>
+    <BaseModal isOpen={isOpen} handleClose={handleClose} title="Contexts">
+      <RadioButtonGroup
+        title=""
+        value={currentContext ?? ""}
+        onChange={changeCurrentContext}
+        values={availableContexts.map((c) => c.name)}
+        numberOfColumns={1}
+      />
 
-        {filteredContexts.length > 0 && (
-          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none dark:bg-gray-900">
-            {filteredContexts.map((context) => (
-              <Combobox.Option
-                key={context.name}
-                value={context.name}
-                className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 ${
-                    active ? "bg-gray-200 dark:bg-gray-700" : ""
-                  }`
-                }
-              >
-                {({ selected }) => (
-                  <>
-                    <span className={`block cursor-pointer truncate`}>{context.name}</span>
-
-                    {selected && (
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-600 dark:text-slate-300">
-                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    )}
-                  </>
-                )}
-              </Combobox.Option>
-            ))}
-          </Combobox.Options>
-        )}
-      </div>
-    </Combobox>
+      <ModalButton label="Close" onClick={handleClose} />
+    </BaseModal>
   );
 }
