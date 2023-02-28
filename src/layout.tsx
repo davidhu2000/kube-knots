@@ -3,7 +3,7 @@ import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
 import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 
-import { Context } from "./core/contexts";
+import { Context, ContextSwitcher } from "./core/contexts";
 import { NamespaceSelect } from "./namespaces/namespace-select";
 import { clusterRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
@@ -19,6 +19,7 @@ export function Layout({ children }: PropsWithChildren) {
   ];
 
   const [showSetting, setShowSetting] = useState(false);
+  const [showContextSwitcher, setShowContextSwitcher] = useState(false);
 
   return (
     <div className="min-h-screen">
@@ -54,7 +55,9 @@ export function Layout({ children }: PropsWithChildren) {
         <div className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-between bg-gray-200 p-4 shadow dark:bg-gray-700">
           <NamespaceSelect />
 
-          <Context />
+          <button onClick={() => setShowContextSwitcher(true)}>
+            <Context />
+          </button>
 
           <Cog8ToothIcon
             className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200"
@@ -63,6 +66,11 @@ export function Layout({ children }: PropsWithChildren) {
           <Suspense fallback={<div>Loading Settings</div>}>
             <Settings isOpen={showSetting} handleClose={() => setShowSetting(false)} />
           </Suspense>
+
+          <ContextSwitcher
+            isOpen={showContextSwitcher}
+            handleClose={() => setShowContextSwitcher(false)}
+          />
         </div>
 
         <main className="flex-1">
