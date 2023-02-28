@@ -48,21 +48,21 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
     //     a.wait_with_output().unwrap()
     // );
 
-    // let e: Child = Command::new("brew")
-    //     .arg("--version")
-    //     .spawn()
-    //     .expect("brew command failed to start");
+    let e: Child = Command::new("brew")
+        .arg("--version")
+        .spawn()
+        .expect("brew command failed to start");
 
-    // let e1 = e.wait_with_output();
+    let e1 = e.wait_with_output();
 
-    // match e1 {
-    //     Ok(e1) => {
-    //         warn!("get_client_with_context ok brew --version: {:?}", e1);
-    //     }
-    //     Err(e1) => {
-    //         warn!("get_client_with_context error brew --version: {:?}", e1);
-    //     }
-    // }
+    match e1 {
+        Ok(e1) => {
+            warn!("get_client_with_context ok brew --version: {:?}", e1);
+        }
+        Err(e1) => {
+            warn!("get_client_with_context error brew --version: {:?}", e1);
+        }
+    }
 
     // let a: Child = Command::new("which")
     //     .arg("gke-gcloud-auth-plugin")
