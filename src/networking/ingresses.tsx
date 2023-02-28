@@ -17,7 +17,7 @@ export function Ingresses() {
   return (
     <QueryWrapper query={resourceListQuery}>
       <Table>
-        <TableHeader headers={["Name", "Hosts", "Actions"]} />
+        <TableHeader headers={["Name", "Hosts", "Created", "Actions"]} />
         <TableBody>
           {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
