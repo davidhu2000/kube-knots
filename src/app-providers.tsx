@@ -1,15 +1,14 @@
 import { type PropsWithChildren } from "react";
 
-import { NamespaceProvider, CurrentNamespaceProvider } from "./namespaces/namespaces";
 import { CurrentContextProvider } from "./providers/current-context-provider";
 import { DefaultLanguageProvider } from "./providers/default-language-provider";
+import { NamespaceProvider } from "./providers/namespaces-provider";
 import { ThemeProvider } from "./providers/theme-provider";
 
 type Provider = ({ children }: PropsWithChildren) => JSX.Element;
 
 const providers = [
   NamespaceProvider,
-  CurrentNamespaceProvider,
   ThemeProvider,
   DefaultLanguageProvider,
   CurrentContextProvider,

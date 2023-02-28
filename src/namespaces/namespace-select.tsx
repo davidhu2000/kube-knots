@@ -2,21 +2,20 @@ import { Combobox } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 
-import { useCurrentNamespace, useNamespace } from "./namespaces";
+import { useNamespace } from "../providers/namespaces-provider";
 
 export function NamespaceSelect() {
   const [query, setQuery] = useState("");
-  const { namespace, updateNamespace } = useCurrentNamespace();
-  const namespaces = useNamespace();
+  const { currentNamespace, availableNamespaces, changeNamespace } = useNamespace();
 
   const filteredNamespaces = ["All namespaces"].concat(
-    namespaces.filter((namespace) => {
+    availableNamespaces.filter((namespace) => {
       return namespace.toLowerCase().includes(query.toLowerCase());
     })
   );
 
   return (
-    <Combobox as="div" value={namespace ?? "All namespaces"} onChange={updateNamespace}>
+    <Combobox as="div" value={currentNamespace ?? "All namespaces"} onChange={changeNamespace}>
       <div className="relative mt-1">
         <Combobox.Input
           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100"
