@@ -49,25 +49,6 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
         }
     };
 
-    match Command::new("brew").arg("--version").spawn() {
-        Ok(e) => {
-            warn!("get_client_with_context ok brew --version: {:?}", e);
-            let e1 = e.wait_with_output();
-
-            match e1 {
-                Ok(e1) => {
-                    warn!("get_client_with_context ok brew --version: {:?}", e1);
-                }
-                Err(e1) => {
-                    warn!("get_client_with_context error brew --version: {:?}", e1);
-                }
-            }
-        }
-        Err(e) => {
-            warn!("get_client_with_context error brew --version: {:?}", e);
-        }
-    };
-
     warn!("get_client_with_context 1");
 
     let client = match context {
