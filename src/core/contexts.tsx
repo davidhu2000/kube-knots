@@ -7,7 +7,7 @@ import { useCurrentContext } from "../providers/current-context-provider";
 export function Context() {
   const { currentContext } = useCurrentContext();
 
-  return <div>Context: {currentContext}</div>;
+  return <div className="bg-gray-200 dark:bg-gray-700 dark:text-gray-100">{currentContext}</div>;
 }
 
 // TODO: figure out better UX for picking context.

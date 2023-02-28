@@ -3,7 +3,7 @@ import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
 import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 
-import { Context, ContextSelect } from "./core/contexts";
+import { Context } from "./core/contexts";
 import { NamespaceSelect } from "./namespaces/namespace-select";
 import { clusterRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
