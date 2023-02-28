@@ -21,6 +21,30 @@ function convertMemoryToBytes(memory: string) {
     throw new Error(`Invalid memory value: ${memory}`);
   }
 
+  if (memory.endsWith("E")) {
+    return memoryValue * 1_000 ** 6;
+  }
+
+  if (memory.endsWith("P")) {
+    return memoryValue * 1_000 ** 5;
+  }
+
+  if (memory.endsWith("T")) {
+    return memoryValue * 1_000 ** 4;
+  }
+
+  if (memory.endsWith("G")) {
+    return memoryValue * 1_000 ** 3;
+  }
+
+  if (memory.endsWith("M")) {
+    return memoryValue * 1_000 ** 2;
+  }
+
+  if (memory.endsWith("K")) {
+    return memoryValue * 1_000;
+  }
+
   if (memory.endsWith("Ki")) {
     return memoryValue * 1024;
   }
