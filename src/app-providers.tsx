@@ -7,11 +7,12 @@ import { ThemeProvider } from "./providers/theme-provider";
 
 type Provider = ({ children }: PropsWithChildren) => JSX.Element;
 
+// order matters. First provider will be the outermost
 const providers = [
-  NamespaceProvider,
   ThemeProvider,
   DefaultLanguageProvider,
   CurrentContextProvider,
+  NamespaceProvider,
 ];
 
 const composeProviders = (providers: Provider[]) => {
