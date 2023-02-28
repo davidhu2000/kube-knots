@@ -15,11 +15,10 @@ export function RadioButtonGroup<T extends string>({
   title,
   numberOfColumns = 3,
 }: RadioButtonGroupProp<T>) {
-  const gridClass = `grid-cols-${numberOfColumns}` as const;
   return (
     <RadioGroup value={value} onChange={onChange} className="py-4">
       <RadioGroup.Label className="text-gray-900 dark:text-gray-100">{title}</RadioGroup.Label>
-      <div className={`grid ${gridClass} gap-2`}>
+      <div className={`grid ${`grid-cols-${numberOfColumns}` as const} gap-2`}>
         {values.map((value) => (
           <RadioGroup.Option
             key={value}

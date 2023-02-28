@@ -1,20 +1,19 @@
 import type { V1Job } from "@kubernetes/client-node";
 import { formatDistance } from "date-fns";
 
+import { QueryWrapper } from "../components/query-wrapper";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceList } from "../hooks/use-resource-list";
 
 export function Jobs() {
-  const {
-    data: { items },
-  } = useResourceList<V1Job>("get_jobs");
+  const resourceListQuery = useResourceList<V1Job>("get_jobs");
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Schedule", "Last Run"]} />
         <TableBody>
-          {items.map((item) => (
+          {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>
@@ -28,6 +27,6 @@ export function Jobs() {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </QueryWrapper>
   );
 }

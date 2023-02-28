@@ -5,6 +5,7 @@ import { formatDistance } from "date-fns";
 import { Suspense } from "react";
 
 import { ActionGroup, ActionButton } from "../components/action-group";
+import { QueryWrapper } from "../components/query-wrapper";
 import { ResourceEditDrawer } from "../components/resource-edit-drawer";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
@@ -29,9 +30,7 @@ const formatCronjobAsJob = (cronjob: V1CronJob): V1Job => {
 };
 
 export function CronJobs() {
-  const {
-    data: { items },
-  } = useResourceList<V1CronJob>("get_cron_jobs");
+  const resourceListQuery = useResourceList<V1CronJob>("get_cron_jobs");
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<V1CronJob, "edit">();
 
@@ -48,11 +47,11 @@ export function CronJobs() {
   });
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Schedule", "Last Run", "Actions"]} />
         <TableBody>
-          {items.map((item) => (
+          {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.schedule}</TableCell>
@@ -89,6 +88,6 @@ export function CronJobs() {
           selectedResource={selected}
         />
       </Suspense>
-    </div>
+    </QueryWrapper>
   );
 }
