@@ -2,6 +2,7 @@ import { type V1Deployment } from "@kubernetes/client-node";
 import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
+import { QueryWrapper } from "../components/query-wrapper";
 import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
@@ -15,9 +16,7 @@ const ResourceEditDrawer = lazy(() =>
 );
 
 export function Deployments() {
-  const {
-    data: { items },
-  } = useResourceList<V1Deployment>("get_deployments");
+  const resourceListQuery = useResourceList<V1Deployment>("get_deployments");
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1Deployment,
@@ -27,11 +26,11 @@ export function Deployments() {
   const restartResource = restartMutation("deployment");
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Image", "Pods", "Actions"]} />
         <TableBody>
-          {items.map((item) => (
+          {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>
@@ -75,6 +74,6 @@ export function Deployments() {
           <ScaleModal isOpen={action === "scale"} handleClose={handleClose} resource={selected} />
         )}
       </Suspense>
-    </div>
+    </QueryWrapper>
   );
 }

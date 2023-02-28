@@ -10,12 +10,19 @@ export function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose
 
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose} title="Settings">
-      <RadioButtonGroup title="Theme" value={theme} onChange={changeTheme} values={themes} />
+      <RadioButtonGroup
+        title="Theme"
+        value={theme}
+        onChange={changeTheme}
+        values={themes}
+        numberOfColumns={3}
+      />
       <RadioButtonGroup
         title="Default Language"
         value={language}
         onChange={changeLanguage}
         values={languages}
+        numberOfColumns={3}
       />
 
       <ModalButton label="Close" onClick={handleClose} />

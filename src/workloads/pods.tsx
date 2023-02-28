@@ -11,6 +11,7 @@ import {
 
 import { ActionButton, ActionGroup } from "../components/action-group";
 import { Drawer } from "../components/drawer";
+import { QueryWrapper } from "../components/query-wrapper";
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
@@ -77,9 +78,7 @@ function Terminal() {
 }
 
 export function Pods() {
-  const {
-    data: { items },
-  } = useResourceList<V1Pod>("get_pods");
+  const resourceListQuery = useResourceList<V1Pod>("get_pods");
 
   const {
     data: { items: metrics },
@@ -91,11 +90,11 @@ export function Pods() {
   >();
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Status", "CPU", "Memory", "Actions"]} />
         <TableBody>
-          {items.map((pod) => {
+          {resourceListQuery.data.items.map((pod) => {
             const metric = metrics.find((metric) => metric.metadata.name === pod.metadata?.name);
 
             // TODO: handle multiple containers
@@ -158,6 +157,6 @@ export function Pods() {
           <Terminal />
         </Drawer>
       </Suspense>
-    </div>
+    </QueryWrapper>
   );
 }

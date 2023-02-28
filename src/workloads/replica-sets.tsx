@@ -1,19 +1,18 @@
 import type { V1ReplicaSet } from "@kubernetes/client-node";
 
+import { QueryWrapper } from "../components/query-wrapper";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceList } from "../hooks/use-resource-list";
 
 export function ReplicaSets() {
-  const {
-    data: { items },
-  } = useResourceList<V1ReplicaSet>("get_replica_sets");
+  const resourceListQuery = useResourceList<V1ReplicaSet>("get_replica_sets");
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Images", "Pods"]} />
         <TableBody>
-          {items.map((item) => (
+          {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.template?.spec?.containers[0].image}</TableCell>
@@ -24,6 +23,6 @@ export function ReplicaSets() {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </QueryWrapper>
   );
 }

@@ -2,24 +2,23 @@ import { type V1Ingress } from "@kubernetes/client-node";
 import { Suspense } from "react";
 
 import { ActionGroup, ActionButton } from "../components/action-group";
+import { QueryWrapper } from "../components/query-wrapper";
 import { ResourceEditDrawer } from "../components/resource-edit-drawer";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 
 export function Ingresses() {
-  const {
-    data: { items },
-  } = useResourceList<V1Ingress>("get_ingresses");
+  const resourceListQuery = useResourceList<V1Ingress>("get_ingresses");
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<V1Ingress, "edit">();
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Image", "Pods", "Actions"]} />
         <TableBody>
-          {items.map((item) => (
+          {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>hi</TableCell>
@@ -45,6 +44,6 @@ export function Ingresses() {
           selectedResource={selected}
         />
       </Suspense>
-    </div>
+    </QueryWrapper>
   );
 }

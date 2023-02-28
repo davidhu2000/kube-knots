@@ -3,6 +3,7 @@ import { formatDistance } from "date-fns";
 import { lazy, Suspense } from "react";
 
 import { ActionGroup, ActionButton } from "../components/action-group";
+import { QueryWrapper } from "../components/query-wrapper";
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
@@ -15,9 +16,7 @@ const ResourceEditDrawer = lazy(() =>
 );
 
 export function Nodes() {
-  const {
-    data: { items },
-  } = useResourceList<V1Node>("get_nodes");
+  const resourceListQuery = useResourceList<V1Node>("get_nodes");
 
   const {
     data: { items: nodeMetrics },
@@ -26,11 +25,11 @@ export function Nodes() {
   const { selected, handleOpen, handleClose, action } = useResourceActions<V1Node, "edit">();
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "CPU", "Memory", "Pods", "Created", "Actions"]} />
         <TableBody>
-          {items.map((item) => {
+          {resourceListQuery.data.items.map((item) => {
             const metric = nodeMetrics.find((m) => m.metadata?.name === item.metadata?.name);
 
             const requests = item.status?.capacity;
@@ -78,6 +77,6 @@ export function Nodes() {
           selectedResource={selected}
         />
       </Suspense>
-    </div>
+    </QueryWrapper>
   );
 }

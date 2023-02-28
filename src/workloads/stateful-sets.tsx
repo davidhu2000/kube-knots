@@ -2,6 +2,7 @@ import type { V1StatefulSet } from "@kubernetes/client-node";
 import { lazy, Suspense } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
+import { QueryWrapper } from "../components/query-wrapper";
 import { ScaleModal } from "../components/scale-modal";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
@@ -15,9 +16,7 @@ const ResourceEditDrawer = lazy(() =>
 );
 
 export function StatefulSets() {
-  const {
-    data: { items },
-  } = useResourceList<V1StatefulSet>("get_stateful_sets");
+  const resourceListQuery = useResourceList<V1StatefulSet>("get_stateful_sets");
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1StatefulSet,
@@ -27,11 +26,11 @@ export function StatefulSets() {
   const restartResource = restartMutation("stateful_set");
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Image", "Pods", "Actions"]} />
         <TableBody>
-          {items.map((item) => (
+          {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>
@@ -75,6 +74,6 @@ export function StatefulSets() {
           <ScaleModal isOpen={action === "scale"} handleClose={handleClose} resource={selected} />
         )}
       </Suspense>
-    </div>
+    </QueryWrapper>
   );
 }

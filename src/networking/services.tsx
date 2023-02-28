@@ -2,24 +2,23 @@ import { type V1Service } from "@kubernetes/client-node";
 import { Suspense } from "react";
 
 import { ActionGroup, ActionButton } from "../components/action-group";
+import { QueryWrapper } from "../components/query-wrapper";
 import { ResourceEditDrawer } from "../components/resource-edit-drawer";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 
 export function Services() {
-  const {
-    data: { items },
-  } = useResourceList<V1Service>("get_services");
+  const resourceListQuery = useResourceList<V1Service>("get_services");
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<V1Service, "edit">();
 
   return (
-    <div>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={["Name", "Type", "Actions"]} />
         <TableBody>
-          {items.map((item) => (
+          {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.type}</TableCell>
@@ -44,6 +43,6 @@ export function Services() {
           selectedResource={selected}
         />
       </Suspense>
-    </div>
+    </QueryWrapper>
   );
 }
