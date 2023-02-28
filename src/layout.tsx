@@ -73,7 +73,7 @@ export function Layout({ children }: PropsWithChildren) {
           />
         </div>
 
-        <main className="flex-1">
+        <main className="flex-1 select-none">
           <div className="mx-auto max-w-7xl">
             <div className="p-4">{children}</div>
           </div>
