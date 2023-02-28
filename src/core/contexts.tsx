@@ -4,6 +4,12 @@ import { useState } from "react";
 
 import { useCurrentContext } from "../providers/current-context-provider";
 
+export function Context() {
+  const { currentContext } = useCurrentContext();
+
+  return <div>Context: {currentContext}</div>;
+}
+
 // TODO: figure out better UX for picking context.
 // this is copied from namespace selector and didn't refactor it to be more generic
 // since it's not clear what the UX should be for

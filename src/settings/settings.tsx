@@ -1,6 +1,7 @@
 import { RadioGroup } from "@headlessui/react";
 
 import { BaseModal, ModalButton } from "../components/modal";
+import { ContextSelect } from "../core/contexts";
 import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
 
@@ -18,7 +19,7 @@ function RadioButtonGroup<T extends string>({
   title,
 }: RadioButtonGroupProp<T>) {
   return (
-    <RadioGroup value={value} onChange={onChange} className="p-4">
+    <RadioGroup value={value} onChange={onChange} className="py-4">
       <RadioGroup.Label className="text-gray-900 dark:text-gray-100">{title}</RadioGroup.Label>
       <div className="grid grid-cols-3 gap-2">
         {values.map((value) => (
@@ -66,6 +67,11 @@ export function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose
         onChange={changeLanguage}
         values={languages}
       />
+
+      <div className="py-4">
+        <div className="text-gray-900 dark:text-gray-100">Switch Context</div>
+        <ContextSelect />
+      </div>
 
       <ModalButton label="Close" onClick={handleClose} />
     </BaseModal>
