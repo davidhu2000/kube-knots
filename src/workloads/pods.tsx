@@ -119,11 +119,12 @@ export function Pods() {
                       position="left"
                       onClick={() => handleOpen(pod, "logs")}
                     />
-                    <ActionButton
+                    {/* TODO: figure out how to build terminals */}
+                    {/* <ActionButton
                       label="exec"
                       position="middle"
                       onClick={() => handleOpen(pod, "exec")}
-                    />
+                    /> */}
                     <ActionButton
                       label="edit"
                       position="right"
