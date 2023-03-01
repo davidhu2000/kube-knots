@@ -5,6 +5,7 @@ import { invoke } from "@tauri-apps/api";
 import yaml from "js-yaml";
 import { useEffect, useState } from "react";
 
+import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
@@ -16,16 +17,6 @@ interface ResourceEditDrawerProps<T> {
   selectedResource: T | null;
   handleClose: () => void;
 }
-
-const camelToSnakeCase = (str: string) => {
-  const snakeCase = str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-
-  if (snakeCase.startsWith("_")) {
-    return snakeCase.slice(1);
-  }
-
-  return snakeCase;
-};
 
 function getEditorTheme(
   theme: ReturnType<typeof useTheme>["theme"],
@@ -79,7 +70,7 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
 
   const updateMutation = useMutation({
     mutationFn: (resource: T) => {
-      const resourceKind = camelToSnakeCase(resource.kind ?? "");
+      const resourceKind = camelToSnakeCase(resource.kind);
 
       return invoke<boolean>(`update_${resourceKind}`, {
         context: currentContext,
