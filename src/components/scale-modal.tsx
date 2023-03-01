@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useState } from "react";
 
+import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./modal";
 
 interface ModalProps {
@@ -12,12 +13,14 @@ interface ModalProps {
 }
 export function ScaleModal({ isOpen, handleClose, resource }: ModalProps): JSX.Element {
   const [replicas, setReplicas] = useState<number>(resource.spec?.replicas || 0);
+  const { currentContext } = useCurrentContext();
 
   const type = resource.kind?.toLowerCase() === "deployment" ? "deployment" : "stateful_set";
 
   const scaleMutation = useMutation({
     mutationFn: (replicas: number) => {
       return invoke(`scale_${type}`, {
+        context: currentContext,
         namespace: resource.metadata?.namespace,
         name: resource.metadata?.name,
         replicas,
