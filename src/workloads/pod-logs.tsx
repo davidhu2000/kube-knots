@@ -42,7 +42,7 @@ export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
         context: currentContext,
       });
     },
-    { enabled: !!podName, refetchInterval: 5000 }
+    { enabled: !!podName, refetchInterval: 1000 }
   );
 
   const logBottomRef = useScrollBottom([result.data, followLogs]);
