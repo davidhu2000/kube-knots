@@ -1,4 +1,4 @@
-import { type V1StatefulSet, type V1Deployment } from "@kubernetes/client-node";
+import type { V1StatefulSet, V1Deployment, V1ReplicaSet } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useState } from "react";
@@ -10,7 +10,7 @@ import { BaseModal, ModalButton } from "./modal";
 interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
-  resource: V1Deployment | V1StatefulSet;
+  resource: V1Deployment | V1ReplicaSet | V1StatefulSet;
 }
 export function ScaleModal({ isOpen, handleClose, resource }: ModalProps): JSX.Element {
   const [replicas, setReplicas] = useState<number>(resource.spec?.replicas || 0);
