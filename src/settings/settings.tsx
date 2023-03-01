@@ -23,6 +23,7 @@ export function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose
         onChange={changeLanguage}
         values={languages}
         numberOfColumns={3}
+        textTransform="uppercase"
       />
 
       <ModalButton label="Close" onClick={handleClose} />

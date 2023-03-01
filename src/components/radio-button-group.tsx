@@ -6,6 +6,7 @@ interface RadioButtonGroupProp<T> {
   onChange: (value: T) => void;
   values: T[];
   numberOfColumns?: 1 | 3;
+  textTransform?: "capitalize" | "lowercase" | "normal-case	" | "uppercase";
 }
 
 export function RadioButtonGroup<T extends string>({
@@ -14,6 +15,7 @@ export function RadioButtonGroup<T extends string>({
   values,
   title,
   numberOfColumns = 3,
+  textTransform = "capitalize",
 }: RadioButtonGroupProp<T>) {
   return (
     <RadioGroup value={value} onChange={onChange} className="py-4">
@@ -25,24 +27,17 @@ export function RadioButtonGroup<T extends string>({
             value={value}
             className={({ checked }) =>
               `${
-                checked ? "bg-gray-800 text-white" : "bg-white"
+                checked
+                  ? "dark:bg-blue-800 bg-blue-300 dark:text-gray-100 text-gray-900"
+                  : "dark:bg-gray-800 bg-gray-200 dark:text-gray-100 text-gray-900"
               } flex cursor-pointer rounded-lg p-4 shadow-md`
             }
           >
-            {({ checked }) => (
-              <div className="flex w-full items-center justify-between">
-                <div className="flex items-center">
-                  <div className="text-sm">
-                    <RadioGroup.Label
-                      as="p"
-                      className={`font-medium  ${checked ? "text-white" : "text-gray-900"}`}
-                    >
-                      {value}
-                    </RadioGroup.Label>
-                  </div>
-                </div>
-              </div>
-            )}
+            <div className="flex w-full items-center justify-center">
+              <RadioGroup.Label as="p" className={`${textTransform} text-center`}>
+                {value}
+              </RadioGroup.Label>
+            </div>
           </RadioGroup.Option>
         ))}
       </div>
