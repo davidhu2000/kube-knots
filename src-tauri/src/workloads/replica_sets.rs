@@ -1,5 +1,9 @@
 use k8s_openapi::api::apps::v1::ReplicaSet;
-use kube::{api::ListParams, core::ObjectList, Api};
+use kube::{
+    api::{ListParams, Patch, PatchParams},
+    core::ObjectList,
+    Api,
+};
 
 use crate::internal::{get_resource_api, update_resource};
 
@@ -26,4 +30,26 @@ pub async fn update_replica_set(
     resource: ReplicaSet,
 ) -> Result<ReplicaSet, String> {
     return update_resource(context, namespace, name, resource).await;
+}
+
+#[tauri::command]
+pub async fn scale_replica_set(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+    replicas: u8,
+) -> Result<bool, String> {
+    let api: Api<ReplicaSet> = get_resource_api(context, namespace).await;
+    let spec = serde_json::json!({ "spec": { "replicas": replicas }});
+    let pp = PatchParams::default();
+    let patch = Patch::Merge(&spec);
+    let resource = api.patch_scale(&name, &pp, &patch).await;
+
+    return match resource {
+        Ok(_resource) => Ok(true),
+        Err(err) => {
+            println!("Error scaling replica set: {}", err);
+            return Err(err.to_string());
+        }
+    };
 }

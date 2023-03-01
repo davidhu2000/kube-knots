@@ -44,6 +44,7 @@ fn main() {
             workloads::pods::get_pods,
             workloads::pods::update_pod,
             workloads::replica_sets::get_replica_sets,
+            workloads::replica_sets::scale_replica_set,
             workloads::replica_sets::update_replica_set,
             workloads::stateful_sets::get_stateful_sets,
             workloads::stateful_sets::update_stateful_set,
