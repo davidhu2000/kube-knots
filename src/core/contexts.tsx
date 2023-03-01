@@ -29,6 +29,7 @@ export function ContextSwitcher({
         onChange={changeCurrentContext}
         values={availableContexts.map((c) => c.name)}
         numberOfColumns={1}
+        textTransform="normal-case"
       />
 
       <ModalButton label="Close" onClick={handleClose} />

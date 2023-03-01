@@ -6,7 +6,7 @@ interface RadioButtonGroupProp<T> {
   onChange: (value: T) => void;
   values: T[];
   numberOfColumns?: 1 | 3;
-  textTransform?: "capitalize" | "lowercase" | "normal-case	" | "uppercase";
+  textTransform?: "capitalize" | "lowercase" | "normal-case" | "uppercase";
 }
 
 export function RadioButtonGroup<T extends string>({
