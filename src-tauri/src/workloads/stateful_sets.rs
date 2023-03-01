@@ -66,7 +66,7 @@ pub async fn scale_stateful_set(
     return match resource {
         Ok(_resource) => Ok(true),
         Err(err) => {
-            println!("Error scaling deployment: {}", err);
+            println!("Error scaling stateful set: {}", err);
             return Err(err.to_string());
         }
     };
