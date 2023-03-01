@@ -1,13 +1,13 @@
 import { type V1Job, type V1CronJob } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
-import { formatDistance } from "date-fns";
 import { Suspense } from "react";
 
 import { ActionGroup, ActionButton } from "../components/action-group";
 import { QueryWrapper } from "../components/query-wrapper";
 import { ResourceEditDrawer } from "../components/resource-edit-drawer";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
+import { formatDateString } from "../helpers/date-helpers";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 
@@ -55,12 +55,7 @@ export function CronJobs() {
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
               <TableCell>{item.spec?.schedule}</TableCell>
-              <TableCell>
-                {item.status?.lastScheduleTime &&
-                  formatDistance(new Date(item.status.lastScheduleTime), new Date(), {
-                    addSuffix: true,
-                  })}
-              </TableCell>
+              <TableCell>{formatDateString(item.status?.lastScheduleTime)}</TableCell>
               <TableCell>
                 <ActionGroup>
                   <ActionButton

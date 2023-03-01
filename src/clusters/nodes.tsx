@@ -1,11 +1,11 @@
 import type { NodeMetric, V1Node } from "@kubernetes/client-node";
-import { formatDistance } from "date-fns";
 import { lazy, Suspense } from "react";
 
 import { ActionGroup, ActionButton } from "../components/action-group";
 import { QueryWrapper } from "../components/query-wrapper";
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
+import { formatDateString } from "../helpers/date-helpers";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 
@@ -50,12 +50,7 @@ export function Nodes() {
 
                 <TableCell>{conditions?.type}</TableCell>
 
-                <TableCell>
-                  {item.metadata?.creationTimestamp &&
-                    formatDistance(new Date(item.metadata?.creationTimestamp), new Date(), {
-                      addSuffix: true,
-                    })}
-                </TableCell>
+                <TableCell>{formatDateString(item.metadata?.creationTimestamp)}</TableCell>
 
                 <TableCell>
                   <ActionGroup>
