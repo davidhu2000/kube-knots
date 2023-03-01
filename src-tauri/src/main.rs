@@ -32,6 +32,7 @@ fn main() {
             workloads::pods::delete_pod,
             workloads::pods::get_pod_logs,
             workloads::pods::get_pods,
+            workloads::pods::update_pod,
             workloads::replica_sets::get_replica_sets,
             workloads::stateful_sets::get_stateful_sets,
             workloads::stateful_sets::restart_stateful_set,
