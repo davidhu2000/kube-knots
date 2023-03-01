@@ -1,11 +1,11 @@
 import type { V1Secret } from "@kubernetes/client-node";
-import { formatDistance } from "date-fns";
 import { Suspense } from "react";
 
 import { ActionButton } from "../components/action-group";
 import { QueryWrapper } from "../components/query-wrapper";
 import { ResourceEditDrawer } from "../components/resource-edit-drawer";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
+import { formatDateString } from "../helpers/date-helpers";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { useResourceList } from "../hooks/use-resource-list";
 
@@ -22,12 +22,7 @@ export function Secrets() {
           {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               <TableCell>{item.metadata?.name}</TableCell>
-              <TableCell>
-                {item.metadata?.creationTimestamp &&
-                  formatDistance(new Date(item.metadata.creationTimestamp), new Date(), {
-                    addSuffix: true,
-                  })}
-              </TableCell>
+              <TableCell>{formatDateString(item.metadata?.creationTimestamp)}</TableCell>
               <TableCell>
                 <ActionButton
                   label="edit"

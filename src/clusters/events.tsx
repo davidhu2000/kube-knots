@@ -1,8 +1,8 @@
 import type { CoreV1Event } from "@kubernetes/client-node";
-import { formatDistance } from "date-fns";
 
 import { QueryWrapper } from "../components/query-wrapper";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
+import { formatDateString } from "../helpers/date-helpers";
 import { useResourceList } from "../hooks/use-resource-list";
 
 export function Events() {
@@ -25,12 +25,7 @@ export function Events() {
               <TableCell>{item.reason}</TableCell>
               <TableCell>{item.message}</TableCell>
               <TableCell>{item.source?.component}</TableCell>
-              <TableCell>
-                {item.lastTimestamp &&
-                  formatDistance(new Date(item.lastTimestamp), new Date(), {
-                    addSuffix: true,
-                  })}
-              </TableCell>
+              <TableCell>{formatDateString(item.lastTimestamp)}</TableCell>
             </tr>
           ))}
         </TableBody>
