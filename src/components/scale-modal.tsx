@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useState } from "react";
 
+import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./modal";
 
@@ -15,7 +16,7 @@ export function ScaleModal({ isOpen, handleClose, resource }: ModalProps): JSX.E
   const [replicas, setReplicas] = useState<number>(resource.spec?.replicas || 0);
   const { currentContext } = useCurrentContext();
 
-  const type = resource.kind?.toLowerCase() === "deployment" ? "deployment" : "stateful_set";
+  const type = camelToSnakeCase(resource.kind);
 
   const scaleMutation = useMutation({
     mutationFn: (replicas: number) => {
