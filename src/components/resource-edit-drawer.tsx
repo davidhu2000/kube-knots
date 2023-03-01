@@ -28,7 +28,7 @@ function getEditorTheme(
   return theme === "dark" ? "vs-dark" : "light";
 }
 
-export function ResourceEditDrawer<T extends { kind: string; metadata?: V1ObjectMeta }>({
+export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
   isOpen,
   selectedResource,
   handleClose,
