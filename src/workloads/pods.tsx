@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { ActionButton, ActionGroup } from "../components/action-group";
+import { DeleteModal } from "../components/delete-modal";
 import { Drawer } from "../components/drawer";
 import { QueryWrapper } from "../components/query-wrapper";
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
@@ -86,7 +87,7 @@ export function Pods() {
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1Pod,
-    "edit" | "exec" | "logs"
+    "delete" | "edit" | "exec" | "logs"
   >();
 
   return (
@@ -124,10 +125,16 @@ export function Pods() {
                       position="middle"
                       onClick={() => handleOpen(pod, "exec")}
                     /> */}
+
                     <ActionButton
                       label="edit"
-                      position="right"
+                      position="middle"
                       onClick={() => handleOpen(pod, "edit")}
+                    />
+                    <ActionButton
+                      label="delete"
+                      position="right"
+                      onClick={() => handleOpen(pod, "delete")}
                     />
                   </ActionGroup>
                 </TableCell>
@@ -142,6 +149,13 @@ export function Pods() {
       <Suspense fallback={<div>Loading Form</div>}>
         <ResourceEditDrawer
           isOpen={action === "edit"}
+          handleClose={handleClose}
+          selectedResource={selected}
+        />
+      </Suspense>
+      <Suspense fallback={<div>Loading Deleted modal</div>}>
+        <DeleteModal
+          isOpen={action === "delete"}
           handleClose={handleClose}
           selectedResource={selected}
         />

@@ -29,6 +29,7 @@ fn main() {
             workloads::jobs::create_job,
             workloads::jobs::get_jobs,
             workloads::pod_metrics::get_pod_metrics,
+            workloads::pods::delete_pod,
             workloads::pods::get_pod_logs,
             workloads::pods::get_pods,
             workloads::replica_sets::get_replica_sets,

@@ -1,0 +1,50 @@
+import { type V1Pod } from "@kubernetes/client-node";
+import { useMutation } from "@tanstack/react-query";
+import { invoke } from "@tauri-apps/api";
+
+import { useCurrentContext } from "../providers/current-context-provider";
+import { BaseModal, ModalButton } from "./modal";
+
+interface ModalProps {
+  isOpen: boolean;
+  handleClose: () => void;
+  selectedResource: V1Pod | null;
+}
+export function DeleteModal({ isOpen, handleClose, selectedResource }: ModalProps): JSX.Element {
+  const { currentContext } = useCurrentContext();
+  const type = selectedResource?.kind?.toLowerCase() ?? "--";
+
+  const deleteMutation = useMutation({
+    mutationFn: (resource: V1Pod) => {
+      return invoke<boolean>(`delete_${type}`, {
+        context: currentContext,
+        namespace: resource.metadata?.namespace,
+        podName: resource.metadata?.name,
+      });
+    },
+    onSuccess: (_data, variables) => {
+      handleClose();
+      // TODO: a better way to do this
+      alert(`deleted ${type.replace("_", " ")} ${variables.metadata?.name}`);
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+  if (!selectedResource) {
+    return <div>Missing Resource to delete</div>;
+  }
+
+  return (
+    <BaseModal isOpen={isOpen} handleClose={handleClose} title={`Delete ${type}`}>
+      <div className="mt-2">
+        <p className="text-sm text-gray-500 dark:text-gray-300">
+          Confirming delete of "{selectedResource.metadata?.name}"
+        </p>
+      </div>
+
+      <ModalButton label="Delete" onClick={() => deleteMutation.mutate(selectedResource)} />
+    </BaseModal>
+  );
+}
