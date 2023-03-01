@@ -40,7 +40,7 @@ export function DeleteModal({ isOpen, handleClose, selectedResource }: ModalProp
     <BaseModal isOpen={isOpen} handleClose={handleClose} title={`Delete ${type}`}>
       <div className="mt-2">
         <p className="text-sm text-gray-500 dark:text-gray-300">
-          Confirming delete of "{selectedResource.metadata?.name}"
+          Confirming delete of &quot;{selectedResource.metadata?.name}&quot;
         </p>
       </div>
 

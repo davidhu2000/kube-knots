@@ -1,7 +1,7 @@
 use k8s_openapi::api::core::v1::Pod;
 
 use kube::{
-    api::{DeleteParams, ListParams, LogParams},
+    api::{DeleteParams, ListParams, LogParams, Patch, PatchParams},
     core::ObjectList,
     Api,
 };
@@ -35,6 +35,24 @@ pub async fn get_pod_logs(
     let mut lp = LogParams::default();
     lp.container = container;
     let result = pods.logs(&pod_name, &lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
+}
+
+#[tauri::command]
+pub async fn update_pod(
+    context: Option<String>,
+    namespace: Option<String>,
+    pod_name: String,
+    pod: Pod,
+) -> Result<Pod, String> {
+    let api: Api<Pod> = get_resource_api(context, namespace).await;
+
+    let pp = PatchParams::default();
+    let result = api.patch(&pod_name, &pp, &Patch::Merge(&pod)).await;
 
     return match result {
         Ok(items) => Ok(items),
