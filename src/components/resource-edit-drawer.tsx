@@ -69,7 +69,7 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
 
   const updateMutation = useMutation({
     mutationFn: (resource: T) => {
-      return invoke<boolean>(`update_${resource.kind.toLowerCase()}`, {
+      return invoke<boolean>(`update_${resource.kind?.toLowerCase()}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,
         podName: resource.metadata?.name,
