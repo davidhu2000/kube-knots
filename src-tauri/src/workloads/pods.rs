@@ -28,12 +28,12 @@ pub async fn get_pod_logs(
     context: Option<String>,
     namespace: Option<String>,
     pod_name: String,
-    container_name: Option<String>,
+    container: Option<String>,
 ) -> Result<String, String> {
     let pods: Api<Pod> = get_resource_api(context, namespace).await;
 
     let mut lp = LogParams::default();
-    lp.container = container_name;
+    lp.container = container;
     let result = pods.logs(&pod_name, &lp).await;
 
     return match result {
