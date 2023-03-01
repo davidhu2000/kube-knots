@@ -5,6 +5,7 @@ import { useCurrentContext } from "../providers/current-context-provider";
 import { useNamespace } from "../providers/namespaces-provider";
 
 type Commands =
+  | "get_config_maps"
   | "get_cron_jobs"
   | "get_deployments"
   | "get_events"
@@ -15,6 +16,7 @@ type Commands =
   | "get_pod_metrics"
   | "get_pods"
   | "get_replica_sets"
+  | "get_secrets"
   | "get_services"
   | "get_stateful_sets";
 

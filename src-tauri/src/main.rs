@@ -8,6 +8,7 @@ use tauri_plugin_log::LogTarget;
 mod internal;
 
 pub mod cluster;
+pub mod configurations;
 pub mod core;
 pub mod networking;
 pub mod workloads;
@@ -19,6 +20,8 @@ fn main() {
             cluster::node_metrics::get_node_metrics,
             cluster::namespaces::get_namespaces,
             cluster::nodes::get_nodes,
+            configurations::config_maps::get_config_maps,
+            configurations::secrets::get_secrets,
             core::config::get_config,
             networking::ingresses::get_ingresses,
             networking::services::get_services,

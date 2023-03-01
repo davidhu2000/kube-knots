@@ -28,7 +28,7 @@ function getEditorTheme(
   return theme === "dark" ? "vs-dark" : "light";
 }
 
-export function ResourceEditDrawer<T extends { kind: string; metadata?: V1ObjectMeta }>({
+export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
   isOpen,
   selectedResource,
   handleClose,
@@ -69,7 +69,7 @@ export function ResourceEditDrawer<T extends { kind: string; metadata?: V1Object
 
   const updateMutation = useMutation({
     mutationFn: (resource: T) => {
-      return invoke<boolean>(`update_${resource.kind.toLowerCase()}`, {
+      return invoke<boolean>(`update_${resource.kind?.toLowerCase()}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,
         podName: resource.metadata?.name,

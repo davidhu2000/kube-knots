@@ -5,7 +5,7 @@ import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 
 import { Context, ContextSwitcher } from "./core/contexts";
 import { NamespaceSelect } from "./namespaces/namespace-select";
-import { clusterRoutes, networkingRoutes, workloadsRoutes } from "./router";
+import { clusterRoutes, configurationRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
 const Settings = lazy(() =>
   import("./settings/settings").then((module) => ({ default: module.Settings }))
@@ -15,6 +15,7 @@ export function Layout({ children }: PropsWithChildren) {
   const sections = [
     { title: "Workload", routes: workloadsRoutes },
     { title: "Networking", routes: networkingRoutes },
+    { title: "Configurations", routes: configurationRoutes },
     { title: "Cluster", routes: clusterRoutes },
   ];
 

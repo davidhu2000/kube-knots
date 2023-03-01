@@ -2,6 +2,8 @@ import { Outlet, ReactRouter, RootRoute, Route } from "@tanstack/react-router";
 
 import { Events } from "./clusters/events";
 import { Nodes } from "./clusters/nodes";
+import { ConfigMaps } from "./configurations/config-maps";
+import { Secrets } from "./configurations/secrets";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { Services } from "./networking/services";
@@ -34,6 +36,11 @@ export const networkingRoutes = [
   { name: "Services", path: "/services", component: Services },
 ] as const;
 
+export const configurationRoutes = [
+  { name: "Config Maps", path: "/config-maps", component: ConfigMaps },
+  { name: "Secrets", path: "/secrets", component: Secrets },
+] as const;
+
 export const clusterRoutes = [
   { name: "Events", path: "/events", component: Events },
   { name: "Nodes", path: "/nodes", component: Nodes },
@@ -45,9 +52,9 @@ const routeTree = rootRoute.addChildren([
     path: "/",
     component: () => <div>TODO: figure out what to show by default</div>,
   }),
-  ...workloadsRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
-  ...networkingRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
-  ...clusterRoutes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute })),
+  ...[workloadsRoutes, networkingRoutes, configurationRoutes, clusterRoutes].flatMap((routes) =>
+    routes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute }))
+  ),
 ]);
 
 export const router = new ReactRouter({ routeTree });
