@@ -5,7 +5,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::get_resource_api;
+use crate::internal::{get_resource_api, update_resource};
 
 #[tauri::command]
 pub async fn get_deployments(
@@ -20,6 +20,16 @@ pub async fn get_deployments(
         Ok(items) => Ok(items),
         Err(e) => Err(e.to_string()),
     };
+}
+
+#[tauri::command]
+pub async fn update_deployment(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+    resource: Deployment,
+) -> Result<Deployment, String> {
+    return update_resource(context, namespace, name, resource).await;
 }
 
 #[tauri::command]
