@@ -69,11 +69,23 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
 
   const updateMutation = useMutation({
     mutationFn: (resource: T) => {
-      return invoke<boolean>(`update_${resource.kind?.toLowerCase()}`, {
+      const camelToSnakeCase = (str: string) => {
+        const snakeCase = str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
+        if (snakeCase.startsWith("_")) {
+          return snakeCase.slice(1);
+        }
+
+        return snakeCase;
+      };
+
+      const resourceKind = camelToSnakeCase(resource.kind ?? "");
+
+      return invoke<boolean>(`update_${resourceKind}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,
-        podName: resource.metadata?.name,
-        pod: resource,
+        name: resource.metadata?.name,
+        resource,
       });
     },
     onSuccess: (_data, variables) => {

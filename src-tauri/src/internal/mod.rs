@@ -1,8 +1,10 @@
 use k8s_openapi::NamespaceResourceScope;
 use kube::{
+    api::{Patch, PatchParams},
     config::{KubeConfigOptions, Kubeconfig},
     Api, Client, Config,
 };
+use serde::Serialize;
 
 pub async fn get_resource_api<T>(context: Option<String>, namespace: Option<String>) -> Api<T>
 where
@@ -49,4 +51,30 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
     };
 
     return client;
+}
+
+pub async fn update_resource<T>(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+    resource: T,
+) -> Result<T, String>
+where
+    T: serde::de::DeserializeOwned
+        + std::fmt::Debug
+        + Clone
+        + k8s_openapi::Metadata
+        + kube::Resource<Scope = NamespaceResourceScope>
+        + Serialize,
+    <T as kube::Resource>::DynamicType: std::default::Default,
+{
+    let api: Api<T> = get_resource_api(context, namespace).await;
+
+    let pp = PatchParams::default();
+    let result = api.patch(&name, &pp, &Patch::Merge(&resource)).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
 }
