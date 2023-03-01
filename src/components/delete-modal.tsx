@@ -32,19 +32,21 @@ export function DeleteModal({ isOpen, handleClose, selectedResource }: ModalProp
     },
   });
 
-  if (!selectedResource) {
-    return <div>Missing Resource to delete</div>;
-  }
-
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose} title={`Delete ${type}`}>
-      <div className="mt-2">
-        <p className="text-sm text-gray-500 dark:text-gray-300">
-          Confirming delete of &quot;{selectedResource.metadata?.name}&quot;
-        </p>
-      </div>
+      {selectedResource ? (
+        <>
+          <div className="mt-2">
+            <p className="text-sm text-gray-500 dark:text-gray-300">
+              Confirming delete of &quot;{selectedResource.metadata?.name}&quot;
+            </p>
+          </div>
 
-      <ModalButton label="Delete" onClick={() => deleteMutation.mutate(selectedResource)} />
+          <ModalButton label="Delete" onClick={() => deleteMutation.mutate(selectedResource)} />
+        </>
+      ) : (
+        <div>Missing Resource to delete</div>
+      )}
     </BaseModal>
   );
 }
