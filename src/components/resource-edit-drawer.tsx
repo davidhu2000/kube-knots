@@ -17,6 +17,16 @@ interface ResourceEditDrawerProps<T> {
   handleClose: () => void;
 }
 
+const camelToSnakeCase = (str: string) => {
+  const snakeCase = str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
+  if (snakeCase.startsWith("_")) {
+    return snakeCase.slice(1);
+  }
+
+  return snakeCase;
+};
+
 function getEditorTheme(
   theme: ReturnType<typeof useTheme>["theme"],
   systemTheme: ReturnType<typeof useTheme>["systemTheme"]
@@ -69,16 +79,6 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
 
   const updateMutation = useMutation({
     mutationFn: (resource: T) => {
-      const camelToSnakeCase = (str: string) => {
-        const snakeCase = str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-
-        if (snakeCase.startsWith("_")) {
-          return snakeCase.slice(1);
-        }
-
-        return snakeCase;
-      };
-
       const resourceKind = camelToSnakeCase(resource.kind ?? "");
 
       return invoke<boolean>(`update_${resourceKind}`, {
