@@ -25,7 +25,7 @@ export function ReplicaSets() {
   return (
     <QueryWrapper query={resourceListQuery}>
       <Table>
-        <TableHeader headers={["Name", "Images", "Pods"]} />
+        <TableHeader headers={["Name", "Images", "Pods", "Actions"]} />
         <TableBody>
           {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
