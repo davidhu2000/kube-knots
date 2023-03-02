@@ -22,6 +22,11 @@ const ScaleModal = lazy(() =>
     default: module.ScaleModal,
   }))
 );
+const PodLogs = lazy(() =>
+  import("./pod-logs").then((module) => ({
+    default: module.PodLogs,
+  }))
+);
 
 type Resource = { kind?: string | undefined; metadata?: V1ObjectMeta };
 
@@ -116,6 +121,12 @@ export function ResourceTable<T extends Resource>({
             handleClose={handleClose}
             selectedResource={selected}
           />
+        )}
+      </Suspense>
+
+      <Suspense fallback={<div>Loading Logs</div>}>
+        {actions.includes("logs") && (
+          <PodLogs isOpen={action === "logs"} handleClose={handleClose} selectedPod={selected} />
         )}
       </Suspense>
     </QueryWrapper>

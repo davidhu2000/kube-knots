@@ -5,10 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useEffect, useState } from "react";
 
-import { Drawer } from "../components/drawer";
-import { ToggleButton } from "../components/toggle-button";
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
 import { useCurrentContext } from "../providers/current-context-provider";
+import { Drawer } from "./drawer";
+import { ToggleButton } from "./toggle-button";
 
 interface PodLogsProps {
   isOpen: boolean;
