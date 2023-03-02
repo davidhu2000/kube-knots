@@ -30,7 +30,6 @@ export function NamespaceProvider({ children }: PropsWithChildren) {
   });
 
   const changeNamespace = (ns: string | null) => {
-    console.log(ns);
     setNamespace(ns);
   };
 
