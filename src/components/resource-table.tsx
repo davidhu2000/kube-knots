@@ -59,20 +59,22 @@ export function ResourceTable<T extends Resource>({
           {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               {renderData(item)}
-              <TableCell>
-                {actions.map((action, index) => {
-                  const position = getPosition(actions.length, index);
+              {actions.length > 0 && (
+                <TableCell>
+                  {actions.map((action, index) => {
+                    const position = getPosition(actions.length, index);
 
-                  return (
-                    <ActionButton
-                      key={action}
-                      label={action}
-                      position={position}
-                      onClick={() => handleOpen(item, action)}
-                    />
-                  );
-                })}
-              </TableCell>
+                    return (
+                      <ActionButton
+                        key={action}
+                        label={action}
+                        position={position}
+                        onClick={() => handleOpen(item, action)}
+                      />
+                    );
+                  })}
+                </TableCell>
+              )}
             </tr>
           ))}
         </TableBody>
