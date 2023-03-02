@@ -29,13 +29,9 @@ export function NamespaceProvider({ children }: PropsWithChildren) {
     return invoke<{ items: V1Namespace[] }>("get_namespaces", { context: currentContext });
   });
 
-  const changeNamespace = (ns: string) => {
-    // TODO: update to a const
-    if (ns === "All namespaces") {
-      setNamespace(null);
-    } else {
-      setNamespace(ns);
-    }
+  const changeNamespace = (ns: string | null) => {
+    console.log(ns);
+    setNamespace(ns);
   };
 
   const namespaces = result.data?.items.map((item) => item.metadata?.name ?? "");

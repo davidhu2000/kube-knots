@@ -8,18 +8,20 @@ export function NamespaceSelect() {
   const [query, setQuery] = useState("");
   const { currentNamespace, availableNamespaces, changeNamespace } = useNamespace();
 
-  const filteredNamespaces = ["All namespaces"].concat(
-    availableNamespaces.filter((namespace) => {
+  const filteredNamespaces = [
+    null,
+    ...availableNamespaces.filter((namespace) => {
       return namespace.toLowerCase().includes(query.toLowerCase());
-    })
-  );
+    }),
+  ];
 
   return (
-    <Combobox as="div" value={currentNamespace ?? "All namespaces"} onChange={changeNamespace}>
+    <Combobox as="div" value={currentNamespace} onChange={changeNamespace}>
       <div className="relative mt-1">
         <Combobox.Input
           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100"
           onChange={(event) => setQuery(event.target.value)}
+          placeholder="All Namespaces"
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -39,7 +41,9 @@ export function NamespaceSelect() {
               >
                 {({ selected }) => (
                   <>
-                    <span className={`block cursor-pointer truncate`}>{namespace}</span>
+                    <span className={`block cursor-pointer truncate`}>
+                      {namespace ?? "All Namespaces"}
+                    </span>
 
                     {selected && (
                       <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-600 dark:text-slate-300">
