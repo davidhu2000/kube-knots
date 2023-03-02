@@ -12,6 +12,11 @@ const ResourceEditDrawer = lazy(() =>
     default: module.ResourceEditDrawer,
   }))
 );
+const ResourceTriggerModal = lazy(() =>
+  import("./resource-trigger-modal").then((module) => ({
+    default: module.ResourceTriggerModal,
+  }))
+);
 
 type Resource = { kind?: string | undefined; metadata?: V1ObjectMeta };
 
@@ -84,6 +89,16 @@ export function ResourceTable<T extends Resource>({
         {actions.includes("edit") && (
           <ResourceEditDrawer
             isOpen={action === "edit"}
+            handleClose={handleClose}
+            selectedResource={selected}
+          />
+        )}
+      </Suspense>
+
+      <Suspense fallback={<div>Loading Trigger Modal</div>}>
+        {actions.includes("trigger") && (
+          <ResourceTriggerModal
+            isOpen={action === "trigger"}
             handleClose={handleClose}
             selectedResource={selected}
           />

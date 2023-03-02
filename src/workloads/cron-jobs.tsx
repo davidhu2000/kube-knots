@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { ActionGroup, ActionButton } from "../components/action-group";
 import { QueryWrapper } from "../components/query-wrapper";
 import { ResourceEditDrawer } from "../components/resource-edit-drawer";
+import { ResourceTable } from "../components/resource-table";
 import { Table, TableHeader, TableBody, TableCell } from "../components/table";
 import { formatDateString } from "../helpers/date-helpers";
 import { useResourceActions } from "../hooks/use-resource-actions";
@@ -30,6 +31,21 @@ const formatCronjobAsJob = (cronjob: V1CronJob): V1Job => {
 };
 
 export function CronJobs() {
+  return (
+    <ResourceTable<V1CronJob>
+      command="get_cron_jobs"
+      headers={["Name", "Schedule", "Last Run", "Actions"]}
+      actions={["trigger", "edit"]}
+      renderData={(item) => (
+        <>
+          <TableCell>{item.metadata?.name}</TableCell>
+          <TableCell>{item.spec?.schedule}</TableCell>
+          <TableCell>{formatDateString(item.status?.lastScheduleTime)}</TableCell>
+        </>
+      )}
+    />
+  );
+
   const resourceListQuery = useResourceList<V1CronJob>("get_cron_jobs");
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<V1CronJob, "edit">();
