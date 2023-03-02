@@ -3,6 +3,7 @@ import { Outlet, ReactRouter, RootRoute, Route } from "@tanstack/react-router";
 import { Events } from "./clusters/events";
 import { Nodes } from "./clusters/nodes";
 import { ConfigMaps } from "./configurations/config-maps";
+import { HorizontalPodAutoscalers } from "./configurations/horizontal-pod-autoscalers";
 import { Secrets } from "./configurations/secrets";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
@@ -38,6 +39,7 @@ export const networkingRoutes = [
 
 export const configurationRoutes = [
   { name: "Config Maps", path: "/config-maps", component: ConfigMaps },
+  { name: "HPAs", path: "/horizontal-pod-autoscalers", component: HorizontalPodAutoscalers },
   { name: "Secrets", path: "/secrets", component: Secrets },
 ] as const;
 

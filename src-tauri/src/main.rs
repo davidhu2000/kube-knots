@@ -22,6 +22,8 @@ fn main() {
             cluster::nodes::get_nodes,
             configurations::config_maps::get_config_maps,
             configurations::config_maps::update_config_map,
+            configurations::horizontal_pod_autoscalers::get_horizontal_pod_autoscalers,
+            configurations::horizontal_pod_autoscalers::update_horizontal_pod_autoscaler,
             configurations::secrets::get_secrets,
             configurations::secrets::update_secret,
             core::config::get_config,

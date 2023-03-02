@@ -9,6 +9,7 @@ type Commands =
   | "get_cron_jobs"
   | "get_deployments"
   | "get_events"
+  | "get_horizontal_pod_autoscalers"
   | "get_ingresses"
   | "get_jobs"
   | "get_node_metrics"
