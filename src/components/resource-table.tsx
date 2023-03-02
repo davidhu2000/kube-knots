@@ -17,6 +17,11 @@ const ResourceTriggerModal = lazy(() =>
     default: module.ResourceTriggerModal,
   }))
 );
+const ScaleModal = lazy(() =>
+  import("./scale-modal").then((module) => ({
+    default: module.ScaleModal,
+  }))
+);
 
 type Resource = { kind?: string | undefined; metadata?: V1ObjectMeta };
 
@@ -99,6 +104,15 @@ export function ResourceTable<T extends Resource>({
         {actions.includes("trigger") && (
           <ResourceTriggerModal
             isOpen={action === "trigger"}
+            handleClose={handleClose}
+            selectedResource={selected}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<div>Loading Scale Modal</div>}>
+        {actions.includes("scale") && (
+          <ScaleModal
+            isOpen={action === "scale"}
             handleClose={handleClose}
             selectedResource={selected}
           />
