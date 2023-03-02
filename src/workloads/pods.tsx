@@ -1,31 +1,11 @@
 import type { PodMetric, V1Pod } from "@kubernetes/client-node";
-import {
-  type ChangeEvent,
-  lazy,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  type FormEvent,
-} from "react";
+import { type ChangeEvent, useEffect, useRef, useState, type FormEvent } from "react";
 
-import { ActionButton, ActionGroup } from "../components/action-group";
-import { DeleteModal } from "../components/delete-modal";
-import { Drawer } from "../components/drawer";
-import { QueryWrapper } from "../components/query-wrapper";
+import { ResourceTable } from "../components/resource-table";
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
-import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useResourceActions } from "../hooks/use-resource-actions";
+import { TableCell } from "../components/table";
 import { useResourceList } from "../hooks/use-resource-list";
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
-
-const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
-
-const ResourceEditDrawer = lazy(() =>
-  import("../components/resource-edit-drawer").then((module) => ({
-    default: module.ResourceEditDrawer,
-  }))
-);
 
 function Terminal() {
   const [command, setCommand] = useState("");
@@ -79,98 +59,35 @@ function Terminal() {
 }
 
 export function Pods() {
-  const resourceListQuery = useResourceList<V1Pod>("get_pods");
-
   const {
     data: { items: metrics },
   } = useResourceList<PodMetric>("get_pod_metrics");
 
-  const { selected, handleOpen, handleClose, action } = useResourceActions<
-    V1Pod,
-    "delete" | "edit" | "exec" | "logs"
-  >();
-
   return (
-    <QueryWrapper query={resourceListQuery}>
-      <Table>
-        <TableHeader headers={["Name", "Status", "CPU", "Memory", "Actions"]} />
-        <TableBody>
-          {resourceListQuery.data.items.map((pod) => {
-            const metric = metrics.find((metric) => metric.metadata.name === pod.metadata?.name);
+    <ResourceTable<V1Pod>
+      command="get_pods"
+      headers={["Name", "Status", "CPU", "Memory", "Actions"]}
+      actions={["logs", "edit", "delete"]}
+      renderData={(item) => {
+        const metric = metrics.find((metric) => metric.metadata.name === item.metadata?.name);
 
-            // TODO: handle multiple containers
-            const usage = metric?.containers[0].usage;
-            const requests = pod.spec?.containers[0].resources?.requests;
+        // TODO: handle multiple containers
+        const usage = metric?.containers[0].usage;
+        const requests = item.spec?.containers[0].resources?.requests;
 
-            return (
-              <tr key={pod.metadata?.uid}>
-                <TableCell>{pod.metadata?.name}</TableCell>
-                <TableCell>{pod.status?.phase}</TableCell>
-                <TableCell>
-                  <CpuUsage usage={usage?.cpu} request={requests?.cpu} />
-                </TableCell>
-                <TableCell>
-                  <MemoryUsage usage={usage?.memory} request={requests?.memory} />
-                </TableCell>
-                <TableCell>
-                  <ActionGroup>
-                    <ActionButton
-                      label="logs"
-                      position="left"
-                      onClick={() => handleOpen(pod, "logs")}
-                    />
-                    {/* TODO: figure out how to build terminals */}
-                    {/* <ActionButton
-                      label="exec"
-                      position="middle"
-                      onClick={() => handleOpen(pod, "exec")}
-                    /> */}
-
-                    <ActionButton
-                      label="edit"
-                      position="middle"
-                      onClick={() => handleOpen(pod, "edit")}
-                    />
-                    <ActionButton
-                      label="delete"
-                      position="right"
-                      onClick={() => handleOpen(pod, "delete")}
-                    />
-                  </ActionGroup>
-                </TableCell>
-              </tr>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <Suspense fallback={<div>Loading Logs</div>}>
-        <PodLogs isOpen={action === "logs"} handleClose={handleClose} selectedPod={selected} />
-      </Suspense>
-      <Suspense fallback={<div>Loading Form</div>}>
-        <ResourceEditDrawer
-          isOpen={action === "edit"}
-          handleClose={handleClose}
-          selectedResource={selected}
-        />
-      </Suspense>
-      <Suspense fallback={<div>Loading Deleted modal</div>}>
-        <DeleteModal
-          isOpen={action === "delete"}
-          handleClose={handleClose}
-          selectedResource={selected}
-        />
-      </Suspense>
-      <Suspense fallback={<div>Loading Drawer</div>}>
-        <Drawer
-          isOpen={action === "exec"}
-          handleClose={handleClose}
-          title="Terminal"
-          // TODO: support multiple containers
-          description={`Terminal for ${selected?.metadata?.name} - ${selected?.spec?.containers[0]?.name}`}
-        >
-          <Terminal />
-        </Drawer>
-      </Suspense>
-    </QueryWrapper>
+        return (
+          <>
+            <TableCell>{item.metadata?.name}</TableCell>
+            <TableCell>{item.status?.phase}</TableCell>
+            <TableCell>
+              <CpuUsage usage={usage?.cpu} request={requests?.cpu} />
+            </TableCell>
+            <TableCell>
+              <MemoryUsage usage={usage?.memory} request={requests?.memory} />
+            </TableCell>
+          </>
+        );
+      }}
+    />
   );
 }

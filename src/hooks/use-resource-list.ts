@@ -4,7 +4,7 @@ import { invoke } from "@tauri-apps/api";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { useNamespace } from "../providers/namespaces-provider";
 
-type Commands =
+export type ResourceListCommands =
   | "get_config_maps"
   | "get_cron_jobs"
   | "get_deployments"
@@ -21,7 +21,7 @@ type Commands =
   | "get_services"
   | "get_stateful_sets";
 
-export function useResourceList<T>(command: Commands) {
+export function useResourceList<T>(command: ResourceListCommands) {
   const { currentNamespace } = useNamespace();
   const { currentContext } = useCurrentContext();
   const result = useQuery(
