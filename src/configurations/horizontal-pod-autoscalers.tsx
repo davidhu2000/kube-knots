@@ -7,7 +7,7 @@ import { formatDateString } from "../helpers/date-helpers";
 export function HorizontalPodAutoscalers() {
   return (
     <ResourceTable<V1HorizontalPodAutoscaler>
-      command={"get_horizontal_pod_autoscalers"}
+      command="get_horizontal_pod_autoscalers"
       headers={["Name", "Metrics", "Min Pods", "Current", "Max Pods", "Created", "Actions"]}
       actions={["edit"]}
       renderData={(item) => (

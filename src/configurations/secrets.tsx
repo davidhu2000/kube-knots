@@ -7,7 +7,7 @@ import { formatDateString } from "../helpers/date-helpers";
 export function Secrets() {
   return (
     <ResourceTable<V1Secret>
-      command={"get_secrets"}
+      command="get_secrets"
       headers={["Name", "Created", "Actions"]}
       actions={["edit"]}
       renderData={(item) => (

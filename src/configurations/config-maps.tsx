@@ -7,7 +7,7 @@ import { formatDateString } from "../helpers/date-helpers";
 export function ConfigMaps() {
   return (
     <ResourceTable<V1ConfigMap>
-      command={"get_config_maps"}
+      command="get_config_maps"
       headers={["Name", "Created", "Actions"]}
       actions={["edit"]}
       renderData={(item) => (
