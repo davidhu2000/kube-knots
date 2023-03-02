@@ -7,16 +7,16 @@ import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./modal";
 
-interface ScaleModalProps {
+interface ResourceScaleModalProps {
   isOpen: boolean;
   handleClose: () => void;
   selectedResource: V1Deployment | V1ReplicaSet | V1StatefulSet | null;
 }
-export function ScaleModal({
+export function ResourceScaleModal({
   isOpen,
   handleClose,
   selectedResource,
-}: ScaleModalProps): JSX.Element {
+}: ResourceScaleModalProps): JSX.Element {
   const [replicas, setReplicas] = useState<number>(selectedResource?.spec?.replicas || 0);
   const { currentContext } = useCurrentContext();
 

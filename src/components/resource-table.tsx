@@ -17,9 +17,14 @@ const ResourceTriggerModal = lazy(() =>
     default: module.ResourceTriggerModal,
   }))
 );
-const ScaleModal = lazy(() =>
-  import("./scale-modal").then((module) => ({
-    default: module.ScaleModal,
+const ResourceScaleModal = lazy(() =>
+  import("./resource-scale-modal").then((module) => ({
+    default: module.ResourceScaleModal,
+  }))
+);
+const ResourceRestartModal = lazy(() =>
+  import("./resource-restart-modal").then((module) => ({
+    default: module.ResourceRestartModal,
   }))
 );
 const PodLogs = lazy(() =>
@@ -28,7 +33,7 @@ const PodLogs = lazy(() =>
   }))
 );
 
-type Resource = { kind?: string | undefined; metadata?: V1ObjectMeta };
+export type ResourceBase = { kind?: string | undefined; metadata?: V1ObjectMeta };
 
 interface ResourceListProps<T> {
   command: ResourceListCommands;
@@ -53,7 +58,7 @@ function getPosition(length: number, index: number) {
   return "middle";
 }
 
-export function ResourceTable<T extends Resource>({
+export function ResourceTable<T extends ResourceBase>({
   command,
   headers,
   actions,
@@ -116,8 +121,18 @@ export function ResourceTable<T extends Resource>({
       </Suspense>
       <Suspense fallback={<div>Loading Scale Modal</div>}>
         {actions.includes("scale") && (
-          <ScaleModal
+          <ResourceScaleModal
             isOpen={action === "scale"}
+            handleClose={handleClose}
+            selectedResource={selected}
+          />
+        )}
+      </Suspense>
+
+      <Suspense fallback={<div>Loading Restart Modal</div>}>
+        {actions.includes("restart") && (
+          <ResourceRestartModal
+            isOpen={action === "restart"}
             handleClose={handleClose}
             selectedResource={selected}
           />

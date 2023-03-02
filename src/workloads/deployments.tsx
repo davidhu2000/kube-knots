@@ -8,7 +8,7 @@ export function Deployments() {
     <ResourceTable<V1Deployment>
       command="get_deployments"
       headers={["Name", "Image", "Pods", "Actions"]}
-      actions={["edit", "scale"]}
+      actions={["restart", "edit", "scale"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>
