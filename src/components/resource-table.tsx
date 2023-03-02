@@ -17,6 +17,11 @@ const ResourceTriggerModal = lazy(() =>
     default: module.ResourceTriggerModal,
   }))
 );
+const ResourceDeleteModal = lazy(() =>
+  import("./resource-delete-modal").then((module) => ({
+    default: module.ResourceDeleteModal,
+  }))
+);
 const ResourceScaleModal = lazy(() =>
   import("./resource-scale-modal").then((module) => ({
     default: module.ResourceScaleModal,
@@ -133,6 +138,15 @@ export function ResourceTable<T extends ResourceBase>({
         {actions.includes("restart") && (
           <ResourceRestartModal
             isOpen={action === "restart"}
+            handleClose={handleClose}
+            selectedResource={selected}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<div>Loading Deleted modal</div>}>
+        {actions.includes("delete") && (
+          <ResourceDeleteModal
+            isOpen={action === "delete"}
             handleClose={handleClose}
             selectedResource={selected}
           />

@@ -5,12 +5,16 @@ import { invoke } from "@tauri-apps/api";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./modal";
 
-interface ModalProps {
+interface ResourceDeleteProps {
   isOpen: boolean;
   handleClose: () => void;
   selectedResource: V1Pod | null;
 }
-export function DeleteModal({ isOpen, handleClose, selectedResource }: ModalProps): JSX.Element {
+export function ResourceDeleteModal({
+  isOpen,
+  handleClose,
+  selectedResource,
+}: ResourceDeleteProps): JSX.Element {
   const { currentContext } = useCurrentContext();
   const type = selectedResource?.kind?.toLowerCase() ?? "--";
 
