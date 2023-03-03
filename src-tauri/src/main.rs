@@ -33,6 +33,8 @@ fn main() {
             networking::services::update_service,
             workloads::cron_jobs::get_cron_jobs,
             workloads::cron_jobs::update_cron_job,
+            workloads::daemon_sets::get_daemon_sets,
+            workloads::daemon_sets::update_daemon_set,
             workloads::deployments::get_deployments,
             workloads::deployments::update_deployment,
             workloads::deployments::restart_deployment,
