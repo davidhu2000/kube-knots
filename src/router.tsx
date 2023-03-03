@@ -9,6 +9,7 @@ import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { Services } from "./networking/services";
 import { CronJobs } from "./workloads/cron-jobs";
+import { DaemonSets } from "./workloads/daemon-sets";
 import { Deployments } from "./workloads/deployments";
 import { Jobs } from "./workloads/jobs";
 import { Pods } from "./workloads/pods";
@@ -26,6 +27,7 @@ const rootRoute = new RootRoute({
 export const workloadsRoutes = [
   { name: "Cron Jobs", path: "/cron-jobs", component: CronJobs },
   { name: "Deployments", path: "/deployments", component: Deployments },
+  { name: "Daemon Sets", path: "/daemon-sets", component: DaemonSets },
   { name: "Jobs", path: "/jobs", component: Jobs },
   { name: "Pods", path: "/pods", component: Pods },
   { name: "Replica Sets", path: "/replica-sets", component: ReplicaSets },

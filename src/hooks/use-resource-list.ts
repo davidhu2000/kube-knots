@@ -7,6 +7,7 @@ import { useNamespace } from "../providers/namespaces-provider";
 export type ResourceListCommands =
   | "get_config_maps"
   | "get_cron_jobs"
+  | "get_daemon_sets"
   | "get_deployments"
   | "get_events"
   | "get_horizontal_pod_autoscalers"
