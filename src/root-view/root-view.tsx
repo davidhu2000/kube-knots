@@ -115,8 +115,8 @@ export function RootView() {
       <SectionWrapper title="Nodes">
         <div className="my-2 grid grid-cols-1 md:grid-cols-2">
           <div className="my-2">
-            <div>Version(s): {kubeletVersions.join(",")}</div>
-            <div>Nodes: {nodes.length}</div>
+            <div className="my-2">Version(s): {kubeletVersions.join(",")}</div>
+            <div className="my-2">Nodes: {nodes.length}</div>
 
             <ResourceUsage
               label={"Pods"}
@@ -146,17 +146,16 @@ export function RootView() {
         </div>
       </SectionWrapper>
 
-      <SectionWrapper title="Pods">
+      <SectionWrapper title={`Pods (${pods.length})`}>
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex">
             <div className="flex flex-col items-center">
-              <div className="mb-2">Pods ({pods.length})</div>
               <BarChart data={podsData} barWidth={240} />
             </div>
           </div>
 
           <div className="flex flex-col justify-start">
-            <div className="mb-2">Pod Usage vs Request</div>
+            <div className="mb-2">Usage vs Request</div>
             <div className="my-2">
               <CpuUsage
                 usage={`${totalCpuUsage}n`}
@@ -173,11 +172,10 @@ export function RootView() {
         </div>
       </SectionWrapper>
 
-      <SectionWrapper title="Jobs">
+      <SectionWrapper title={`Jobs (${jobs.length})`}>
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex">
             <div className="flex flex-col items-center">
-              <div className="mb-2">Jobs ({jobs.length})</div>
               <BarChart data={jobData} barWidth={240} />
             </div>
           </div>
