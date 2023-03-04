@@ -1,10 +1,9 @@
-import type { KubeConfig, PodMetric, V1Job, V1Node, V1Pod } from "@kubernetes/client-node";
+import type { PodMetric, V1Job, V1Node, V1Pod } from "@kubernetes/client-node";
 import { type ComponentProps, useState, type PropsWithChildren } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 
 import { ResourceUsage } from "./components/resource-usage";
 import { convertCpuToNanoCpu, convertMemoryToBytes } from "./helpers/unit-converts";
-import { useResource } from "./hooks/use-resource";
 import { useResourceList } from "./hooks/use-resource-list";
 
 type ActiveShapeComponent = ComponentProps<typeof Pie>["activeShape"];
@@ -209,10 +208,20 @@ export function RootView() {
 
           <div className="flex h-full flex-col items-center">
             {totalMemoryUsage} / {totalMemoryRequests}
-            <ResourceUsage usage={totalMemoryUsage} request={totalMemoryRequests} maxWidth={240} />
+            <ResourceUsage
+              label="Memory"
+              usage={totalMemoryUsage}
+              request={totalMemoryRequests}
+              maxWidth={240}
+            />
             <br />
             {totalCpuUsage} / {totalCpuRequests}
-            <ResourceUsage usage={totalCpuUsage} request={totalCpuRequests} maxWidth={240} />
+            <ResourceUsage
+              label="CPU"
+              usage={totalCpuUsage}
+              request={totalCpuRequests}
+              maxWidth={240}
+            />
           </div>
         </div>
       </SectionWrapper>
