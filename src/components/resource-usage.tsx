@@ -9,9 +9,10 @@ interface UsageProps {
   usage: string | undefined;
   request: string | undefined;
   maxWidth?: number;
+  simpleLabel?: boolean;
 }
 
-export function CpuUsage({ usage, request, maxWidth = 40 }: UsageProps) {
+export function CpuUsage({ usage, request, maxWidth = 40, simpleLabel = false }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
@@ -20,6 +21,7 @@ export function CpuUsage({ usage, request, maxWidth = 40 }: UsageProps) {
 
   return (
     <ResourceUsage
+      simpleLabel={simpleLabel}
       maxWidth={maxWidth}
       label={"CPU"}
       usage={usageNumber}
@@ -29,7 +31,7 @@ export function CpuUsage({ usage, request, maxWidth = 40 }: UsageProps) {
   );
 }
 
-export function MemoryUsage({ usage, request, maxWidth = 40 }: UsageProps) {
+export function MemoryUsage({ usage, request, maxWidth = 40, simpleLabel = false }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
@@ -38,6 +40,7 @@ export function MemoryUsage({ usage, request, maxWidth = 40 }: UsageProps) {
 
   return (
     <ResourceUsage
+      simpleLabel={simpleLabel}
       maxWidth={maxWidth}
       label={"Memory"}
       usage={usageNumber}
@@ -53,18 +56,38 @@ interface ResourceUsageProps {
   request: number;
   maxWidth: number;
   formattedUsage: string;
+  simpleLabel: boolean;
 }
-function ResourceUsage({ label, usage, request, maxWidth, formattedUsage }: ResourceUsageProps) {
-  const percent = Math.round((usage / request) * 100);
+function ResourceUsage({
+  label,
+  usage,
+  request,
+  maxWidth,
+  formattedUsage,
+  simpleLabel,
+}: ResourceUsageProps) {
+  const percent = Math.round((usage / request) * 100) || 0;
+
+  const renderLabel = () => {
+    if (simpleLabel) {
+      return <div>{formattedUsage}</div>;
+    }
+
+    return (
+      <>
+        <div>{label}</div>
+        <div>
+          <span>{formattedUsage}</span>&sdot;
+          <span>{percent}%</span>
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
-      <div className="flex justify-between" style={{ width: maxWidth }}>
-        <div>{label}</div>
-        <div>
-          <span className="mt-1">{formattedUsage}</span>&sdot;
-          <span className="mt-1">{percent}%</span>
-        </div>
+      <div className="flex justify-between text-sm" style={{ width: maxWidth }}>
+        {renderLabel()}
       </div>
       <div
         className="box-content h-3 overflow-hidden rounded-md border"

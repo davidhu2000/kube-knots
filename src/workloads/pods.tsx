@@ -7,6 +7,7 @@ import { TableCell } from "../components/table";
 import { useResourceList } from "../hooks/use-resource-list";
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Terminal() {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState<string[]>([]);
@@ -80,10 +81,10 @@ export function Pods() {
             <TableCell>{item.metadata?.name}</TableCell>
             <TableCell>{item.status?.phase}</TableCell>
             <TableCell>
-              <CpuUsage usage={usage?.cpu} request={requests?.cpu} />
+              <CpuUsage usage={usage?.cpu} request={requests?.cpu} simpleLabel={true} />
             </TableCell>
             <TableCell>
-              <MemoryUsage usage={usage?.memory} request={requests?.memory} />
+              <MemoryUsage usage={usage?.memory} request={requests?.memory} simpleLabel={true} />
             </TableCell>
           </>
         );
