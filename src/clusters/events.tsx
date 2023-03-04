@@ -8,8 +8,8 @@ export function Events() {
   return (
     <ResourceTable<CoreV1Event>
       command="get_events"
-      headers={["Reason", "Message", "Source", "Last Seen"]}
-      actions={[]}
+      headers={["Reason", "Message", "Source", "Last Seen", "Action"]}
+      actions={["edit"]}
       renderData={(item) => (
         <>
           <TableCell>{item.reason}</TableCell>

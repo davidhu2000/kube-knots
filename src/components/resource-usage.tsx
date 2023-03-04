@@ -90,7 +90,7 @@ function ResourceUsage({
         {renderLabel()}
       </div>
       <div
-        className="box-content h-3 overflow-hidden rounded-md border"
+        className="box-content h-3 overflow-hidden rounded-md border border-gray-400 bg-gray-300 dark:bg-gray-500"
         style={{ width: maxWidth }}
       >
         <div
