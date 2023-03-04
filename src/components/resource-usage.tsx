@@ -1,49 +1,65 @@
 import { convertCpuToNanoCpu, convertMemoryToBytes } from "../helpers/unit-converts";
 
-interface CpuUsageProps {
+interface UsageProps {
+  label: string;
   usage: string | undefined;
   request: string | undefined;
 }
-export function CpuUsage({ usage, request }: CpuUsageProps) {
+
+export function CpuUsage({ label, usage, request }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
 
   return (
-    <ResourceUsage usage={convertCpuToNanoCpu(usage)} request={convertCpuToNanoCpu(request)} />
+    <ResourceUsage
+      label={label}
+      usage={convertCpuToNanoCpu(usage)}
+      request={convertCpuToNanoCpu(request)}
+    />
   );
 }
 
-interface MemoryUsageProps {
-  usage: string | undefined;
-  request: string | undefined;
-}
-export function MemoryUsage({ usage, request }: MemoryUsageProps) {
+export function MemoryUsage({ label, usage, request }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
 
   return (
-    <ResourceUsage usage={convertMemoryToBytes(usage)} request={convertMemoryToBytes(request)} />
+    <ResourceUsage
+      label={label}
+      usage={convertMemoryToBytes(usage)}
+      request={convertMemoryToBytes(request)}
+    />
   );
 }
 
 interface ResourceUsageProps {
+  label: string;
   usage: number;
   request: number;
+  maxWidth?: number;
 }
-function ResourceUsage({ usage, request }: ResourceUsageProps) {
+export function ResourceUsage({ label, usage, request, maxWidth = 40 }: ResourceUsageProps) {
   const percent = Math.round((usage / request) * 100);
 
   return (
-    <div className="">
-      <div className="box-content h-4 w-10 rounded-sm border">
+    <>
+      <div className="flex justify-between" style={{ width: maxWidth }}>
+        <div>{label}</div>
+        <div>
+          <span className="mt-1">{usage}</span>&sdot;<span className="mt-1">{percent}%</span>
+        </div>
+      </div>
+      <div
+        className="box-content h-3 overflow-hidden rounded-md border"
+        style={{ width: maxWidth }}
+      >
         <div
-          className={`h-4 ${percent >= 80 ? "bg-red-500" : "bg-green-500"}`}
-          style={{ width: Math.min((percent * 40) / 100, 40) }}
+          className={`h-3 ${percent >= 80 ? "bg-red-500" : "bg-green-500"}`}
+          style={{ width: Math.min((percent * maxWidth) / 100, maxWidth) }}
         />
       </div>
-      <div className="mt-1">{percent}%</div>
-    </div>
+    </>
   );
 }

@@ -1,7 +1,8 @@
-import type { PodMetric, V1Job, V1Pod } from "@kubernetes/client-node";
+import type { PodMetric, V1Job, V1Node, V1Pod } from "@kubernetes/client-node";
 import { type ComponentProps, useState, type PropsWithChildren } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 
+import { ResourceUsage } from "./components/resource-usage";
 import { convertCpuToNanoCpu, convertMemoryToBytes } from "./helpers/unit-converts";
 import { useResourceList } from "./hooks/use-resource-list";
 
@@ -113,8 +114,6 @@ export function RootView() {
     return acc + memoryInBytes;
   }, 0);
 
-  const memoryUsagePercent = (totalMemoryUsage / totalMemoryRequests) * 100;
-
   const totalCpuUsage = podMetrics.items.reduce((acc, item) => {
     const cpuInBytes = item.containers
       .map((a) => a.usage.cpu)
@@ -131,7 +130,32 @@ export function RootView() {
     return acc + cpuInBytes;
   }, 0);
 
-  const cpuUsagePercent = (totalCpuUsage / totalCpuRequests) * 100;
+  const {
+    data: { items: nodes },
+  } = useResourceList<V1Node>("get_nodes");
+  const kubeletVersions = [...new Set(nodes.map((node) => node.status?.nodeInfo?.kubeletVersion))];
+  const totalPods = nodes.reduce((acc, node) => {
+    const nodePods = node.status?.capacity?.pods ?? "0";
+    return acc + parseInt(nodePods, 10);
+  }, 0);
+
+  const cpuAllocatable = nodes.reduce((acc, item) => {
+    const cpuInBytes = convertCpuToNanoCpu(item.status?.allocatable?.cpu ?? "0");
+    return acc + cpuInBytes;
+  }, 0);
+  const cpuCapacity = nodes.reduce((acc, item) => {
+    const cpuInBytes = convertCpuToNanoCpu(item.status?.capacity?.cpu ?? "0");
+    return acc + cpuInBytes;
+  }, 0);
+
+  const memoryAllocatable = nodes.reduce((acc, item) => {
+    const memoryInBytes = convertMemoryToBytes(item.status?.allocatable?.memory ?? "0");
+    return acc + memoryInBytes;
+  }, 0);
+  const memoryCapacity = nodes.reduce((acc, item) => {
+    const memoryInBytes = convertMemoryToBytes(item.status?.capacity?.memory ?? "0");
+    return acc + memoryInBytes;
+  }, 0);
 
   return (
     <div>
@@ -140,34 +164,63 @@ export function RootView() {
       </SectionWrapper>
 
       <SectionWrapper>
-        <div className="flex flex-col items-center">
-          Pods ({pods.items.length})
-          <DoughnutChart data={podsData} />
-        </div>
+        <div className="grid grid-cols-2">
+          <div>
+            Version: {kubeletVersions.join(",")}
+            <br />
+            Nodes: {nodes.length}
+            <br />
+            Pods: {pods.items.length} / {totalPods}
+          </div>
 
-        <div className="flex flex-col items-center">
-          Jobs ({jobs.items.length})
-          <DoughnutChart data={jobData} />
-        </div>
-
-        <div className="flex h-full flex-col items-center">
-          {totalMemoryUsage} / {totalMemoryRequests}
-          <div className="box-content h-3 w-60 overflow-hidden rounded-md border">
-            <div
-              className={`h-3 ${memoryUsagePercent >= 80 ? "bg-red-500" : "bg-green-500"}`}
-              style={{
-                width: Math.min((memoryUsagePercent * 240) / 100, 240),
-              }}
+          <div>
+            Node Allocations
+            <br />
+            <ResourceUsage
+              label="CPU"
+              usage={cpuCapacity - cpuAllocatable}
+              request={cpuCapacity}
+              maxWidth={240}
+            />
+            <ResourceUsage
+              label="Memory"
+              usage={memoryCapacity - memoryAllocatable}
+              request={memoryCapacity}
+              maxWidth={240}
             />
           </div>
-          <br />
-          {totalCpuUsage} / {totalCpuRequests}
-          <div className="box-content h-3 w-60 overflow-hidden rounded-md border">
-            <div
-              className={`h-3 ${cpuUsagePercent >= 80 ? "bg-red-500" : "bg-green-500"}`}
-              style={{
-                width: Math.min((cpuUsagePercent * 240) / 100, 240),
-              }}
+        </div>
+      </SectionWrapper>
+
+      <SectionWrapper>
+        <div className="grid grid-cols-2">
+          <div className="flex">
+            <div className="flex flex-col items-center">
+              Pods ({pods.items.length})
+              <DoughnutChart data={podsData} />
+            </div>
+
+            <div className="flex flex-col items-center">
+              Jobs ({jobs.items.length})
+              <DoughnutChart data={jobData} />
+            </div>
+          </div>
+
+          <div className="flex h-full flex-col items-center">
+            {totalMemoryUsage} / {totalMemoryRequests}
+            <ResourceUsage
+              label="Memory"
+              usage={totalMemoryUsage}
+              request={totalMemoryRequests}
+              maxWidth={240}
+            />
+            <br />
+            {totalCpuUsage} / {totalCpuRequests}
+            <ResourceUsage
+              label="CPU"
+              usage={totalCpuUsage}
+              request={totalCpuRequests}
+              maxWidth={240}
             />
           </div>
         </div>
@@ -178,8 +231,6 @@ export function RootView() {
 
 function SectionWrapper({ children }: PropsWithChildren) {
   return (
-    <div className="mb-4 flex flex-wrap gap-4 rounded-md bg-gray-100 p-6 shadow dark:bg-gray-700">
-      {children}
-    </div>
+    <div className="mb-4 gap-4 rounded-md bg-gray-100 p-6 shadow dark:bg-gray-700">{children}</div>
   );
 }
