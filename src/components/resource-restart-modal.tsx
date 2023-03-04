@@ -40,17 +40,15 @@ export function ResourceRestartModal<T extends ResourceBase>({
     <BaseModal
       isOpen={isOpen}
       handleClose={handleClose}
-      title={`Trigger ${selectedResource?.metadata?.name}`}
+      title={`Restart ${selectedResource?.metadata?.name}`}
     >
       {selectedResource ? (
         <>
           <div className="mt-2">
-            <p className="text-sm text-gray-500 dark:text-gray-300">
-              Triggering a job for &quot;{selectedResource.metadata?.name}&quot;
-            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-300">Restart resource?</p>
           </div>
 
-          <ModalButton label="Trigger" onClick={() => restartMutation.mutate(selectedResource)} />
+          <ModalButton label="Restart" onClick={() => restartMutation.mutate(selectedResource)} />
         </>
       ) : (
         <div>Missing Resource to Restart</div>
