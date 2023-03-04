@@ -8,7 +8,7 @@ import { Secrets } from "./configurations/secrets";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { Services } from "./networking/services";
-import { RootView } from "./root-view";
+import { RootView } from "./root-view/root-view";
 import { CronJobs } from "./workloads/cron-jobs";
 import { DaemonSets } from "./workloads/daemon-sets";
 import { Deployments } from "./workloads/deployments";

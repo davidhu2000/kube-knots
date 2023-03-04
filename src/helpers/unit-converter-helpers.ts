@@ -20,11 +20,7 @@ export function formatCpu(nanoCpu: number): string {
     return `${Math.round(nanoCpu / 1_000_000_000)}`;
   }
 
-  if (nanoCpu / 1_000_000 >= 10) {
-    return `${Math.round(nanoCpu / 1_000_000)}m`;
-  }
-
-  return `${nanoCpu}n`;
+  return `${Math.round(nanoCpu / 1_000_000)}m`;
 }
 
 export function convertMemoryToBytes(memory: string) {
@@ -103,6 +99,10 @@ export function formatMemory(bytes: number): string {
 
   if (bytes / 1024 ** 2 >= 10) {
     return `${Math.round(bytes / 1024 ** 2)}Mi`;
+  }
+
+  if (bytes / 1024 >= 10) {
+    return `${Math.round(bytes / 1024 ** 2)}Ki`;
   }
 
   return `${bytes}`;

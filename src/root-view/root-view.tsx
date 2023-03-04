@@ -2,9 +2,9 @@ import type { PodMetric, V1Job, V1Node, V1Pod } from "@kubernetes/client-node";
 import { type ComponentProps, useState, type PropsWithChildren } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 
-import { CpuUsage, MemoryUsage } from "./components/resource-usage";
-import { convertCpuToNanoCpu, convertMemoryToBytes } from "./helpers/unit-converter-helpers";
-import { useResourceList } from "./hooks/use-resource-list";
+import { CpuUsage, MemoryUsage } from "../components/resource-usage";
+import { convertCpuToNanoCpu, convertMemoryToBytes } from "../helpers/unit-converter-helpers";
+import { useResourceList } from "../hooks/use-resource-list";
 
 type ActiveShapeComponent = ComponentProps<typeof Pie>["activeShape"];
 
@@ -206,7 +206,9 @@ export function RootView() {
             </div>
           </div>
 
-          <div className="flex h-full flex-col items-center">
+          <div className="flex flex-col justify-center">
+            Pod Usage vs Request
+            <br />
             <CpuUsage usage={`${totalCpuUsage}n`} request={`${totalCpuRequests}n`} maxWidth={240} />
             <br />
             <MemoryUsage
