@@ -11,6 +11,7 @@ import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
 import { Drawer } from "./drawer";
 import { ToggleButton } from "./toggle-button";
+import { toast } from "react-toastify";
 
 interface ResourceEditDrawerProps<T> {
   isOpen: boolean;
@@ -81,11 +82,10 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
     },
     onSuccess: (_data, variables) => {
       handleClose();
-      // TODO: a better way to do this
-      alert(`Updated ${variables.metadata?.name}`);
+      toast.success(`Updated ${variables.metadata?.name}`);
     },
     onError: (error) => {
-      alert(error);
+      toast.error(error as string);
     },
   });
 

@@ -1,6 +1,7 @@
 import { type V1Pod } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
+import { toast } from "react-toastify";
 
 import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./modal";
@@ -28,11 +29,10 @@ export function ResourceDeleteModal({
     },
     onSuccess: (_data, variables) => {
       handleClose();
-      // TODO: a better way to do this
-      alert(`deleted ${type.replace("_", " ")} ${variables.metadata?.name}`);
+      toast.success(`Deleted ${type.replace("_", " ")} ${variables.metadata?.name}`);
     },
     onError: (error) => {
-      alert(error);
+      toast.error(error as string);
     },
   });
 

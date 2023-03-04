@@ -2,9 +2,12 @@ import { Cog8ToothIcon } from "@heroicons/react/20/solid";
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
 import { lazy, Suspense, useState, type PropsWithChildren } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 import { Context, ContextSwitcher } from "./core/contexts";
 import { NamespaceSelect } from "./namespaces/namespace-select";
+import { useTheme } from "./providers/theme-provider";
 import { clusterRoutes, configurationRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
 const Settings = lazy(() =>
@@ -21,6 +24,9 @@ export function Layout({ children }: PropsWithChildren) {
 
   const [showSetting, setShowSetting] = useState(false);
   const [showContextSwitcher, setShowContextSwitcher] = useState(false);
+
+  const { theme, systemTheme } = useTheme();
+  const themeToUse = theme === "system" ? systemTheme : theme;
 
   return (
     <div className="min-h-screen">
@@ -82,6 +88,15 @@ export function Layout({ children }: PropsWithChildren) {
           </div>
         </main>
       </div>
+      <ToastContainer
+        theme={themeToUse}
+        position="bottom-right"
+        autoClose={5000}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
