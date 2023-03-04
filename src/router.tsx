@@ -8,6 +8,7 @@ import { Secrets } from "./configurations/secrets";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { Services } from "./networking/services";
+import { RootView } from "./root-view";
 import { CronJobs } from "./workloads/cron-jobs";
 import { DaemonSets } from "./workloads/daemon-sets";
 import { Deployments } from "./workloads/deployments";
@@ -54,7 +55,7 @@ const routeTree = rootRoute.addChildren([
   new Route({
     getParentRoute: () => rootRoute,
     path: "/",
-    component: () => <div>TODO: figure out what to show by default</div>,
+    component: RootView,
   }),
   ...[workloadsRoutes, networkingRoutes, configurationRoutes, clusterRoutes].flatMap((routes) =>
     routes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute }))
