@@ -1,67 +1,9 @@
 import type { PodMetric, V1Job, V1Node, V1Pod } from "@kubernetes/client-node";
-import { type ComponentProps, useState, type PropsWithChildren } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { type PropsWithChildren } from "react";
 
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
 import { convertCpuToNanoCpu, convertMemoryToBytes } from "../helpers/unit-converter-helpers";
 import { useResourceList } from "../hooks/use-resource-list";
-
-type ActiveShapeComponent = ComponentProps<typeof Pie>["activeShape"];
-
-const noResourceName = "No resources";
-
-const renderActiveShape: ActiveShapeComponent = (props) => {
-  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, payload } = props;
-
-  return (
-    <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name} {payload.name === noResourceName ? 0 : payload.value}
-      </text>
-      <Sector
-        cx={cx}
-        cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={fill}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
-        fill={fill}
-      />
-    </g>
-  );
-};
-
-function DoughnutChart({ data }: { data: { name: string; value: number }[] }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const onPieEnter = (_: unknown, index: number) => {
-    setActiveIndex(index);
-  };
-
-  return (
-    <PieChart width={200} height={200}>
-      <Pie
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        data={data.length === 0 ? [{ name: noResourceName, value: 1 }] : data}
-        innerRadius={60}
-        outerRadius={80}
-        fill={data.length === 0 ? "#ccc" : "#8884d8"}
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-      />
-    </PieChart>
-  );
-}
 
 function formatChartData<T>(data: T[], getStatus: (item: T) => string) {
   const countByStatus: { [key: string]: number } = {};
@@ -79,11 +21,15 @@ function formatChartData<T>(data: T[], getStatus: (item: T) => string) {
 }
 
 export function RootView() {
-  const { data: pods } = useResourceList<V1Pod>("get_pods");
-  const podsData = formatChartData(pods.items, (pod) => pod.status?.phase ?? "");
+  const {
+    data: { items: pods },
+  } = useResourceList<V1Pod>("get_pods");
+  const podsData = formatChartData(pods, (pod) => pod.status?.phase ?? "");
 
-  const { data: jobs } = useResourceList<V1Job>("get_jobs");
-  const jobData = formatChartData(jobs.items, (item) => {
+  const {
+    data: { items: jobs },
+  } = useResourceList<V1Job>("get_jobs");
+  const jobData = formatChartData(jobs, (item) => {
     const availableStatus = item.status?.conditions?.find((a) => a.type === "Complete");
 
     switch (availableStatus?.status) {
@@ -96,9 +42,11 @@ export function RootView() {
     }
   });
 
-  const { data: podMetrics } = useResourceList<PodMetric>("get_pod_metrics");
+  const {
+    data: { items: podMetrics },
+  } = useResourceList<PodMetric>("get_pod_metrics");
 
-  const totalMemoryUsage = podMetrics.items.reduce((acc, item) => {
+  const totalMemoryUsage = podMetrics.reduce((acc, item) => {
     const memoryInBytes = item.containers
       .map((a) => a.usage.memory)
       .reduce((acc, item) => acc + convertMemoryToBytes(item), 0);
@@ -106,7 +54,7 @@ export function RootView() {
     return acc + memoryInBytes;
   }, 0);
 
-  const totalMemoryRequests = pods.items.reduce((acc, item) => {
+  const totalMemoryRequests = pods.reduce((acc, item) => {
     const memoryInBytes = (item.spec?.containers ?? [])
       .map((a) => a.resources?.requests?.memory)
       .reduce((acc, item) => acc + convertMemoryToBytes(item ?? "0"), 0);
@@ -114,7 +62,7 @@ export function RootView() {
     return acc + memoryInBytes;
   }, 0);
 
-  const totalCpuUsage = podMetrics.items.reduce((acc, item) => {
+  const totalCpuUsage = podMetrics.reduce((acc, item) => {
     const cpuInBytes = item.containers
       .map((a) => a.usage.cpu)
       .reduce((acc, item) => acc + convertCpuToNanoCpu(item), 0);
@@ -122,7 +70,7 @@ export function RootView() {
     return acc + cpuInBytes;
   }, 0);
 
-  const totalCpuRequests = pods.items.reduce((acc, item) => {
+  const totalCpuRequests = pods.reduce((acc, item) => {
     const cpuInBytes = (item.spec?.containers ?? [])
       .map((a) => a.resources?.requests?.cpu)
       .reduce((acc, item) => acc + convertCpuToNanoCpu(item ?? "0"), 0);
@@ -177,7 +125,7 @@ export function RootView() {
             <tr>
               <td>Pods:</td>
               <td>
-                {pods.items.length} / {totalPods}
+                {pods.length} / {totalPods}
               </td>
             </tr>
           </table>
@@ -204,15 +152,9 @@ export function RootView() {
       <SectionWrapper title="Workloads">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex">
-            <div className="flex flex-col items-center">
-              Pods ({pods.items.length})
-              <DoughnutChart data={podsData} />
-            </div>
+            <div className="flex flex-col items-center">Pods ({pods.length}) TODO: some visual</div>
 
-            <div className="flex flex-col items-center">
-              Jobs ({jobs.items.length})
-              <DoughnutChart data={jobData} />
-            </div>
+            <div className="flex flex-col items-center">Jobs ({jobs.length}) TODO: some visual</div>
           </div>
 
           <div className="flex flex-col justify-start">
