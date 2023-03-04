@@ -8,11 +8,11 @@ import {
 interface UsageProps {
   usage: string | undefined;
   request: string | undefined;
-  maxWidth?: number;
+  barWidth?: number;
   simpleLabel?: boolean;
 }
 
-export function CpuUsage({ usage, request, maxWidth = 40, simpleLabel = false }: UsageProps) {
+export function CpuUsage({ usage, request, barWidth = 40, simpleLabel = false }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
@@ -22,16 +22,16 @@ export function CpuUsage({ usage, request, maxWidth = 40, simpleLabel = false }:
   return (
     <ResourceUsage
       simpleLabel={simpleLabel}
-      barWidth={maxWidth}
+      barWidth={barWidth}
       label={"CPU"}
-      usage={usageNumber}
-      request={convertCpuToNanoCpu(request)}
-      formattedUsage={formatCpu(usageNumber)}
+      currentValue={usageNumber}
+      maxValue={convertCpuToNanoCpu(request)}
+      valueFormatter={formatCpu}
     />
   );
 }
 
-export function MemoryUsage({ usage, request, maxWidth = 40, simpleLabel = false }: UsageProps) {
+export function MemoryUsage({ usage, request, barWidth = 40, simpleLabel = false }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
@@ -41,43 +41,46 @@ export function MemoryUsage({ usage, request, maxWidth = 40, simpleLabel = false
   return (
     <ResourceUsage
       simpleLabel={simpleLabel}
-      barWidth={maxWidth}
+      barWidth={barWidth}
       label={"Memory"}
-      usage={usageNumber}
-      request={convertMemoryToBytes(request)}
-      formattedUsage={formatMemory(usageNumber)}
+      currentValue={usageNumber}
+      maxValue={convertMemoryToBytes(request)}
+      valueFormatter={formatMemory}
     />
   );
 }
 
 interface ResourceUsageProps {
   label: string;
-  usage: number;
-  request: number;
+  currentValue: number;
+  maxValue: number;
   barWidth: number;
-  formattedUsage: string;
+  valueFormatter?: (value: number) => string;
   simpleLabel: boolean;
 }
 export function ResourceUsage({
   label,
-  usage,
-  request,
+  currentValue,
+  maxValue,
   barWidth,
-  formattedUsage,
+  valueFormatter = (value) => value.toString(),
   simpleLabel,
 }: ResourceUsageProps) {
-  const percent = Math.round((usage / request) * 100) || 0;
+  const percent = Math.round((currentValue / maxValue) * 100) || 0;
 
   const renderLabel = () => {
     if (simpleLabel) {
-      return <div>{formattedUsage}</div>;
+      return <div>{valueFormatter(currentValue)}</div>;
     }
 
     return (
       <>
         <div>{label}</div>
         <div>
-          <span>{formattedUsage}</span>&sdot;
+          <span>
+            {valueFormatter(currentValue)} / {valueFormatter(maxValue)}
+          </span>
+          &sdot;
           <span>{percent}%</span>
         </div>
       </>

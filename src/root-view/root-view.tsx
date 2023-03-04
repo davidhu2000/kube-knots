@@ -1,7 +1,7 @@
 import type { PodMetric, V1Job, V1Node, V1Pod } from "@kubernetes/client-node";
 import { type PropsWithChildren } from "react";
 
-import { CpuUsage, MemoryUsage } from "../components/resource-usage";
+import { CpuUsage, MemoryUsage, ResourceUsage } from "../components/resource-usage";
 import { convertCpuToNanoCpu, convertMemoryToBytes } from "../helpers/unit-converter-helpers";
 import { useResourceList } from "../hooks/use-resource-list";
 
@@ -113,7 +113,7 @@ export function RootView() {
 
       <SectionWrapper title="Nodes">
         <div className="my-2 grid grid-cols-1 md:grid-cols-2">
-          <table className="">
+          <div className="my-2">
             <tr>
               <td>Version:</td>
               <td>{kubeletVersions.join(",")}</td>
@@ -122,13 +122,15 @@ export function RootView() {
               <td>Nodes:</td>
               <td>{nodes.length}</td>
             </tr>
-            <tr>
-              <td>Pods:</td>
-              <td>
-                {pods.length} / {totalPods}
-              </td>
-            </tr>
-          </table>
+
+            <ResourceUsage
+              label={"Pods"}
+              currentValue={pods.length}
+              maxValue={totalPods}
+              barWidth={240}
+              simpleLabel={false}
+            />
+          </div>
 
           <div className="my-2">
             <div className="font-bold">Node Allocations</div>
@@ -136,14 +138,14 @@ export function RootView() {
               <CpuUsage
                 usage={`${cpuCapacity - cpuAllocatable}n`}
                 request={`${cpuCapacity}n`}
-                maxWidth={240}
+                barWidth={240}
               />
             </div>
 
             <MemoryUsage
               usage={`${memoryCapacity - memoryAllocatable}`}
               request={`${memoryCapacity}`}
-              maxWidth={240}
+              barWidth={240}
             />
           </div>
         </div>
@@ -163,13 +165,13 @@ export function RootView() {
               <CpuUsage
                 usage={`${totalCpuUsage}n`}
                 request={`${totalCpuRequests}n`}
-                maxWidth={240}
+                barWidth={240}
               />
             </div>
             <MemoryUsage
               usage={`${totalMemoryUsage}`}
               request={`${totalMemoryRequests}`}
-              maxWidth={240}
+              barWidth={240}
             />
           </div>
         </div>
