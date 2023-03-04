@@ -22,7 +22,7 @@ export function CpuUsage({ usage, request, maxWidth = 40, simpleLabel = false }:
   return (
     <ResourceUsage
       simpleLabel={simpleLabel}
-      maxWidth={maxWidth}
+      barWidth={maxWidth}
       label={"CPU"}
       usage={usageNumber}
       request={convertCpuToNanoCpu(request)}
@@ -41,7 +41,7 @@ export function MemoryUsage({ usage, request, maxWidth = 40, simpleLabel = false
   return (
     <ResourceUsage
       simpleLabel={simpleLabel}
-      maxWidth={maxWidth}
+      barWidth={maxWidth}
       label={"Memory"}
       usage={usageNumber}
       request={convertMemoryToBytes(request)}
@@ -54,15 +54,15 @@ interface ResourceUsageProps {
   label: string;
   usage: number;
   request: number;
-  maxWidth: number;
+  barWidth: number;
   formattedUsage: string;
   simpleLabel: boolean;
 }
-function ResourceUsage({
+export function ResourceUsage({
   label,
   usage,
   request,
-  maxWidth,
+  barWidth,
   formattedUsage,
   simpleLabel,
 }: ResourceUsageProps) {
@@ -86,16 +86,16 @@ function ResourceUsage({
 
   return (
     <>
-      <div className="flex justify-between text-sm" style={{ width: maxWidth }}>
+      <div className="flex justify-between text-sm" style={{ width: barWidth }}>
         {renderLabel()}
       </div>
       <div
         className="box-content h-3 overflow-hidden rounded-md border border-gray-400 bg-gray-300 dark:bg-gray-500"
-        style={{ width: maxWidth }}
+        style={{ width: barWidth }}
       >
         <div
           className={`h-3 ${percent >= 80 ? "bg-red-500" : "bg-green-500"}`}
-          style={{ width: Math.min((percent * maxWidth) / 100, maxWidth) }}
+          style={{ width: Math.min((percent * barWidth) / 100, barWidth) }}
         />
       </div>
     </>
