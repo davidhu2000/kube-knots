@@ -4,6 +4,7 @@ import { type PropsWithChildren } from "react";
 import { CpuUsage, MemoryUsage, ResourceUsage } from "../components/resource-usage";
 import { convertCpuToNanoCpu, convertMemoryToBytes } from "../helpers/unit-converter-helpers";
 import { useResourceList } from "../hooks/use-resource-list";
+import { BarChart } from "./bar-chart";
 
 function formatChartData<T>(data: T[], getStatus: (item: T) => string) {
   const countByStatus: { [key: string]: number } = {};
@@ -114,14 +115,8 @@ export function RootView() {
       <SectionWrapper title="Nodes">
         <div className="my-2 grid grid-cols-1 md:grid-cols-2">
           <div className="my-2">
-            <tr>
-              <td>Version:</td>
-              <td>{kubeletVersions.join(",")}</td>
-            </tr>
-            <tr>
-              <td>Nodes:</td>
-              <td>{nodes.length}</td>
-            </tr>
+            <div>Version(s): {kubeletVersions.join(",")}</div>
+            <div>Nodes: {nodes.length}</div>
 
             <ResourceUsage
               label={"Pods"}
@@ -151,12 +146,13 @@ export function RootView() {
         </div>
       </SectionWrapper>
 
-      <SectionWrapper title="Workloads">
+      <SectionWrapper title="Pods">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex">
-            <div className="flex flex-col items-center">Pods ({pods.length}) TODO: some visual</div>
-
-            <div className="flex flex-col items-center">Jobs ({jobs.length}) TODO: some visual</div>
+            <div className="flex flex-col items-center">
+              <div className="mb-2">Pods ({pods.length})</div>
+              <BarChart data={podsData} barWidth={240} />
+            </div>
           </div>
 
           <div className="flex flex-col justify-start">
@@ -173,6 +169,17 @@ export function RootView() {
               request={`${totalMemoryRequests}`}
               barWidth={240}
             />
+          </div>
+        </div>
+      </SectionWrapper>
+
+      <SectionWrapper title="Jobs">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="flex">
+            <div className="flex flex-col items-center">
+              <div className="mb-2">Jobs ({jobs.length})</div>
+              <BarChart data={jobData} barWidth={240} />
+            </div>
           </div>
         </div>
       </SectionWrapper>
