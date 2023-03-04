@@ -234,20 +234,3 @@ function SectionWrapper({ children }: PropsWithChildren) {
     <div className="mb-4 gap-4 rounded-md bg-gray-100 p-6 shadow dark:bg-gray-700">{children}</div>
   );
 }
-
-// allocatable:
-//   attachable-volumes-gce-pd: '15'
-//   cpu: 940m
-//   ephemeral-storage: '47060071478'
-//   hugepages-1Gi: '0'
-//   hugepages-2Mi: '0'
-//   memory: 2877136Ki
-//   pods: '32'
-// capacity:
-//   attachable-volumes-gce-pd: '15'
-//   cpu: '2'
-//   ephemeral-storage: 98831908Ki
-//   hugepages-1Gi: '0'
-//   hugepages-2Mi: '0'
-//   memory: 4022992Ki
-//   pods: '32'
