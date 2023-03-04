@@ -2,8 +2,8 @@ import type { PodMetric, V1Job, V1Node, V1Pod } from "@kubernetes/client-node";
 import { type ComponentProps, useState, type PropsWithChildren } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 
-import { ResourceUsage } from "./components/resource-usage";
-import { convertCpuToNanoCpu, convertMemoryToBytes } from "./helpers/unit-converts";
+import { CpuUsage, MemoryUsage } from "./components/resource-usage";
+import { convertCpuToNanoCpu, convertMemoryToBytes } from "./helpers/unit-converter-helpers";
 import { useResourceList } from "./hooks/use-resource-list";
 
 type ActiveShapeComponent = ComponentProps<typeof Pie>["activeShape"];
@@ -166,6 +166,8 @@ export function RootView() {
       <SectionWrapper>
         <div className="grid grid-cols-2">
           <div>
+            Cluster Info
+            <br />
             Version: {kubeletVersions.join(",")}
             <br />
             Nodes: {nodes.length}
@@ -176,16 +178,14 @@ export function RootView() {
           <div>
             Node Allocations
             <br />
-            <ResourceUsage
-              label="CPU"
-              usage={cpuCapacity - cpuAllocatable}
-              request={cpuCapacity}
+            <CpuUsage
+              usage={`${cpuCapacity - cpuAllocatable}n`}
+              request={`${cpuCapacity}n`}
               maxWidth={240}
             />
-            <ResourceUsage
-              label="Memory"
-              usage={memoryCapacity - memoryAllocatable}
-              request={memoryCapacity}
+            <MemoryUsage
+              usage={`${memoryCapacity - memoryAllocatable}`}
+              request={`${memoryCapacity}`}
               maxWidth={240}
             />
           </div>
@@ -207,19 +207,11 @@ export function RootView() {
           </div>
 
           <div className="flex h-full flex-col items-center">
-            {totalMemoryUsage} / {totalMemoryRequests}
-            <ResourceUsage
-              label="Memory"
-              usage={totalMemoryUsage}
-              request={totalMemoryRequests}
-              maxWidth={240}
-            />
+            <CpuUsage usage={`${totalCpuUsage}n`} request={`${totalCpuRequests}n`} maxWidth={240} />
             <br />
-            {totalCpuUsage} / {totalCpuRequests}
-            <ResourceUsage
-              label="CPU"
-              usage={totalCpuUsage}
-              request={totalCpuRequests}
+            <MemoryUsage
+              usage={`${totalMemoryUsage}`}
+              request={`${totalMemoryRequests}`}
               maxWidth={240}
             />
           </div>

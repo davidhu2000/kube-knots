@@ -1,35 +1,48 @@
-import { convertCpuToNanoCpu, convertMemoryToBytes } from "../helpers/unit-converts";
+import {
+  convertCpuToNanoCpu,
+  convertMemoryToBytes,
+  formatCpu,
+  formatMemory,
+} from "../helpers/unit-converter-helpers";
 
 interface UsageProps {
-  label: string;
   usage: string | undefined;
   request: string | undefined;
+  maxWidth?: number;
 }
 
-export function CpuUsage({ label, usage, request }: UsageProps) {
+export function CpuUsage({ usage, request, maxWidth = 40 }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
 
+  const usageNumber = convertCpuToNanoCpu(usage);
+
   return (
     <ResourceUsage
-      label={label}
-      usage={convertCpuToNanoCpu(usage)}
+      maxWidth={maxWidth}
+      label={"CPU"}
+      usage={usageNumber}
       request={convertCpuToNanoCpu(request)}
+      formattedUsage={formatCpu(usageNumber)}
     />
   );
 }
 
-export function MemoryUsage({ label, usage, request }: UsageProps) {
+export function MemoryUsage({ usage, request, maxWidth = 40 }: UsageProps) {
   if (!usage || !request) {
     return null;
   }
 
+  const usageNumber = convertMemoryToBytes(usage);
+
   return (
     <ResourceUsage
-      label={label}
-      usage={convertMemoryToBytes(usage)}
+      maxWidth={maxWidth}
+      label={"Memory"}
+      usage={usageNumber}
       request={convertMemoryToBytes(request)}
+      formattedUsage={formatMemory(usageNumber)}
     />
   );
 }
@@ -38,9 +51,10 @@ interface ResourceUsageProps {
   label: string;
   usage: number;
   request: number;
-  maxWidth?: number;
+  maxWidth: number;
+  formattedUsage: string;
 }
-export function ResourceUsage({ label, usage, request, maxWidth = 40 }: ResourceUsageProps) {
+function ResourceUsage({ label, usage, request, maxWidth, formattedUsage }: ResourceUsageProps) {
   const percent = Math.round((usage / request) * 100);
 
   return (
@@ -48,7 +62,8 @@ export function ResourceUsage({ label, usage, request, maxWidth = 40 }: Resource
       <div className="flex justify-between" style={{ width: maxWidth }}>
         <div>{label}</div>
         <div>
-          <span className="mt-1">{usage}</span>&sdot;<span className="mt-1">{percent}%</span>
+          <span className="mt-1">{formattedUsage}</span>&sdot;
+          <span className="mt-1">{percent}%</span>
         </div>
       </div>
       <div
