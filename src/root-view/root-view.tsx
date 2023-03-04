@@ -147,10 +147,10 @@ export function RootView() {
       </SectionWrapper>
 
       <SectionWrapper title={`Pods (${pods.length})`}>
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="flex">
             <div className="flex flex-col items-center">
-              <BarChart data={podsData} barWidth={240} />
+              <BarChart data={podsData} barWidth={200} />
             </div>
           </div>
 

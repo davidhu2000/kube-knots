@@ -3,12 +3,14 @@ import { type PropsWithChildren } from "react";
 import { CurrentContextProvider } from "./providers/current-context-provider";
 import { DefaultLanguageProvider } from "./providers/default-language-provider";
 import { NamespaceProvider } from "./providers/namespaces-provider";
+import { QuerySettingProvider } from "./providers/query-setting-provider";
 import { ThemeProvider } from "./providers/theme-provider";
 
 type Provider = ({ children }: PropsWithChildren) => JSX.Element;
 
 // order matters. First provider will be the outermost
 const providers = [
+  QuerySettingProvider,
   ThemeProvider,
   DefaultLanguageProvider,
   CurrentContextProvider,

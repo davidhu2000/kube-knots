@@ -33,8 +33,7 @@ export function useResourceList<T>(command: ResourceListCommands) {
         context: currentContext,
       });
     },
-    // TODO: maybe make this configurable?
-    { refetchInterval: 2000, onError: (error) => console.error(error) }
+    { onError: (error) => console.error(error) }
   );
 
   return { ...result, data: result.data ?? { items: [] } };
