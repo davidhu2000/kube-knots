@@ -15,6 +15,18 @@ export function convertCpuToNanoCpu(cpu: string): number {
   return cpuValue * 1_000_000_000;
 }
 
+export function formatCpu(nanoCpu: number): string {
+  if (nanoCpu / 1_000_000_000 >= 10) {
+    return `${Math.round(nanoCpu / 1_000_000_000)}`;
+  }
+
+  if (nanoCpu / 1_000_000 >= 10) {
+    return `${Math.round(nanoCpu / 1_000_000)}m`;
+  }
+
+  return `${nanoCpu}n`;
+}
+
 export function convertMemoryToBytes(memory: string) {
   const memoryValue = parseFloat(memory);
   if (isNaN(memoryValue)) {
@@ -70,4 +82,28 @@ export function convertMemoryToBytes(memory: string) {
   }
 
   return memoryValue;
+}
+
+export function formatMemory(bytes: number): string {
+  if (bytes / 1024 ** 6 >= 10) {
+    return `${Math.round(bytes / 1024 ** 6)}Ei`;
+  }
+
+  if (bytes / 1024 ** 5 >= 10) {
+    return `${Math.round(bytes / 1024 ** 5)}Pi`;
+  }
+
+  if (bytes / 1024 ** 4 >= 10) {
+    return `${Math.round(bytes / 1024 ** 4)}Ti`;
+  }
+
+  if (bytes / 1024 ** 3 >= 10) {
+    return `${Math.round(bytes / 1024 ** 3)}Gi`;
+  }
+
+  if (bytes / 1024 ** 2 >= 10) {
+    return `${Math.round(bytes / 1024 ** 2)}Mi`;
+  }
+
+  return `${bytes}`;
 }
