@@ -163,26 +163,35 @@ export function RootView() {
         <h1 className="text-3xl font-bold tracking-tight">Overview</h1>
       </SectionWrapper>
 
-      <SectionWrapper>
-        <div className="grid grid-cols-2">
-          <div>
-            Cluster Info
-            <br />
-            Version: {kubeletVersions.join(",")}
-            <br />
-            Nodes: {nodes.length}
-            <br />
-            Pods: {pods.items.length} / {totalPods}
-          </div>
+      <SectionWrapper title="Nodes">
+        <div className="my-2 grid grid-cols-1 md:grid-cols-2">
+          <table className="">
+            <tr>
+              <td>Version:</td>
+              <td>{kubeletVersions.join(",")}</td>
+            </tr>
+            <tr>
+              <td>Nodes:</td>
+              <td>{nodes.length}</td>
+            </tr>
+            <tr>
+              <td>Pods:</td>
+              <td>
+                {pods.items.length} / {totalPods}
+              </td>
+            </tr>
+          </table>
 
-          <div>
-            Node Allocations
-            <br />
-            <CpuUsage
-              usage={`${cpuCapacity - cpuAllocatable}n`}
-              request={`${cpuCapacity}n`}
-              maxWidth={240}
-            />
+          <div className="my-2">
+            <div className="font-bold">Node Allocations</div>
+            <div className="my-2">
+              <CpuUsage
+                usage={`${cpuCapacity - cpuAllocatable}n`}
+                request={`${cpuCapacity}n`}
+                maxWidth={240}
+              />
+            </div>
+
             <MemoryUsage
               usage={`${memoryCapacity - memoryAllocatable}`}
               request={`${memoryCapacity}`}
@@ -192,8 +201,8 @@ export function RootView() {
         </div>
       </SectionWrapper>
 
-      <SectionWrapper>
-        <div className="grid grid-cols-2">
+      <SectionWrapper title="Workloads">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex">
             <div className="flex flex-col items-center">
               Pods ({pods.items.length})
@@ -206,11 +215,15 @@ export function RootView() {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center">
-            Pod Usage vs Request
-            <br />
-            <CpuUsage usage={`${totalCpuUsage}n`} request={`${totalCpuRequests}n`} maxWidth={240} />
-            <br />
+          <div className="flex flex-col justify-start">
+            <div className="mb-2">Pod Usage vs Request</div>
+            <div className="my-2">
+              <CpuUsage
+                usage={`${totalCpuUsage}n`}
+                request={`${totalCpuRequests}n`}
+                maxWidth={240}
+              />
+            </div>
             <MemoryUsage
               usage={`${totalMemoryUsage}`}
               request={`${totalMemoryRequests}`}
@@ -223,8 +236,11 @@ export function RootView() {
   );
 }
 
-function SectionWrapper({ children }: PropsWithChildren) {
+function SectionWrapper({ children, title }: PropsWithChildren & { title?: string }) {
   return (
-    <div className="mb-4 gap-4 rounded-md bg-gray-100 p-6 shadow dark:bg-gray-700">{children}</div>
+    <div className="mb-4 gap-4 rounded-md bg-gray-200 p-6 shadow dark:bg-gray-700">
+      {title && <h1 className="mb-2 text-xl font-bold tracking-tight">{title}</h1>}
+      {children}
+    </div>
   );
 }

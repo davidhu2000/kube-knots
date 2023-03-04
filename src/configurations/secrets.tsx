@@ -8,11 +8,12 @@ export function Secrets() {
   return (
     <ResourceTable<V1Secret>
       command="get_secrets"
-      headers={["Name", "Created", "Actions"]}
+      headers={["Name", "Type", "Created", "Actions"]}
       actions={["edit"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>
+          <TableCell>{item.type}</TableCell>
           <TableCell>{formatDateString(item.metadata?.creationTimestamp)}</TableCell>
         </>
       )}

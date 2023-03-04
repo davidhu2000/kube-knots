@@ -28,10 +28,10 @@ export function Nodes() {
           <>
             <TableCell>{item.metadata?.name}</TableCell>
             <TableCell>
-              <CpuUsage usage={usage?.cpu} request={requests?.cpu} />
+              <CpuUsage usage={usage?.cpu} request={requests?.cpu} simpleLabel={true} />
             </TableCell>
             <TableCell>
-              <MemoryUsage usage={usage?.memory} request={requests?.memory} />
+              <MemoryUsage usage={usage?.memory} request={requests?.memory} simpleLabel={true} />
             </TableCell>
             <TableCell>{conditions?.type}</TableCell>
             <TableCell>{formatDateString(item.metadata?.creationTimestamp)}</TableCell>
