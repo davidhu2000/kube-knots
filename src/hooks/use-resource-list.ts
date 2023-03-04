@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
+import { toast } from "react-toastify";
 
 import { useCurrentContext } from "../providers/current-context-provider";
 import { useNamespace } from "../providers/namespaces-provider";
@@ -33,8 +34,7 @@ export function useResourceList<T>(command: ResourceListCommands) {
         context: currentContext,
       });
     },
-    // TODO: maybe make this configurable?
-    { refetchInterval: 2000, onError: (error) => console.error(error) }
+    { onError: (error) => toast.error(error as string) }
   );
 
   return { ...result, data: result.data ?? { items: [] } };
