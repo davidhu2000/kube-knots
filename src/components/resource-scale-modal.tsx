@@ -2,6 +2,7 @@ import type { V1StatefulSet, V1Deployment, V1ReplicaSet } from "@kubernetes/clie
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
@@ -37,14 +38,14 @@ export function ResourceScaleModal({
     },
     onSuccess: (_data, variables) => {
       handleClose();
-      alert(
+      toast.success(
         `Scaled ${type.replace("_", " ")} ${
           selectedResource?.metadata?.name
         } to ${variables} replicas`
       );
     },
     onError: (_data) => {
-      alert(_data);
+      toast.error(_data as string);
     },
   });
 

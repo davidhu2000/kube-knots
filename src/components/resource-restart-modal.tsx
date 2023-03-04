@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
+import { toast } from "react-toastify";
 
 import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
@@ -27,12 +28,11 @@ export function ResourceRestartModal<T extends ResourceBase>({
       });
     },
     onSuccess: (_data, variables) => {
-      // TODO: a better way to do this
-      alert(`Restarted ${variables.kind}: ${variables.metadata?.name}`);
+      toast.success(`Restarted ${variables.kind}: ${variables.metadata?.name}`);
       handleClose();
     },
     onError: (error) => {
-      alert(error);
+      toast.error(error as string);
     },
   });
 

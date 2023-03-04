@@ -21,7 +21,8 @@
     "date-fns": "^2.29.3",
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-toastify": "^9.1.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
