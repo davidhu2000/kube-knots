@@ -70,7 +70,11 @@ export function ResourceScaleModal({
         min={0}
       />
 
-      <ModalButton label="Scale" onClick={() => scaleMutation.mutate(replicas)} />
+      <ModalButton
+        label="Scale"
+        onClick={() => scaleMutation.mutate(replicas)}
+        disabled={selectedResource?.spec?.replicas === replicas}
+      />
     </BaseModal>
   );
 }

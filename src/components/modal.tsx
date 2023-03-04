@@ -32,12 +32,14 @@ export function BaseModal({ isOpen, handleClose, children, title }: BaseModalPro
 interface ModalButtonProps {
   label: string;
   onClick: () => void;
+  disabled?: boolean;
 }
-export function ModalButton({ label, onClick }: ModalButtonProps): JSX.Element {
+export function ModalButton({ label, onClick, disabled = false }: ModalButtonProps): JSX.Element {
   return (
     <button
-      className="mt-4 w-full rounded-md bg-gray-200 px-4 py-2 text-base text-gray-800 shadow-sm hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+      className="mt-4 w-full rounded-md bg-gray-200 px-4 py-2 text-base text-gray-800 shadow-sm hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
       onClick={onClick}
+      disabled={disabled}
     >
       {label}
     </button>
