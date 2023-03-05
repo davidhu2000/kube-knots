@@ -39,7 +39,6 @@ pub async fn restart_deployment(
     name: String,
 ) -> Result<bool, String> {
     let api: Api<Deployment> = get_resource_api(context, namespace).await;
-    println!("{}", name);
     let resource = api.restart(&name).await;
 
     return match resource {

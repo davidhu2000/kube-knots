@@ -78,7 +78,7 @@ export function ActionMenuItem({ label, onClick }: ActionMenuItemProps) {
   return (
     <Menu.Item>
       <button
-        className="group flex w-full items-center p-2 text-sm text-gray-700 hover:bg-gray-400 dark:text-gray-300 hover:dark:bg-gray-600"
+        className="group flex w-full items-center p-2 text-sm text-gray-700 hover:bg-gray-400 dark:text-gray-300 hover:dark:bg-gray-700"
         onClick={onClick}
       >
         <Icon className="mr-2 h-5 w-5" aria-hidden="true" />

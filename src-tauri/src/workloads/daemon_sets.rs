@@ -27,3 +27,21 @@ pub async fn update_daemon_set(
 ) -> Result<DaemonSet, String> {
     return update_resource(context, namespace, name, resource).await;
 }
+
+#[tauri::command]
+pub async fn restart_daemon_set(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    let api: Api<DaemonSet> = get_resource_api(context, namespace).await;
+    let resource = api.restart(&name).await;
+
+    return match resource {
+        Ok(_resource) => Ok(true),
+        Err(err) => {
+            println!("Error restarting daemon set: {}", err);
+            return Err(err.to_string());
+        }
+    };
+}
