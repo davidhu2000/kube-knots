@@ -10,6 +10,7 @@ import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
+import { SelectInput } from "./base/select-input";
 import { Drawer } from "./drawer";
 import { getEditorTheme } from "./resource-edit-drawer";
 import { ToggleButton } from "./toggle-button";
@@ -19,6 +20,10 @@ interface ResourceCreateDrawerProps {
   handleClose: () => void;
 }
 
+type AvailableTemplates = "CronJobs" | "Deployment" | "Ingress" | "Service";
+
+const templates: AvailableTemplates[] = ["CronJobs", "Deployment", "Ingress", "Service"];
+
 export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
   isOpen,
   handleClose,
@@ -26,6 +31,7 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
   const { language } = useDefaultLanguage();
   const { theme, systemTheme } = useTheme();
   const { currentContext } = useCurrentContext();
+  const [template, setTemplate] = useState<AvailableTemplates | null>(null);
 
   const [code, setCode] = useState<string>("");
   const [showYaml, setShowYaml] = useState(language === "yaml");
@@ -78,6 +84,12 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
       title={"Create New Resource"}
       description={
         <div className="flex w-full gap-8 p-2">
+          <SelectInput
+            onChange={(template) => setTemplate(template)}
+            value={template}
+            options={templates}
+            defaultLabel="Select Template"
+          />
           <ToggleButton
             checked={showYaml}
             onChange={handleShowYaml}
