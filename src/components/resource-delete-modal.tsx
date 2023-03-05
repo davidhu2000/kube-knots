@@ -47,7 +47,7 @@ export function ResourceDeleteModal({
             <p className="text-sm text-gray-500 dark:text-gray-300">
               Confirming delete of &quot;{selectedResource.metadata?.name}&quot;
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-300 mt-2">
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
               <ExclamationCircleIcon className="inline h-5 w-5 text-red-500" /> This action will
               delete the resource and subresources
             </p>
