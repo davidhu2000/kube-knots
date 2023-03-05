@@ -79,7 +79,7 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
     mutationFn: (resource: T) => {
       const resourceKind = camelToSnakeCase(resource.kind);
 
-      return invoke<boolean>(`create_job`, {
+      return invoke<boolean>(`create_${resourceKind}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,
         name: resource.metadata?.name,
