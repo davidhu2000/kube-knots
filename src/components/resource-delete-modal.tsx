@@ -1,3 +1,4 @@
+import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 import { type V1Pod } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
@@ -45,6 +46,10 @@ export function ResourceDeleteModal({
           <div className="mt-2">
             <p className="text-sm text-gray-500 dark:text-gray-300">
               Confirming delete of &quot;{selectedResource.metadata?.name}&quot;
+            </p>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+              <ExclamationCircleIcon className="inline h-5 w-5 text-red-500" /> This action will
+              delete the resource and subresources
             </p>
           </div>
 

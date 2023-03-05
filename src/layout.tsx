@@ -5,8 +5,8 @@ import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
+import { NamespaceSelect } from "./components/namespace-select";
 import { Context, ContextSwitcher } from "./core/contexts";
-import { NamespaceSelect } from "./namespaces/namespace-select";
 import { useTheme } from "./providers/theme-provider";
 import { clusterRoutes, configurationRoutes, networkingRoutes, workloadsRoutes } from "./router";
 

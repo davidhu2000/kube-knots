@@ -231,6 +231,13 @@
       "backoffLimit": 4
     }
   },
+  "Namespace": {
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+      "name": "example-namespace"
+    }
+  },
   "Pod": {
     "apiVersion": "v1",
     "kind": "Pod",

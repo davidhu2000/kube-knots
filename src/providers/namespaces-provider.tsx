@@ -1,9 +1,7 @@
 import type { V1Namespace } from "@kubernetes/client-node";
-import { useQuery } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api";
 import { createContext, type PropsWithChildren, useContext, useState } from "react";
 
-import { useCurrentContext } from "./current-context-provider";
+import { useResourceList } from "../hooks/use-resource-list";
 
 interface NamespaceContextValues {
   currentNamespace: string | null;
@@ -22,12 +20,9 @@ const NamespaceContext = createContext<NamespaceContextValues>({
 export const useNamespace = () => useContext(NamespaceContext);
 
 export function NamespaceProvider({ children }: PropsWithChildren) {
-  const { currentContext } = useCurrentContext();
   const [namespace, setNamespace] = useState<string | null>(null);
 
-  const result = useQuery(["namespaces", currentContext], () => {
-    return invoke<{ items: V1Namespace[] }>("get_namespaces", { context: currentContext });
-  });
+  const result = useResourceList<V1Namespace>("get_namespaces");
 
   const changeNamespace = (ns: string | null) => {
     setNamespace(ns);

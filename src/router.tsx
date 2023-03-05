@@ -1,6 +1,7 @@
 import { Outlet, ReactRouter, RootRoute, Route } from "@tanstack/react-router";
 
 import { Events } from "./clusters/events";
+import { Namespaces } from "./clusters/namespaces";
 import { Nodes } from "./clusters/nodes";
 import { ConfigMaps } from "./configurations/config-maps";
 import { HorizontalPodAutoscalers } from "./configurations/horizontal-pod-autoscalers";
@@ -47,6 +48,7 @@ export const configurationRoutes = [
 ] as const;
 
 export const clusterRoutes = [
+  { name: "Namespaces", path: "/namespaces", component: Namespaces },
   { name: "Events", path: "/events", component: Events },
   { name: "Nodes", path: "/nodes", component: Nodes },
 ];
