@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { toast } from "react-toastify";
 
+import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./base/modal";
 
@@ -17,14 +18,15 @@ export function ResourceDeleteModal({
   selectedResource,
 }: ResourceDeleteProps): JSX.Element {
   const { currentContext } = useCurrentContext();
-  const type = selectedResource?.kind?.toLowerCase() ?? "--";
+
+  const type = camelToSnakeCase(selectedResource?.kind);
 
   const deleteMutation = useMutation({
     mutationFn: (resource: V1Pod) => {
       return invoke<boolean>(`delete_${type}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,
-        podName: resource.metadata?.name,
+        name: resource.metadata?.name,
       });
     },
     onSuccess: (_data, variables) => {

@@ -16,7 +16,8 @@
     "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": {
-      "name": "cronjob-example"
+      "name": "cronjob-example",
+      "namespace": "default"
     },
     "spec": {
       "schedule": "*/1 * * * *",
@@ -44,6 +45,7 @@
     "kind": "Deployment",
     "metadata": {
       "name": "deployment-example",
+      "namespace": "default",
       "labels": {
         "app": "nginx"
       }
@@ -82,7 +84,7 @@
     "kind": "DaemonSet",
     "metadata": {
       "name": "fluentd-elasticsearch",
-      "namespace": "kube-system",
+      "namespace": "default",
       "labels": {
         "k8s-app": "fluentd-logging"
       }
@@ -150,7 +152,8 @@
     "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": {
-      "name": "ingress-example"
+      "name": "ingress-example",
+      "namespace": "default"
     },
     "spec": {
       "ingressClassName": "nginx-example",
@@ -180,7 +183,8 @@
     "apiVersion": "autoscaling/v1",
     "kind": "HorizontalPodAutoscaler",
     "metadata": {
-      "name": "php-apache"
+      "name": "php-apache",
+      "namespace": "default"
     },
     "spec": {
       "scaleTargetRef": {
@@ -208,7 +212,8 @@
     "apiVersion": "batch/v1",
     "kind": "Job",
     "metadata": {
-      "name": "pi"
+      "name": "pi",
+      "namespace": "default"
     },
     "spec": {
       "template": {
@@ -230,7 +235,8 @@
     "apiVersion": "v1",
     "kind": "Pod",
     "metadata": {
-      "name": "nginx"
+      "name": "nginx",
+      "namespace": "default"
     },
     "spec": {
       "containers": [
@@ -251,6 +257,7 @@
     "kind": "ReplicaSet",
     "metadata": {
       "name": "replicaset-example",
+      "namespace": "default",
       "labels": {
         "app": "guestbook",
         "tier": "frontend"
@@ -284,7 +291,8 @@
     "apiVersion": "apps/v1",
     "kind": "StatefulSet",
     "metadata": {
-      "name": "web"
+      "name": "web",
+      "namespace": "default"
     },
     "spec": {
       "selector": {
@@ -346,6 +354,7 @@
     "kind": "Secret",
     "metadata": {
       "name": "secret-sa-sample",
+      "namespace": "default",
       "annotations": {
         "kubernetes.io/service-account.name": "sa-name"
       }
@@ -359,7 +368,8 @@
     "apiVersion": "v1",
     "kind": "Service",
     "metadata": {
-      "name": "service-example"
+      "name": "service-example",
+      "namespace": "default"
     },
     "spec": {
       "selector": {
