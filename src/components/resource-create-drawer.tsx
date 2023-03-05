@@ -13,6 +13,7 @@ import { useTheme } from "../providers/theme-provider";
 import { SelectInput } from "./base/select-input";
 import { Drawer } from "./drawer";
 import { getEditorTheme } from "./resource-edit-drawer";
+import resourceTemplate from "./resource-templates.json";
 import { ToggleButton } from "./toggle-button";
 
 interface ResourceCreateDrawerProps {
@@ -20,9 +21,9 @@ interface ResourceCreateDrawerProps {
   handleClose: () => void;
 }
 
-type AvailableTemplates = "CronJobs" | "Deployment" | "Ingress" | "Service";
+type AvailableTemplates = keyof typeof resourceTemplate;
 
-const templates: AvailableTemplates[] = ["CronJobs", "Deployment", "Ingress", "Service"];
+const templates = Object.keys(resourceTemplate) as AvailableTemplates[];
 
 export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
   isOpen,
@@ -33,6 +34,16 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
   const { currentContext } = useCurrentContext();
   const [template, setTemplate] = useState<AvailableTemplates | null>(null);
 
+  const handleTemplateChange = (template: AvailableTemplates) => {
+    setTemplate(template);
+
+    const code = showYaml
+      ? yaml.dump(resourceTemplate[template])
+      : JSON.stringify(resourceTemplate[template], null, 4);
+
+    setCode(code);
+  };
+
   const [code, setCode] = useState<string>("");
   const [showYaml, setShowYaml] = useState(language === "yaml");
 
@@ -40,8 +51,19 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
     setShowYaml(language === "yaml");
   }, [language]);
 
+  useEffect(() => {
+    setCode("");
+  }, [isOpen]);
+
   const handleShowYaml = (showYaml: boolean) => {
+    setShowYaml(showYaml);
+
+    if (!code) {
+      return;
+    }
+
     if (showYaml) {
+      console.log(code);
       const jsonObj = JSON.parse(code);
       const yamlStr = yaml.dump(jsonObj);
       setCode(yamlStr);
@@ -50,7 +72,6 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
       const jsonStr = JSON.stringify(jsonObj, null, 4);
       setCode(jsonStr);
     }
-    setShowYaml(showYaml);
   };
 
   const createMutation = useMutation({
@@ -85,7 +106,7 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
       description={
         <div className="flex w-full gap-8 p-2">
           <SelectInput
-            onChange={(template) => setTemplate(template)}
+            onChange={handleTemplateChange}
             value={template}
             options={templates}
             defaultLabel="Select Template"
