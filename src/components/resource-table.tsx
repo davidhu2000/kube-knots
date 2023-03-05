@@ -2,7 +2,6 @@ import type { V1ObjectMeta } from "@kubernetes/client-node";
 import { Suspense, lazy } from "react";
 
 import { ActionMenuItem, ActionMenuWrapper, type Actions } from "../components/action-group";
-import { QueryWrapper } from "../components/query-wrapper";
 import { Table, TableHeader, TableBody } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { type ResourceListCommands, useResourceList } from "../hooks/use-resource-list";
@@ -40,6 +39,15 @@ const PodLogs = lazy(() =>
 
 export type ResourceBase = { kind?: string | undefined; metadata?: V1ObjectMeta };
 
+function WrapperContent({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <div className="p-8 text-center">
+      <p className="text-base font-semibold dark:text-gray-400">{subtitle}</p>
+      <h1 className="mt-4 text-2xl font-bold tracking-tight dark:text-gray-400">{title}</h1>
+    </div>
+  );
+}
+
 interface ResourceListProps<T> {
   command: ResourceListCommands;
   headers: string[];
@@ -60,8 +68,20 @@ export function ResourceTable<T extends ResourceBase>({
     (typeof actions)[number]
   >();
 
+  if (resourceListQuery.isLoading) {
+    return <WrapperContent title="Loading..." subtitle="..." />;
+  }
+
+  if (resourceListQuery.isError) {
+    return <WrapperContent title={JSON.stringify(resourceListQuery.error)} subtitle="Uh Oh" />;
+  }
+
+  if (resourceListQuery.isSuccess && resourceListQuery.data.items.length === 0) {
+    return <WrapperContent title="No resources found" subtitle="404" />;
+  }
+
   return (
-    <QueryWrapper query={resourceListQuery}>
+    <>
       <Table>
         <TableHeader headers={[...headers, ...(actions.length > 0 ? [""] : [])]} />
         <TableBody>
@@ -141,6 +161,6 @@ export function ResourceTable<T extends ResourceBase>({
           <PodLogs isOpen={action === "logs"} handleClose={handleClose} selectedPod={selected} />
         )}
       </Suspense>
-    </QueryWrapper>
+    </>
   );
 }
