@@ -9,7 +9,7 @@ export function CronJobs() {
     <ResourceTable<V1CronJob>
       command="get_cron_jobs"
       headers={["Name", "Schedule", "Last Run"]}
-      actions={["trigger", "edit"]}
+      actions={["trigger", "edit", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>

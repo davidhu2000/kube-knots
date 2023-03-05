@@ -1,12 +1,12 @@
 use k8s_openapi::api::core::v1::Pod;
 
 use kube::{
-    api::{DeleteParams, ListParams, LogParams},
+    api::{ListParams, LogParams},
     core::ObjectList,
     Api,
 };
 
-use crate::internal::{get_resource_api, update_resource};
+use crate::internal::{delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
 pub async fn get_pods(
@@ -56,15 +56,7 @@ pub async fn update_pod(
 pub async fn delete_pod(
     context: Option<String>,
     namespace: Option<String>,
-    pod_name: String,
+    name: String,
 ) -> Result<bool, String> {
-    let api: Api<Pod> = get_resource_api(context, namespace).await;
-
-    let dp = DeleteParams::default();
-    let result = api.delete(&pod_name, &dp).await;
-
-    return match result {
-        Ok(_) => Ok(true),
-        Err(e) => Err(e.to_string()),
-    };
+    return delete_resource::<Pod>(context, namespace, name).await;
 }

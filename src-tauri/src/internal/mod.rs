@@ -1,6 +1,6 @@
 use k8s_openapi::NamespaceResourceScope;
 use kube::{
-    api::{Patch, PatchParams},
+    api::{DeleteParams, Patch, PatchParams},
     config::{KubeConfigOptions, Kubeconfig},
     Api, Client, Config,
 };
@@ -75,6 +75,31 @@ where
 
     return match result {
         Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
+}
+
+pub async fn delete_resource<T>(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String>
+where
+    T: serde::de::DeserializeOwned
+        + std::fmt::Debug
+        + Clone
+        + k8s_openapi::Metadata
+        + kube::Resource<Scope = NamespaceResourceScope>
+        + Serialize,
+    <T as kube::Resource>::DynamicType: std::default::Default,
+{
+    let api: Api<T> = get_resource_api(context, namespace).await;
+
+    let dp = DeleteParams::default();
+    let result = api.delete(&name, &dp).await;
+
+    return match result {
+        Ok(_) => Ok(true),
         Err(e) => Err(e.to_string()),
     };
 }

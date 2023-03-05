@@ -53,6 +53,7 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
 
   useEffect(() => {
     setCode("");
+    setTemplate(null);
   }, [isOpen]);
 
   const handleShowYaml = (showYaml: boolean) => {

@@ -31,6 +31,8 @@ fn main() {
             networking::ingresses::update_ingress,
             networking::services::get_services,
             networking::services::update_service,
+            workloads::cron_jobs::create_cron_job,
+            workloads::cron_jobs::delete_cron_job,
             workloads::cron_jobs::get_cron_jobs,
             workloads::cron_jobs::update_cron_job,
             workloads::daemon_sets::get_daemon_sets,
