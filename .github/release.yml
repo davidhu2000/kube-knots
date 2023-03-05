@@ -1,0 +1,11 @@
+changelog:
+  categories:
+    - title: New Features 🎉
+      labels:
+        - feat
+    - title: Chores 🛠
+      labels:
+        - chore
+    - title: Other Changes
+      labels:
+        - "*"
