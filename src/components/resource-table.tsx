@@ -1,10 +1,10 @@
 import type { V1ObjectMeta } from "@kubernetes/client-node";
 import { Suspense, lazy } from "react";
 
-import { ActionMenuItem, ActionMenuWrapper, type Actions } from "../components/action-group";
-import { Table, TableHeader, TableBody } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { type ResourceListCommands, useResourceList } from "../hooks/use-resource-list";
+import { ActionMenuItem, ActionMenuWrapper, type Actions } from "./base/action-group";
+import { Table, TableHeader, TableBody } from "./base/table";
 
 const ResourceEditDrawer = lazy(() =>
   import("./resource-edit-drawer").then((module) => ({

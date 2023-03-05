@@ -1,8 +1,8 @@
 import type { NodeMetric, V1Node } from "@kubernetes/client-node";
 
+import { TableCell } from "../components/base/table";
 import { ResourceTable } from "../components/resource-table";
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
-import { TableCell } from "../components/table";
 import { formatDateString } from "../helpers/date-helpers";
 import { useResourceList } from "../hooks/use-resource-list";
 

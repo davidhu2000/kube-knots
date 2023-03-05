@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
 import { useCurrentContext } from "../providers/current-context-provider";
-import { Drawer } from "./drawer";
-import { ToggleButton } from "./toggle-button";
+import { Drawer } from "./base/drawer";
+import { ToggleButton } from "./base/toggle-button";
 
 interface PodLogsProps {
   isOpen: boolean;

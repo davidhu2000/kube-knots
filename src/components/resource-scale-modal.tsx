@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
-import { BaseModal, ModalButton } from "./modal";
+import { BaseModal, ModalButton } from "./base/modal";
 
 interface ResourceScaleModalProps {
   isOpen: boolean;

@@ -1,5 +1,5 @@
-import { BaseModal, ModalButton } from "../components/modal";
-import { RadioButtonGroup } from "../components/radio-button-group";
+import { BaseModal, ModalButton } from "../components/base/modal";
+import { RadioButtonGroup } from "../components/base/radio-button-group";
 import { useCurrentContext } from "../providers/current-context-provider";
 
 export function Context() {
