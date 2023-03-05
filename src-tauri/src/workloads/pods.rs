@@ -6,7 +6,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::{delete_resource, get_resource_api, update_resource};
+use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
 pub async fn get_pods(
@@ -40,6 +40,11 @@ pub async fn get_pod_logs(
         Ok(items) => Ok(items),
         Err(e) => Err(e.to_string()),
     };
+}
+
+#[tauri::command]
+pub async fn create_pod(context: Option<String>, resource: Pod) -> Result<Pod, String> {
+    return create_resource(context, resource).await;
 }
 
 #[tauri::command]

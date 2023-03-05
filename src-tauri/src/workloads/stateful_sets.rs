@@ -5,7 +5,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::{get_resource_api, update_resource};
+use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
 pub async fn get_stateful_sets(
@@ -23,6 +23,14 @@ pub async fn get_stateful_sets(
 }
 
 #[tauri::command]
+pub async fn create_stateful_set(
+    context: Option<String>,
+    resource: StatefulSet,
+) -> Result<StatefulSet, String> {
+    return create_resource(context, resource).await;
+}
+
+#[tauri::command]
 pub async fn update_stateful_set(
     context: Option<String>,
     namespace: Option<String>,
@@ -30,6 +38,15 @@ pub async fn update_stateful_set(
     resource: StatefulSet,
 ) -> Result<StatefulSet, String> {
     return update_resource(context, namespace, name, resource).await;
+}
+
+#[tauri::command]
+pub async fn delete_stateful_set(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    return delete_resource::<StatefulSet>(context, namespace, name).await;
 }
 
 #[tauri::command]
