@@ -14,6 +14,7 @@ export type ResourceListCommands =
   | "get_horizontal_pod_autoscalers"
   | "get_ingresses"
   | "get_jobs"
+  | "get_namespaces"
   | "get_node_metrics"
   | "get_nodes"
   | "get_pod_metrics"

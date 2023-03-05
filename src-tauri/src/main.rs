@@ -16,8 +16,14 @@ pub mod workloads;
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
+            // events
             cluster::events::get_events,
+            // namespaces
+            cluster::namespaces::create_namespace,
+            cluster::namespaces::delete_namespace,
             cluster::namespaces::get_namespaces,
+            cluster::namespaces::update_namespace,
+            // nodes
             cluster::node_metrics::get_node_metrics,
             cluster::nodes::get_nodes,
             // config maps
