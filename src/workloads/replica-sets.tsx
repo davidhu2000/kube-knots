@@ -1,7 +1,7 @@
 import type { V1ReplicaSet } from "@kubernetes/client-node";
 
+import { TableCell } from "../components/base/table";
 import { ResourceTable } from "../components/resource-table";
-import { TableCell } from "../components/table";
 
 export function ReplicaSets() {
   return (

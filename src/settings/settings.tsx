@@ -1,6 +1,6 @@
-import { BaseModal, ModalButton } from "../components/modal";
-import { RadioButtonGroup } from "../components/radio-button-group";
-import { ToggleButton } from "../components/toggle-button";
+import { BaseModal, ModalButton } from "../components/base/modal";
+import { RadioButtonGroup } from "../components/base/radio-button-group";
+import { ToggleButton } from "../components/base/toggle-button";
 import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useQuerySetting } from "../providers/query-setting-provider";
 import { useTheme } from "../providers/theme-provider";

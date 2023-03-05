@@ -10,11 +10,11 @@ import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
+import { Drawer } from "./base/drawer";
 import { SelectInput } from "./base/select-input";
-import { Drawer } from "./drawer";
+import { ToggleButton } from "./base/toggle-button";
 import { getEditorTheme } from "./resource-edit-drawer";
 import resourceTemplate from "./resource-templates.json";
-import { ToggleButton } from "./toggle-button";
 
 interface ResourceCreateDrawerProps {
   isOpen: boolean;

@@ -4,7 +4,7 @@ import { invoke } from "@tauri-apps/api";
 import { toast } from "react-toastify";
 
 import { useCurrentContext } from "../providers/current-context-provider";
-import { BaseModal, ModalButton } from "./modal";
+import { BaseModal, ModalButton } from "./base/modal";
 
 interface ResourceDeleteProps {
   isOpen: boolean;

@@ -1,7 +1,7 @@
 import type { CoreV1Event } from "@kubernetes/client-node";
 
+import { TableCell } from "../components/base/table";
 import { ResourceTable } from "../components/resource-table";
-import { TableCell } from "../components/table";
 import { formatDateString } from "../helpers/date-helpers";
 
 export function Events() {

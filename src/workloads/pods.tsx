@@ -1,9 +1,9 @@
 import type { PodMetric, V1Pod } from "@kubernetes/client-node";
 import { type ChangeEvent, useEffect, useRef, useState, type FormEvent } from "react";
 
+import { TableCell } from "../components/base/table";
 import { ResourceTable } from "../components/resource-table";
 import { CpuUsage, MemoryUsage } from "../components/resource-usage";
-import { TableCell } from "../components/table";
 import { useResourceList } from "../hooks/use-resource-list";
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
 
