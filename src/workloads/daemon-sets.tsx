@@ -9,7 +9,7 @@ export function DaemonSets() {
     <ResourceTable<V1DaemonSet>
       command="get_daemon_sets"
       headers={["Name", "Pods", "Created"]}
-      actions={["restart", "edit", "delete"]}
+      actions={["edit", "restart", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>

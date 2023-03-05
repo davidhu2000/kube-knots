@@ -34,6 +34,7 @@ fn main() {
             workloads::cron_jobs::get_cron_jobs,
             workloads::cron_jobs::update_cron_job,
             workloads::daemon_sets::get_daemon_sets,
+            workloads::daemon_sets::restart_daemon_set,
             workloads::daemon_sets::update_daemon_set,
             workloads::deployments::get_deployments,
             workloads::deployments::update_deployment,
