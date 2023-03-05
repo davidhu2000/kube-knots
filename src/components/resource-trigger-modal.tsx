@@ -1,6 +1,7 @@
 import type { V1CronJob, V1Job } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
+import { toast } from "react-toastify";
 
 import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./modal";
@@ -45,11 +46,11 @@ export function ResourceTriggerModal({
       });
     },
     onSuccess: (_data, variables) => {
-      alert(`Job triggered ${variables.metadata?.name}`);
+      toast.success(`Job triggered ${variables.metadata?.name}`);
       handleClose();
     },
     onError: (_data) => {
-      alert(_data);
+      toast.error(_data as string);
     },
   });
 
