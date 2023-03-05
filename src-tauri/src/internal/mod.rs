@@ -53,6 +53,53 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
     return client;
 }
 
+pub async fn create_resource<T>(context: Option<String>, resource: T) -> Result<T, String>
+where
+    T: serde::de::DeserializeOwned
+        + std::fmt::Debug
+        + Clone
+        + k8s_openapi::Metadata
+        + kube::Resource<Scope = NamespaceResourceScope>
+        + Serialize,
+    <T as kube::Resource>::DynamicType: std::default::Default,
+{
+    let namespace = match resource.meta().namespace {
+        Some(ref ns) => ns,
+        None => {
+            // TODO: fix this code to pull the default namespace from the current context
+            // println!("No namespace found in resource, using default");
+            // let config = get_config().unwrap();
+            // let current_context = config.current_context.unwrap();
+
+            // let context_to_use = match context {
+            //     Some(ref c) => c,
+            //     None => &current_context,
+            // };
+
+            // let context = config
+            //     .contexts
+            //     .iter()
+            //     .find(|&c| &c.name == context_to_use)
+            //     .unwrap();
+
+            // let context_config = context.context.unwrap();
+            // let namespace = context_config.namespace.unwrap_or("default".to_string());
+
+            // &namespace
+            "default"
+        }
+    };
+
+    let api: Api<T> = get_resource_api(context, Some(namespace.to_string())).await;
+
+    let result = api.create(&Default::default(), &resource).await;
+
+    return match result {
+        Ok(resource) => Ok(resource),
+        Err(e) => Err(e.to_string()),
+    };
+}
+
 pub async fn update_resource<T>(
     context: Option<String>,
     namespace: Option<String>,
