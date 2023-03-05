@@ -8,7 +8,7 @@ export function ConfigMaps() {
   return (
     <ResourceTable<V1ConfigMap>
       command="get_config_maps"
-      headers={["Name", "Created", "Actions"]}
+      headers={["Name", "Created"]}
       actions={["edit"]}
       renderData={(item) => (
         <>

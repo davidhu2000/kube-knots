@@ -8,7 +8,7 @@ export function CronJobs() {
   return (
     <ResourceTable<V1CronJob>
       command="get_cron_jobs"
-      headers={["Name", "Schedule", "Last Run", "Actions"]}
+      headers={["Name", "Schedule", "Last Run"]}
       actions={["trigger", "edit"]}
       renderData={(item) => (
         <>

@@ -67,7 +67,7 @@ export function Pods() {
   return (
     <ResourceTable<V1Pod>
       command="get_pods"
-      headers={["Name", "Status", "CPU", "Memory", "Actions"]}
+      headers={["Name", "Status", "CPU", "Memory"]}
       actions={["logs", "edit", "delete"]}
       renderData={(item) => {
         const metric = metrics.find((metric) => metric.metadata.name === item.metadata?.name);

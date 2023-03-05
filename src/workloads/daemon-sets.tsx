@@ -8,7 +8,7 @@ export function DaemonSets() {
   return (
     <ResourceTable<V1DaemonSet>
       command="get_daemon_sets"
-      headers={["Name", "Pods", "Created", "Actions"]}
+      headers={["Name", "Pods", "Created"]}
       actions={["restart", "edit", "delete"]}
       renderData={(item) => (
         <>

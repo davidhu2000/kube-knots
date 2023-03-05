@@ -1,9 +1,9 @@
 import type { V1ObjectMeta } from "@kubernetes/client-node";
 import { Suspense, lazy } from "react";
 
-import { ActionButton, type Actions } from "../components/action-group";
+import { ActionMenuItem, ActionMenuWrapper, type Actions } from "../components/action-group";
 import { QueryWrapper } from "../components/query-wrapper";
-import { Table, TableHeader, TableBody, TableCell } from "../components/table";
+import { Table, TableHeader, TableBody } from "../components/table";
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { type ResourceListCommands, useResourceList } from "../hooks/use-resource-list";
 
@@ -47,22 +47,6 @@ interface ResourceListProps<T> {
   renderData: (item: T) => JSX.Element;
 }
 
-function getPosition(length: number, index: number) {
-  if (length === 1) {
-    return "single";
-  }
-
-  if (index === 0) {
-    return "left";
-  }
-
-  if (index === length - 1) {
-    return "right";
-  }
-
-  return "middle";
-}
-
 export function ResourceTable<T extends ResourceBase>({
   command,
   headers,
@@ -79,27 +63,26 @@ export function ResourceTable<T extends ResourceBase>({
   return (
     <QueryWrapper query={resourceListQuery}>
       <Table>
-        <TableHeader headers={headers} />
+        <TableHeader headers={[...headers, ...(actions.length > 0 ? [""] : [])]} />
         <TableBody>
           {resourceListQuery.data.items.map((item) => (
             <tr key={item.metadata?.uid}>
               {renderData(item)}
-              {actions.length > 0 && (
-                <TableCell>
-                  {actions.map((action, index) => {
-                    const position = getPosition(actions.length, index);
-
-                    return (
-                      <ActionButton
-                        key={action}
-                        label={action}
-                        position={position}
-                        onClick={() => handleOpen(item, action)}
-                      />
-                    );
-                  })}
-                </TableCell>
-              )}
+              <td>
+                {actions.length > 0 && (
+                  <ActionMenuWrapper>
+                    {actions.map((action) => {
+                      return (
+                        <ActionMenuItem
+                          key={action}
+                          label={action}
+                          onClick={() => handleOpen(item, action)}
+                        />
+                      );
+                    })}
+                  </ActionMenuWrapper>
+                )}
+              </td>
             </tr>
           ))}
         </TableBody>

@@ -7,7 +7,7 @@ export function Services() {
   return (
     <ResourceTable<V1Service>
       command="get_services"
-      headers={["Name", "Type", "Actions"]}
+      headers={["Name", "Type"]}
       actions={["edit"]}
       renderData={(item) => (
         <>

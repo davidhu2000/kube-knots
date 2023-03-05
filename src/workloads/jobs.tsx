@@ -8,7 +8,7 @@ export function Jobs() {
   return (
     <ResourceTable<V1Job>
       command="get_jobs"
-      headers={["Name", "Schedule", "Last Run", "Actions"]}
+      headers={["Name", "Schedule", "Last Run"]}
       actions={["edit"]}
       renderData={(item) => (
         <>
