@@ -5,7 +5,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::{get_resource_api, update_resource};
+use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
 pub async fn get_replica_sets(
@@ -23,6 +23,14 @@ pub async fn get_replica_sets(
 }
 
 #[tauri::command]
+pub async fn create_replica_set(
+    context: Option<String>,
+    resource: ReplicaSet,
+) -> Result<ReplicaSet, String> {
+    return create_resource(context, resource).await;
+}
+
+#[tauri::command]
 pub async fn update_replica_set(
     context: Option<String>,
     namespace: Option<String>,
@@ -30,6 +38,15 @@ pub async fn update_replica_set(
     resource: ReplicaSet,
 ) -> Result<ReplicaSet, String> {
     return update_resource(context, namespace, name, resource).await;
+}
+
+#[tauri::command]
+pub async fn delete_replica_set(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    return delete_resource::<ReplicaSet>(context, namespace, name).await;
 }
 
 #[tauri::command]

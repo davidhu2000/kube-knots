@@ -1,7 +1,7 @@
 use k8s_openapi::api::core::v1::Service;
 use kube::{api::ListParams, core::ObjectList, Api};
 
-use crate::internal::{get_resource_api, update_resource};
+use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
 pub async fn get_services(
@@ -20,6 +20,11 @@ pub async fn get_services(
 }
 
 #[tauri::command]
+pub async fn create_service(context: Option<String>, resource: Service) -> Result<Service, String> {
+    return create_resource(context, resource).await;
+}
+
+#[tauri::command]
 pub async fn update_service(
     context: Option<String>,
     namespace: Option<String>,
@@ -27,4 +32,13 @@ pub async fn update_service(
     resource: Service,
 ) -> Result<Service, String> {
     return update_resource(context, namespace, name, resource).await;
+}
+
+#[tauri::command]
+pub async fn delete_service(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    return delete_resource::<Service>(context, namespace, name).await;
 }

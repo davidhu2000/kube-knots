@@ -5,7 +5,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::{get_resource_api, update_resource};
+use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
 pub async fn get_deployments(
@@ -23,6 +23,14 @@ pub async fn get_deployments(
 }
 
 #[tauri::command]
+pub async fn create_deployment(
+    context: Option<String>,
+    resource: Deployment,
+) -> Result<Deployment, String> {
+    return create_resource(context, resource).await;
+}
+
+#[tauri::command]
 pub async fn update_deployment(
     context: Option<String>,
     namespace: Option<String>,
@@ -30,6 +38,15 @@ pub async fn update_deployment(
     resource: Deployment,
 ) -> Result<Deployment, String> {
     return update_resource(context, namespace, name, resource).await;
+}
+
+#[tauri::command]
+pub async fn delete_deployment(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    return delete_resource::<Deployment>(context, namespace, name).await;
 }
 
 #[tauri::command]
