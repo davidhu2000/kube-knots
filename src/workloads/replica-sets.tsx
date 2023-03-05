@@ -7,7 +7,7 @@ export function ReplicaSets() {
   return (
     <ResourceTable<V1ReplicaSet>
       command="get_replica_sets"
-      headers={["Name", "Images", "Pods", "Actions"]}
+      headers={["Name", "Images", "Pods"]}
       actions={["edit", "scale"]}
       renderData={(item) => (
         <>

@@ -8,7 +8,7 @@ export function Ingresses() {
   return (
     <ResourceTable<V1Ingress>
       command="get_ingresses"
-      headers={["Name", "Hosts", "Created", "Actions"]}
+      headers={["Name", "Hosts", "Created"]}
       actions={["edit"]}
       renderData={(item) => (
         <>

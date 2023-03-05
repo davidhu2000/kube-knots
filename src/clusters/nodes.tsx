@@ -14,7 +14,7 @@ export function Nodes() {
   return (
     <ResourceTable<V1Node>
       command="get_nodes"
-      headers={["Name", "CPU", "Memory", "Status", "Created", "Actions"]}
+      headers={["Name", "CPU", "Memory", "Status", "Created"]}
       actions={["edit"]}
       renderData={(item) => {
         const metric = nodeMetrics.find((m) => m.metadata?.name === item.metadata?.name);

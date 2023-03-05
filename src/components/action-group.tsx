@@ -1,3 +1,4 @@
+import { Menu, Transition } from "@headlessui/react";
 import {
   ArrowPathIcon,
   ArrowsUpDownIcon,
@@ -7,21 +8,19 @@ import {
   PlayIcon,
   TrashIcon,
   CommandLineIcon,
+  EllipsisVerticalIcon,
 } from "@heroicons/react/20/solid";
-import type { PropsWithChildren } from "react";
-
-export function ActionGroup({ children }: PropsWithChildren) {
-  return <span className="isolate inline-flex rounded-md shadow-sm">{children}</span>;
-}
+import { Fragment, type PropsWithChildren } from "react";
 
 export type Actions =
-  "create" | "delete" | "edit" | "exec" | "logs" | "restart" | "scale" | "trigger";
-
-interface ActionButtonProps {
-  label: Actions;
-  position: "left" | "middle" | "right" | "single";
-  onClick: () => void;
-}
+  | "create"
+  | "delete"
+  | "edit"
+  | "exec"
+  | "logs"
+  | "restart"
+  | "scale"
+  | "trigger";
 
 const getIcon = (label: Actions) => {
   switch (label) {
@@ -44,35 +43,47 @@ const getIcon = (label: Actions) => {
   }
 };
 
-const getRoundedClass = (position: ActionButtonProps["position"]) => {
-  switch (position) {
-    case "left":
-      return "rounded-l-md";
-    case "right":
-      return "rounded-r-md";
-    case "middle":
-      return "";
-    case "single":
-      return "rounded-md";
-  }
-};
+export function ActionMenuWrapper({ children }: PropsWithChildren) {
+  return (
+    <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button className="inline-flex w-full justify-center rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-black/30 dark:text-gray-100">
+          <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+        </Menu.Button>
+      </div>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute right-0 z-20 mt-2 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-gray-200 shadow-lg focus:outline-none dark:divide-gray-700 dark:bg-gray-900">
+          {children}
+        </Menu.Items>
+      </Transition>
+    </Menu>
+  );
+}
 
-export function ActionButton({ label, position, onClick }: ActionButtonProps) {
+interface ActionMenuItemProps {
+  label: Actions;
+  onClick: () => void;
+}
+export function ActionMenuItem({ label, onClick }: ActionMenuItemProps) {
   const Icon = getIcon(label);
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`relative ${
-        position === "left" ? "" : "-ml-px"
-      } inline-flex items-center ${getRoundedClass(
-        position
-      )} border border-gray-300 p-2 hover:bg-gray-50 dark:border-gray-600 hover:dark:bg-gray-700`}
-    >
-      <Icon className="mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-      {label[0].toUpperCase()}
-      {label.slice(1)}
-    </button>
+    <Menu.Item>
+      <button
+        className="group flex w-full items-center p-2 text-sm text-gray-700 hover:bg-gray-400 dark:text-gray-300 hover:dark:bg-gray-600"
+        onClick={onClick}
+      >
+        <Icon className="mr-2 h-5 w-5" aria-hidden="true" />
+        <span className="capitalize">{label}</span>
+      </button>
+    </Menu.Item>
   );
 }

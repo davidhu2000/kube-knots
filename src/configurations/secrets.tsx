@@ -8,7 +8,7 @@ export function Secrets() {
   return (
     <ResourceTable<V1Secret>
       command="get_secrets"
-      headers={["Name", "Type", "Created", "Actions"]}
+      headers={["Name", "Type", "Created"]}
       actions={["edit"]}
       renderData={(item) => (
         <>
