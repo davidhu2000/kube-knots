@@ -1,5 +1,5 @@
 import { type V1ObjectMeta } from "@kubernetes/client-node";
-import Editor, { DiffEditor } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import yaml from "js-yaml";
@@ -11,46 +11,24 @@ import { useCurrentContext } from "../providers/current-context-provider";
 import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
 import { Drawer } from "./drawer";
+import { getEditorTheme } from "./resource-edit-drawer";
 import { ToggleButton } from "./toggle-button";
 
-interface ResourceEditDrawerProps<T> {
+interface ResourceCreateDrawerProps {
   isOpen: boolean;
-  selectedResource: T | null;
   handleClose: () => void;
 }
 
-export function getEditorTheme(
-  theme: ReturnType<typeof useTheme>["theme"],
-  systemTheme: ReturnType<typeof useTheme>["systemTheme"]
-) {
-  if (theme === "system") {
-    return systemTheme === "dark" ? "vs-dark" : "light";
-  }
-
-  return theme === "dark" ? "vs-dark" : "light";
-}
-
-export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
+export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
   isOpen,
-  selectedResource,
   handleClose,
-}: ResourceEditDrawerProps<T>) {
+}: ResourceCreateDrawerProps) {
   const { language } = useDefaultLanguage();
   const { theme, systemTheme } = useTheme();
   const { currentContext } = useCurrentContext();
 
-  const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));
+  const [code, setCode] = useState<string>("");
   const [showYaml, setShowYaml] = useState(language === "yaml");
-  const [showDiff, setShowDiff] = useState(false);
-
-  useEffect(() => {
-    if (showYaml) {
-      setCode(yaml.dump(selectedResource));
-    } else {
-      setCode(JSON.stringify(selectedResource, null, 4));
-    }
-    setShowDiff(false);
-  }, [selectedResource]);
 
   useEffect(() => {
     setShowYaml(language === "yaml");
@@ -69,11 +47,11 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
     setShowYaml(showYaml);
   };
 
-  const updateMutation = useMutation({
+  const createMutation = useMutation({
     mutationFn: (resource: T) => {
       const resourceKind = camelToSnakeCase(resource.kind);
 
-      return invoke<boolean>(`update_${resourceKind}`, {
+      return invoke<boolean>(`create_${resourceKind}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,
         name: resource.metadata?.name,
@@ -82,7 +60,7 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
     },
     onSuccess: (_data, variables) => {
       handleClose();
-      toast.success(`Updated ${variables.metadata?.name}`);
+      toast.success(`Created ${variables.metadata?.name}`);
     },
     onError: (error) => {
       toast.error(error as string);
@@ -97,15 +75,9 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
     <Drawer
       isOpen={isOpen}
       handleClose={handleClose}
-      title={selectedResource?.metadata?.name ?? ""}
+      title={"Create New Resource"}
       description={
         <div className="flex w-full gap-8 p-2">
-          <ToggleButton
-            checked={showDiff}
-            onChange={setShowDiff}
-            checkedLabel="Hide Diff"
-            uncheckedLabel="Show Diff"
-          />
           <ToggleButton
             checked={showYaml}
             onChange={handleShowYaml}
@@ -117,7 +89,7 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
           <button
             onClick={() => {
               const jsonObj = (showYaml ? yaml.load(code) : JSON.parse(code)) as T;
-              updateMutation.mutate(jsonObj);
+              createMutation.mutate(jsonObj);
             }}
             className="rounded-md border bg-gray-100 px-4 py-2 text-gray-900 shadow-md dark:border-gray-700 dark:bg-blue-800 dark:text-gray-100 hover:dark:bg-blue-900"
           >
@@ -126,23 +98,12 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
         </div>
       }
     >
-      {showDiff ? (
-        <DiffEditor
-          language={editorLanguage}
-          original={
-            showYaml ? yaml.dump(selectedResource) : JSON.stringify(selectedResource, null, 4)
-          }
-          theme={editorTheme}
-          modified={code}
-        />
-      ) : (
-        <Editor
-          language={editorLanguage}
-          value={code}
-          theme={editorTheme}
-          onChange={(code) => setCode(code ?? "")}
-        />
-      )}
+      <Editor
+        language={editorLanguage}
+        value={code}
+        theme={editorTheme}
+        onChange={(code) => setCode(code ?? "")}
+      />
     </Drawer>
   );
 }
