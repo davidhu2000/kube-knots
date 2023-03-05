@@ -27,10 +27,8 @@ export function RadioButtonGroup<T extends string>({
             value={value}
             className={({ checked }) =>
               `${
-                checked
-                  ? "dark:bg-blue-800 bg-blue-300 dark:text-gray-100 text-gray-900"
-                  : "dark:bg-gray-800 bg-gray-200 dark:text-gray-100 text-gray-900"
-              } flex cursor-pointer rounded-lg p-4 shadow-md`
+                checked ? "dark:bg-blue-800 bg-blue-300" : "dark:bg-gray-800 bg-gray-200"
+              } flex cursor-pointer rounded-lg p-4 shadow-md dark:text-gray-100 text-gray-900`
             }
           >
             <div className="flex w-full items-center justify-center">
