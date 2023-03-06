@@ -15,6 +15,7 @@ pub async fn get_pods(
 ) -> Result<ObjectList<Pod>, String> {
     let api: Api<Pod> = get_resource_api(context, namespace).await;
     let lp = ListParams::default();
+
     let result = api.list(&lp).await;
 
     return match result {
