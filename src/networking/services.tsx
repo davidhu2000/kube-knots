@@ -8,7 +8,7 @@ export function Services() {
     <ResourceTable<V1Service>
       command="get_services"
       headers={["Name", "Type"]}
-      actions={["edit"]}
+      actions={["edit", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>

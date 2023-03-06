@@ -9,7 +9,7 @@ export function Ingresses() {
     <ResourceTable<V1Ingress>
       command="get_ingresses"
       headers={["Name", "Hosts", "Created"]}
-      actions={["edit"]}
+      actions={["edit", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>
