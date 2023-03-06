@@ -9,7 +9,7 @@ export function ConfigMaps() {
     <ResourceTable<V1ConfigMap>
       command="get_config_maps"
       headers={["Name", "Created"]}
-      actions={["edit"]}
+      actions={["edit", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>

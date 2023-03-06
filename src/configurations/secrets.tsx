@@ -9,7 +9,7 @@ export function Secrets() {
     <ResourceTable<V1Secret>
       command="get_secrets"
       headers={["Name", "Type", "Created"]}
-      actions={["edit"]}
+      actions={["edit", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>

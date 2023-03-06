@@ -8,7 +8,7 @@ export function StatefulSets() {
     <ResourceTable<V1StatefulSet>
       command="get_stateful_sets"
       headers={["Name", "Images", "Pods"]}
-      actions={["restart", "edit", "scale"]}
+      actions={["restart", "edit", "scale", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>
