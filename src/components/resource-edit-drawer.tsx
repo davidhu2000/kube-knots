@@ -119,7 +119,7 @@ export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1Objec
               const jsonObj = (showYaml ? yaml.load(code) : JSON.parse(code)) as T;
               updateMutation.mutate(jsonObj);
             }}
-            className="rounded-md border bg-gray-100 px-4 py-2 text-gray-900 shadow-md dark:border-gray-700 dark:bg-blue-800 dark:text-gray-100 hover:dark:bg-blue-900"
+            className="rounded-md border bg-blue-200 px-4 py-2 text-gray-900 shadow-md hover:bg-blue-300 dark:border-gray-700 dark:bg-blue-800 dark:text-gray-100 hover:dark:bg-blue-900"
           >
             Save
           </button>

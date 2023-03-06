@@ -69,7 +69,7 @@ export function Layout({ children }: PropsWithChildren) {
       </div>
       <div className="flex flex-col pl-40 dark:bg-gray-800">
         <div className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-between bg-gray-200 p-4 shadow dark:bg-gray-700">
-          <div className="flex items-center gap-2">
+          <div className="flex items-end gap-2">
             <NamespaceSelect />
 
             <button
