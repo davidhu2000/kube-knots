@@ -74,9 +74,9 @@ export function Layout({ children }: PropsWithChildren) {
 
             <button
               onClick={() => setShowCreate(true)}
-              className="flex h-11 cursor-pointer items-center rounded-md bg-gray-300 py-1 px-2 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-800"
+              className="flex cursor-pointer items-center rounded-md bg-gray-300 py-1 px-2 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-800"
             >
-              <PlusIcon className="block h-8 w-8 fill-gray-600 p-1 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200" />
+              <PlusIcon className="block h-6 w-6 fill-gray-600 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200" />
               <span>Create</span>
             </button>
           </div>
