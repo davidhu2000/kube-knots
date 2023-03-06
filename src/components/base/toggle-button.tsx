@@ -20,7 +20,7 @@ export function ToggleButton({
         onChange={onChange}
         className={`${
           checked ? "bg-blue-600 dark:bg-blue-300" : "bg-gray-200 dark:bg-gray-500"
-        } relative inline-flex h-6 w-11 items-center rounded-full`}
+        } relative inline-flex h-6 w-11 items-center rounded-full focus:outline-none`}
       >
         <span className="sr-only">{label}</span>
         <span

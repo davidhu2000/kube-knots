@@ -9,10 +9,13 @@ import {
   TrashIcon,
   CommandLineIcon,
   EllipsisVerticalIcon,
+  StopCircleIcon,
+  PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import { Fragment, type PropsWithChildren } from "react";
 
 export type Actions =
+  | "cordon"
   | "create"
   | "delete"
   | "edit"
@@ -20,7 +23,8 @@ export type Actions =
   | "logs"
   | "restart"
   | "scale"
-  | "trigger";
+  | "trigger"
+  | "uncordon";
 
 const getIcon = (label: Actions) => {
   switch (label) {
@@ -40,6 +44,10 @@ const getIcon = (label: Actions) => {
       return TrashIcon;
     case "exec":
       return CommandLineIcon;
+    case "cordon":
+      return StopCircleIcon;
+    case "uncordon":
+      return PlayCircleIcon;
   }
 };
 

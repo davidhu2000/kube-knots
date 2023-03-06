@@ -25,7 +25,12 @@ fn main() {
             cluster::namespaces::update_namespace,
             // nodes
             cluster::node_metrics::get_node_metrics,
+            cluster::nodes::create_node,
+            cluster::nodes::cordon_node,
+            cluster::nodes::delete_node,
             cluster::nodes::get_nodes,
+            cluster::nodes::uncordon_node,
+            cluster::nodes::update_node,
             // config maps
             configurations::config_maps::create_config_map,
             configurations::config_maps::delete_config_map,

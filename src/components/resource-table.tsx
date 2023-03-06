@@ -6,6 +6,11 @@ import { type ResourceListCommands, useResourceList } from "../hooks/use-resourc
 import { ActionMenuItem, ActionMenuWrapper, type Actions } from "./base/action-group";
 import { Table, TableHeader, TableBody } from "./base/table";
 
+const NodeCordonModal = lazy(() =>
+  import("./node-action-modal").then((module) => ({
+    default: module.NodeActionModal,
+  }))
+);
 const ResourceEditDrawer = lazy(() =>
   import("./resource-edit-drawer").then((module) => ({
     default: module.ResourceEditDrawer,
@@ -152,6 +157,16 @@ export function ResourceTable<T extends ResourceBase>({
             isOpen={action === "delete"}
             handleClose={handleClose}
             selectedResource={selected}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<div>Loading Cordon modal</div>}>
+        {(action === "cordon" || action === "uncordon") && (
+          <NodeCordonModal
+            isOpen={["cordon", "uncordon"].includes(action ?? "")}
+            handleClose={handleClose}
+            selectedResource={selected}
+            action={action}
           />
         )}
       </Suspense>

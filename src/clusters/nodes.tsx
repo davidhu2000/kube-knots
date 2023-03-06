@@ -15,7 +15,7 @@ export function Nodes() {
     <ResourceTable<V1Node>
       command="get_nodes"
       headers={["Name", "CPU", "Memory", "Status", "Created"]}
-      actions={["edit"]}
+      actions={["edit", "cordon", "uncordon", "delete"]}
       renderData={(item) => {
         const metric = nodeMetrics.find((m) => m.metadata?.name === item.metadata?.name);
 
@@ -23,6 +23,7 @@ export function Nodes() {
         const usage = metric?.usage;
 
         const conditions = item.status?.conditions?.find((c) => c.status === "True");
+        const status = item.spec?.unschedulable ? "Cordoned" : conditions?.type;
 
         return (
           <>
@@ -33,7 +34,7 @@ export function Nodes() {
             <TableCell>
               <MemoryUsage usage={usage?.memory} request={requests?.memory} simpleLabel={true} />
             </TableCell>
-            <TableCell>{conditions?.type}</TableCell>
+            <TableCell>{status}</TableCell>
             <TableCell>{formatDateString(item.metadata?.creationTimestamp)}</TableCell>
           </>
         );
