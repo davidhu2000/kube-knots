@@ -11,11 +11,13 @@ import {
   EllipsisVerticalIcon,
   StopCircleIcon,
   PlayCircleIcon,
+  CloudArrowDownIcon,
 } from "@heroicons/react/20/solid";
 import { Fragment, type PropsWithChildren } from "react";
 
+import type { NodeActions } from "../../clusters/nodes";
+
 export type Actions =
-  | "cordon"
   | "create"
   | "delete"
   | "edit"
@@ -23,10 +25,9 @@ export type Actions =
   | "logs"
   | "restart"
   | "scale"
-  | "trigger"
-  | "uncordon";
+  | "trigger";
 
-const getIcon = (label: Actions) => {
+const getIcon = (label: Actions | NodeActions) => {
   switch (label) {
     case "logs":
       return BarsArrowDownIcon;
@@ -48,6 +49,8 @@ const getIcon = (label: Actions) => {
       return StopCircleIcon;
     case "uncordon":
       return PlayCircleIcon;
+    case "drain":
+      return CloudArrowDownIcon;
   }
 };
 
@@ -77,7 +80,7 @@ export function ActionMenuWrapper({ children }: PropsWithChildren) {
 }
 
 interface ActionMenuItemProps {
-  label: Actions;
+  label: Actions | NodeActions;
   onClick: () => void;
 }
 export function ActionMenuItem({ label, onClick }: ActionMenuItemProps) {

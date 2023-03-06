@@ -103,11 +103,11 @@ fn main() {
             workloads::stateful_sets::scale_stateful_set,
             workloads::stateful_sets::update_stateful_set,
         ])
-        .plugin(
-            tauri_plugin_log::Builder::default()
-                .targets([LogTarget::LogDir, LogTarget::Stdout])
-                .build(),
-        )
+        // .plugin(
+        //     tauri_plugin_log::Builder::default()
+        //         .targets([LogTarget::LogDir, LogTarget::Stdout])
+        //         .build(),
+        // )
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
