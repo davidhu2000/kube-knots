@@ -23,6 +23,8 @@ const ResourceDeleteModal = lazy(() =>
   }))
 );
 
+type NodeActions = Actions | "cordon" | "uncordon";
+
 export function Nodes() {
   const nodeQuery = useResourceList<V1Node>("get_nodes");
 
@@ -34,7 +36,7 @@ export function Nodes() {
     data: { items: pods },
   } = useResourceList<V1Pod>("get_pods", false);
 
-  const actions: Actions[] = ["edit", "cordon", "uncordon", "delete"];
+  const actions: NodeActions[] = ["edit", "cordon", "uncordon", "delete"];
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1Node,
