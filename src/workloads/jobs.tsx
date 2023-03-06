@@ -9,7 +9,7 @@ export function Jobs() {
     <ResourceTable<V1Job>
       command="get_jobs"
       headers={["Name", "Schedule", "Last Run"]}
-      actions={["edit"]}
+      actions={["edit", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>
