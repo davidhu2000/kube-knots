@@ -1,5 +1,4 @@
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
-import { type V1Pod } from "@kubernetes/client-node";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { toast } from "react-toastify";
@@ -7,23 +6,24 @@ import { toast } from "react-toastify";
 import { camelToSnakeCase } from "../helpers/casing-helpers";
 import { useCurrentContext } from "../providers/current-context-provider";
 import { BaseModal, ModalButton } from "./base/modal";
+import type { ResourceBase } from "./resource-table";
 
-interface ResourceDeleteProps {
+interface ResourceDeleteProps<T> {
   isOpen: boolean;
   handleClose: () => void;
-  selectedResource: V1Pod | null;
+  selectedResource: T | null;
 }
-export function ResourceDeleteModal({
+export function ResourceDeleteModal<T extends ResourceBase>({
   isOpen,
   handleClose,
   selectedResource,
-}: ResourceDeleteProps): JSX.Element {
+}: ResourceDeleteProps<T>): JSX.Element {
   const { currentContext } = useCurrentContext();
 
   const type = camelToSnakeCase(selectedResource?.kind);
 
   const deleteMutation = useMutation({
-    mutationFn: (resource: V1Pod) => {
+    mutationFn: (resource: T) => {
       return invoke<boolean>(`delete_${type}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,

@@ -4,8 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { toast } from "react-toastify";
 
+import { BaseModal, ModalButton } from "../components/base/modal";
 import { useCurrentContext } from "../providers/current-context-provider";
-import { BaseModal, ModalButton } from "./base/modal";
 
 interface NodeActionModalProps {
   isOpen: boolean;
