@@ -5,9 +5,10 @@ import { useResourceActions } from "../hooks/use-resource-actions";
 import { type ResourceListCommands, useResourceList } from "../hooks/use-resource-list";
 import { ActionMenuItem, ActionMenuWrapper, type Actions } from "./base/action-group";
 import { Table, TableHeader, TableBody } from "./base/table";
+import { QueryWrapper } from "./query-wrapper";
 
 const NodeCordonModal = lazy(() =>
-  import("./node-action-modal").then((module) => ({ default: module.NodeActionModal }))
+  import("../clusters/node-action-modal").then((module) => ({ default: module.NodeActionModal }))
 );
 const ResourceEditDrawer = lazy(() =>
   import("./resource-edit-drawer").then((module) => ({ default: module.ResourceEditDrawer }))
@@ -57,20 +58,8 @@ export function ResourceTable<T extends ResourceBase>({
     (typeof actions)[number]
   >();
 
-  if (resourceListQuery.isLoading) {
-    return <WrapperContent title="Loading..." subtitle="..." />;
-  }
-
-  if (resourceListQuery.isError) {
-    return <WrapperContent title={JSON.stringify(resourceListQuery.error)} subtitle="Uh Oh" />;
-  }
-
-  if (resourceListQuery.isSuccess && resourceListQuery.data.items.length === 0) {
-    return <WrapperContent title="No resources found" subtitle="404" />;
-  }
-
   return (
-    <>
+    <QueryWrapper query={resourceListQuery}>
       <Table>
         <TableHeader headers={[...headers, ...(actions.length > 0 ? [""] : [])]} />
         <TableBody>
@@ -160,6 +149,6 @@ export function ResourceTable<T extends ResourceBase>({
           <PodLogs isOpen={action === "logs"} handleClose={handleClose} selectedPod={selected} />
         )}
       </Suspense>
-    </>
+    </QueryWrapper>
   );
 }
