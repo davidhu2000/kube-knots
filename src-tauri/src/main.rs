@@ -85,6 +85,7 @@ fn main() {
             // pods
             workloads::pods::create_pod,
             workloads::pods::delete_pod,
+            workloads::pods::evict_pod,
             workloads::pods::get_pod_logs,
             workloads::pods::get_pods,
             workloads::pods::update_pod,
