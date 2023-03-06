@@ -1,7 +1,7 @@
 use k8s_openapi::api::core::v1::Pod;
 
 use kube::{
-    api::{ListParams, LogParams},
+    api::{EvictParams, ListParams, LogParams},
     core::ObjectList,
     Api,
 };
@@ -65,4 +65,20 @@ pub async fn delete_pod(
     name: String,
 ) -> Result<bool, String> {
     return delete_resource::<Pod>(context, namespace, name).await;
+}
+
+#[tauri::command]
+pub async fn evict_pod(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    let pods: Api<Pod> = get_resource_api(context, namespace).await;
+
+    let result = pods.evict(&name, &EvictParams::default()).await;
+
+    return match result {
+        Ok(_) => Ok(true),
+        Err(e) => Err(e.to_string()),
+    };
 }
