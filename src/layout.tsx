@@ -77,7 +77,7 @@ export function Layout({ children }: PropsWithChildren) {
               className="flex h-11 cursor-pointer items-center rounded-md bg-gray-300 py-1 px-2 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-800"
             >
               <PlusIcon className="block h-8 w-8 fill-gray-600 p-1 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200" />
-              Create
+              <span>Create</span>
             </button>
           </div>
           <button onClick={() => setShowContextSwitcher(true)}>
