@@ -22,8 +22,10 @@ export function Nodes() {
         const requests = item.status?.capacity;
         const usage = metric?.usage;
 
-        const conditions = item.status?.conditions?.find((c) => c.status === "True");
-        const status = item.spec?.unschedulable ? "Cordoned" : conditions?.type;
+        const conditions = item.status?.conditions
+          ?.filter((c) => c.status === "True")
+          .map((c) => c.type);
+        const status = item.spec?.unschedulable ? "Cordoned" : conditions?.join(",");
 
         return (
           <>
