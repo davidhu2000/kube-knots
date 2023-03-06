@@ -12,6 +12,9 @@ import { useResourceList } from "../hooks/use-resource-list";
 const NodeCordonModal = lazy(() =>
   import("./node-action-modal").then((module) => ({ default: module.NodeActionModal }))
 );
+const NodeDrainModal = lazy(() =>
+  import("./node-drain-modal").then((module) => ({ default: module.NodeDrainModal }))
+);
 const ResourceEditDrawer = lazy(() =>
   import("../components/resource-edit-drawer").then((module) => ({
     default: module.ResourceEditDrawer,
@@ -23,7 +26,7 @@ const ResourceDeleteModal = lazy(() =>
   }))
 );
 
-type NodeActions = Actions | "cordon" | "uncordon";
+export type NodeActions = "cordon" | "drain" | "uncordon";
 
 export function Nodes() {
   const nodeQuery = useResourceList<V1Node>("get_nodes");
@@ -36,7 +39,7 @@ export function Nodes() {
     data: { items: pods },
   } = useResourceList<V1Pod>("get_pods", false);
 
-  const actions: NodeActions[] = ["edit", "cordon", "uncordon", "delete"];
+  const actions: (Actions | NodeActions)[] = ["edit", "cordon", "uncordon", "drain", "delete"];
 
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     V1Node,
@@ -132,6 +135,16 @@ export function Nodes() {
             handleClose={handleClose}
             selectedResource={selected}
             action={action}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<div>Loading Drain modal</div>}>
+        {action === "drain" && (
+          <NodeDrainModal
+            isOpen={action === "drain"}
+            handleClose={handleClose}
+            selectedResource={selected}
+            pods={pods}
           />
         )}
       </Suspense>
