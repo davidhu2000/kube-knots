@@ -9,7 +9,7 @@ export function HorizontalPodAutoscalers() {
     <ResourceTable<V1HorizontalPodAutoscaler>
       command="get_horizontal_pod_autoscalers"
       headers={["Name", "Metrics", "Min Pods", "Current", "Max Pods", "Created"]}
-      actions={["edit"]}
+      actions={["edit", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>

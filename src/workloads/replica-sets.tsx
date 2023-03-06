@@ -8,7 +8,7 @@ export function ReplicaSets() {
     <ResourceTable<V1ReplicaSet>
       command="get_replica_sets"
       headers={["Name", "Images", "Pods"]}
-      actions={["edit", "scale"]}
+      actions={["edit", "scale", "delete"]}
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>
