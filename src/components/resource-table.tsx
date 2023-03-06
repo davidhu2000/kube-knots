@@ -7,40 +7,24 @@ import { ActionMenuItem, ActionMenuWrapper, type Actions } from "./base/action-g
 import { Table, TableHeader, TableBody } from "./base/table";
 
 const NodeCordonModal = lazy(() =>
-  import("./node-action-modal").then((module) => ({
-    default: module.NodeActionModal,
-  }))
+  import("./node-action-modal").then((module) => ({ default: module.NodeActionModal }))
 );
 const ResourceEditDrawer = lazy(() =>
-  import("./resource-edit-drawer").then((module) => ({
-    default: module.ResourceEditDrawer,
-  }))
+  import("./resource-edit-drawer").then((module) => ({ default: module.ResourceEditDrawer }))
 );
 const ResourceTriggerModal = lazy(() =>
-  import("./resource-trigger-modal").then((module) => ({
-    default: module.ResourceTriggerModal,
-  }))
+  import("./resource-trigger-modal").then((module) => ({ default: module.ResourceTriggerModal }))
 );
 const ResourceDeleteModal = lazy(() =>
-  import("./resource-delete-modal").then((module) => ({
-    default: module.ResourceDeleteModal,
-  }))
+  import("./resource-delete-modal").then((module) => ({ default: module.ResourceDeleteModal }))
 );
 const ResourceScaleModal = lazy(() =>
-  import("./resource-scale-modal").then((module) => ({
-    default: module.ResourceScaleModal,
-  }))
+  import("./resource-scale-modal").then((module) => ({ default: module.ResourceScaleModal }))
 );
 const ResourceRestartModal = lazy(() =>
-  import("./resource-restart-modal").then((module) => ({
-    default: module.ResourceRestartModal,
-  }))
+  import("./resource-restart-modal").then((module) => ({ default: module.ResourceRestartModal }))
 );
-const PodLogs = lazy(() =>
-  import("./pod-logs").then((module) => ({
-    default: module.PodLogs,
-  }))
-);
+const PodLogs = lazy(() => import("./pod-logs").then((module) => ({ default: module.PodLogs })));
 
 export type ResourceBase = { kind?: string | undefined; metadata?: V1ObjectMeta };
 

@@ -64,7 +64,6 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
     }
 
     if (showYaml) {
-      console.log(code);
       const jsonObj = JSON.parse(code);
       const yamlStr = yaml.dump(jsonObj);
       setCode(yamlStr);
