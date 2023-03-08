@@ -8,6 +8,7 @@ import { HorizontalPodAutoscalers } from "./configurations/horizontal-pod-autosc
 import { Secrets } from "./configurations/secrets";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
+import { NetworkingOverview } from "./networking/networking-overview";
 import { Services } from "./networking/services";
 import { RootView } from "./root-view/root-view";
 import { CronJobs } from "./workloads/cron-jobs";
@@ -37,6 +38,7 @@ export const workloadsRoutes = [
 ] as const;
 
 export const networkingRoutes = [
+  // { name: "Networking Overview", path: "/networking-overview", component: NetworkingOverview },
   { name: "Ingresses", path: "/ingresses", component: Ingresses },
   { name: "Services", path: "/services", component: Services },
 ] as const;
