@@ -6,7 +6,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { NamespaceSelect } from "./components/namespace-select";
+import { QueryWrapper } from "./components/query-wrapper";
 import { Context, ContextSwitcher } from "./core/contexts";
+import { useCurrentContext } from "./providers/current-context-provider";
+import { useNamespace } from "./providers/namespaces-provider";
 import { useTheme } from "./providers/theme-provider";
 import { clusterRoutes, configurationRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
@@ -27,6 +30,11 @@ export function Layout({ children }: PropsWithChildren) {
     { title: "Configurations", routes: configurationRoutes },
     { title: "Cluster", routes: clusterRoutes },
   ];
+
+  const { contextUser } = useCurrentContext();
+  const { namespaceQuery } = useNamespace();
+
+  console.log(contextUser);
 
   const [showSetting, setShowSetting] = useState(false);
   const [showContextSwitcher, setShowContextSwitcher] = useState(false);
@@ -101,7 +109,14 @@ export function Layout({ children }: PropsWithChildren) {
 
         <main className="flex-1 select-none">
           <div className="mx-auto max-w-7xl">
-            <div className="p-4">{children}</div>
+            {namespaceQuery && (
+              <QueryWrapper
+                query={namespaceQuery}
+                errorDescription={`Command ran: ${JSON.stringify(contextUser?.user.exec, null, 4)}`}
+              >
+                <div className="p-4">{children}</div>
+              </QueryWrapper>
+            )}
           </div>
         </main>
       </div>
