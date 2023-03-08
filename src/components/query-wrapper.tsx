@@ -45,13 +45,6 @@ export function QueryWrapper({ query, children }: QueryWrapperProps) {
     );
   }
 
-  <button
-    onClick={() => location.reload()}
-    className="rounded-md border bg-blue-200 px-4 py-2 text-gray-900 shadow-md hover:bg-blue-300 dark:border-gray-700 dark:bg-blue-800 dark:text-gray-100 hover:dark:bg-blue-900"
-  >
-    Reload
-  </button>;
-
   if (query.isSuccess && query.data.items.length === 0) {
     return <WrapperContent title="No resources found" subtitle="404" />;
   }
