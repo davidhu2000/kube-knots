@@ -6,7 +6,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { NamespaceSelect } from "./components/namespace-select";
+import { QueryWrapper } from "./components/query-wrapper";
 import { Context, ContextSwitcher } from "./core/contexts";
+import { useNamespace } from "./providers/namespaces-provider";
 import { useTheme } from "./providers/theme-provider";
 import { clusterRoutes, configurationRoutes, networkingRoutes, workloadsRoutes } from "./router";
 
@@ -27,6 +29,8 @@ export function Layout({ children }: PropsWithChildren) {
     { title: "Configurations", routes: configurationRoutes },
     { title: "Cluster", routes: clusterRoutes },
   ];
+
+  const { namespaceQuery } = useNamespace();
 
   const [showSetting, setShowSetting] = useState(false);
   const [showContextSwitcher, setShowContextSwitcher] = useState(false);
@@ -101,7 +105,11 @@ export function Layout({ children }: PropsWithChildren) {
 
         <main className="flex-1 select-none">
           <div className="mx-auto max-w-7xl">
-            <div className="p-4">{children}</div>
+            {namespaceQuery && (
+              <QueryWrapper query={namespaceQuery}>
+                <div className="p-4">{children}</div>
+              </QueryWrapper>
+            )}
           </div>
         </main>
       </div>

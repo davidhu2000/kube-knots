@@ -21,12 +21,17 @@ export function ContextSwitcher({
 }) {
   const { currentContext, changeCurrentContext, availableContexts } = useCurrentContext();
 
+  const handleChange = (context: string) => {
+    changeCurrentContext(context);
+    handleClose();
+  };
+
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose} title="Contexts">
       <RadioButtonGroup
         title=""
         value={currentContext ?? ""}
-        onChange={changeCurrentContext}
+        onChange={handleChange}
         values={availableContexts.map((c) => c.name)}
         numberOfColumns={1}
         textTransform="normal-case"
