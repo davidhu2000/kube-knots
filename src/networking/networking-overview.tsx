@@ -20,7 +20,11 @@ export function NetworkingOverview() {
 
   return (
     <div>
-      <SearchInput onChange={handleSearch} value={search} />
+      <div className="flex justify-between">
+        <span className="capitalize">{formatPathnameAsTitle(window.location.pathname)}</span>
+
+        <SearchInput onChange={handleSearch} value={search} />
+      </div>
       <Table>
         <TableHeader headers={["Name", "Kind", "Namespace"]} />
         <TableBody>

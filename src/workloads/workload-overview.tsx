@@ -9,6 +9,7 @@ import type {
 } from "@kubernetes/client-node";
 
 import { Table, TableBody, TableCell, TableHeader } from "../components/base/table";
+import { PathnameTitle } from "../components/pathname-title";
 import { useResourceList } from "../hooks/use-resource-list";
 import { SearchInput, useSearch } from "../hooks/use-search";
 
@@ -55,7 +56,10 @@ export function WorkloadOverview() {
 
   return (
     <div>
-      <SearchInput onChange={handleSearch} value={search} />
+      <div className="flex justify-between">
+        <PathnameTitle />
+        <SearchInput onChange={handleSearch} value={search} />
+      </div>
       <Table>
         <TableHeader headers={["Name", "Kind", "Namespace"]} />
         <TableBody>

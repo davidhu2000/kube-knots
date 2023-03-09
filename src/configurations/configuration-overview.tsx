@@ -1,6 +1,8 @@
 import type { V1ConfigMap, V1HorizontalPodAutoscaler, V1Secret } from "@kubernetes/client-node";
 
 import { Table, TableBody, TableCell, TableHeader } from "../components/base/table";
+import { PathnameTitle } from "../components/pathname-title";
+import { formatPathnameAsTitle } from "../helpers/casing-helpers";
 import { useResourceList } from "../hooks/use-resource-list";
 import { SearchInput, useSearch } from "../hooks/use-search";
 
@@ -25,7 +27,11 @@ export function ConfigurationOverview() {
 
   return (
     <div>
-      <SearchInput onChange={handleSearch} value={search} />
+      <div className="flex justify-between">
+        <PathnameTitle />
+
+        <SearchInput onChange={handleSearch} value={search} />
+      </div>
       <Table>
         <TableHeader headers={["Name", "Kind", "Namespace"]} />
         <TableBody>

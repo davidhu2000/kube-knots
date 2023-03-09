@@ -6,6 +6,7 @@ import { type ResourceListCommands, useResourceList } from "../hooks/use-resourc
 import { SearchInput, useSearch } from "../hooks/use-search";
 import { ActionMenuItem, ActionMenuWrapper, type Actions } from "./base/action-group";
 import { Table, TableHeader, TableBody } from "./base/table";
+import { PathnameTitle } from "./pathname-title";
 import { QueryWrapper } from "./query-wrapper";
 
 const ResourceEditDrawer = lazy(() =>
@@ -51,7 +52,10 @@ export function ResourceTable<T extends ResourceBase>({
 
   return (
     <QueryWrapper query={resourceListQuery}>
-      <SearchInput onChange={handleSearch} value={search} />
+      <div className="flex justify-between">
+        <PathnameTitle />
+        <SearchInput onChange={handleSearch} value={search} />
+      </div>
 
       <Table>
         <TableHeader headers={[...headers, ...(actions.length > 0 ? [""] : [])]} />
