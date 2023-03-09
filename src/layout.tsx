@@ -49,12 +49,12 @@ export function Layout({ children }: PropsWithChildren) {
         </Link>
 
         <div className="flex flex-1 flex-col overflow-y-auto">
-          <nav className="flex-1 space-y-1 px-4">
+          <nav className="flex-1 space-y-4 px-4">
             {sections.map(({ title, titleRoute, routes }) => (
               <div key={title}>
                 <Link
                   to={titleRoute}
-                  className={`mt-8 font-bold ${titleRoute ? "" : "cursor-default"}`}
+                  className={`mt-8 font-bold underline ${titleRoute ? "" : "cursor-default"}`}
                   search={{}}
                   params={{}}
                 >
