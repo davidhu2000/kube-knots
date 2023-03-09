@@ -4,6 +4,7 @@ import { Events } from "./clusters/events";
 import { Namespaces } from "./clusters/namespaces";
 import { Nodes } from "./clusters/nodes";
 import { ConfigMaps } from "./configurations/config-maps";
+import { ConfigurationOverview } from "./configurations/configuration-overview";
 import { HorizontalPodAutoscalers } from "./configurations/horizontal-pod-autoscalers";
 import { Secrets } from "./configurations/secrets";
 import { Layout } from "./layout";
@@ -18,6 +19,7 @@ import { Jobs } from "./workloads/jobs";
 import { Pods } from "./workloads/pods";
 import { ReplicaSets } from "./workloads/replica-sets";
 import { StatefulSets } from "./workloads/stateful-sets";
+import { WorkloadOverview } from "./workloads/workload-overview";
 
 const rootRoute = new RootRoute({
   component: () => (
@@ -29,8 +31,8 @@ const rootRoute = new RootRoute({
 
 export const workloadsRoutes = [
   { name: "Cron Jobs", path: "/cron-jobs", component: CronJobs },
-  { name: "Deployments", path: "/deployments", component: Deployments },
   { name: "Daemon Sets", path: "/daemon-sets", component: DaemonSets },
+  { name: "Deployments", path: "/deployments", component: Deployments },
   { name: "Jobs", path: "/jobs", component: Jobs },
   { name: "Pods", path: "/pods", component: Pods },
   { name: "Replica Sets", path: "/replica-sets", component: ReplicaSets },
@@ -55,13 +57,29 @@ export const clusterRoutes = [
   { name: "Nodes", path: "/nodes", component: Nodes },
 ];
 
+const overviewRoutes = [
+  { name: "Networking Overview", path: "/networking-overview", component: NetworkingOverview },
+  { name: "Workload Overview", path: "/workload-overview", component: WorkloadOverview },
+  {
+    name: "Configuration Overview",
+    path: "/configuration-overview",
+    component: ConfigurationOverview,
+  },
+];
+
 const routeTree = rootRoute.addChildren([
   new Route({
     getParentRoute: () => rootRoute,
     path: "/",
     component: RootView,
   }),
-  ...[workloadsRoutes, networkingRoutes, configurationRoutes, clusterRoutes].flatMap((routes) =>
+  ...[
+    workloadsRoutes,
+    networkingRoutes,
+    configurationRoutes,
+    clusterRoutes,
+    overviewRoutes,
+  ].flatMap((routes) =>
     routes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute }))
   ),
 ]);

@@ -52,7 +52,7 @@ export function Layout({ children }: PropsWithChildren) {
           <nav className="flex-1 space-y-1 px-4">
             {sections.map(({ title, routes }) => (
               <span key={title}>
-                <Link to="/networking-overview" className="mt-4 font-bold">
+                <Link to={`${title.toLowerCase()}-overview`} className="mt-4 font-bold">
                   {title}
                 </Link>
                 {routes.map((item) => (
