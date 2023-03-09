@@ -1,5 +1,5 @@
 import type { V1ObjectMeta } from "@kubernetes/client-node";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
 
 import { useResourceActions } from "../hooks/use-resource-actions";
 import { type ResourceListCommands, useResourceList } from "../hooks/use-resource-list";
@@ -46,12 +46,29 @@ export function ResourceTable<T extends ResourceBase>({
     (typeof actions)[number]
   >();
 
+  const [query, setQuery] = useState<string>("");
+
+  const data = resourceListQuery.data.items.filter((item) => {
+    if (query === "") {
+      return true;
+    }
+
+    return item.metadata?.name?.toLowerCase().includes(query.toLowerCase());
+  });
+
   return (
     <QueryWrapper query={resourceListQuery}>
+      <input
+        onChange={(e) => setQuery(e.target.value ?? "")}
+        value={query}
+        placeholder="Search"
+        className="ml-auto mb-2 block h-8 w-40 rounded-md border-gray-300 p-2 focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:focus:ring-slate-500 sm:text-sm"
+      />
+
       <Table>
         <TableHeader headers={[...headers, ...(actions.length > 0 ? [""] : [])]} />
         <TableBody>
-          {resourceListQuery.data.items.map((item) => (
+          {data.map((item) => (
             <tr key={item.metadata?.uid}>
               {renderData(item)}
               <td>
