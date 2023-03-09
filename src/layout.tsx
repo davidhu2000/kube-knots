@@ -54,7 +54,7 @@ export function Layout({ children }: PropsWithChildren) {
               <div key={title}>
                 <Link
                   to={titleRoute}
-                  className={`mt-8 font-bold underline ${titleRoute ? "" : "cursor-default"}`}
+                  className={`mt-8 font-bold ${titleRoute ? "" : "cursor-default"}`}
                   search={{}}
                   params={{}}
                 >
