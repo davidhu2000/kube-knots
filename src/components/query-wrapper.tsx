@@ -29,13 +29,18 @@ export function QueryWrapper({ query, children }: QueryWrapperProps) {
   }
 
   if (query.isError) {
+    // TODO: update to account for linux and windows
+    const handleClick = () => {
+      location.reload();
+    };
+
     return (
       <WrapperContent
         title={JSON.stringify(query.error)}
         subtitle="Uh Oh"
         action={
           <button
-            onClick={() => location.reload()}
+            onClick={handleClick}
             className="rounded-md border bg-blue-200 px-4 py-2 text-gray-900 shadow-md hover:bg-blue-300 dark:border-gray-700 dark:bg-blue-800 dark:text-gray-100 hover:dark:bg-blue-900"
           >
             Reload
