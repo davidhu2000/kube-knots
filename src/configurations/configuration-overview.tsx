@@ -2,7 +2,6 @@ import type { V1ConfigMap, V1HorizontalPodAutoscaler, V1Secret } from "@kubernet
 
 import { Table, TableBody, TableCell, TableHeader } from "../components/base/table";
 import { PathnameTitle } from "../components/pathname-title";
-import { formatPathnameAsTitle } from "../helpers/casing-helpers";
 import { useResourceList } from "../hooks/use-resource-list";
 import { SearchInput, useSearch } from "../hooks/use-search";
 

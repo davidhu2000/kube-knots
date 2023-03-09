@@ -1,6 +1,7 @@
 import type { V1Ingress, V1Service } from "@kubernetes/client-node";
 
 import { Table, TableBody, TableCell, TableHeader } from "../components/base/table";
+import { PathnameTitle } from "../components/pathname-title";
 import { useResourceList } from "../hooks/use-resource-list";
 import { SearchInput, useSearch } from "../hooks/use-search";
 
@@ -21,7 +22,7 @@ export function NetworkingOverview() {
   return (
     <div>
       <div className="flex justify-between">
-        <span className="capitalize">{formatPathnameAsTitle(window.location.pathname)}</span>
+        <PathnameTitle />
 
         <SearchInput onChange={handleSearch} value={search} />
       </div>
