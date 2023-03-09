@@ -24,11 +24,11 @@ const ResourceCreateDrawer = lazy(() =>
 
 export function Layout({ children }: PropsWithChildren) {
   const sections = [
-    { title: "Workload", routes: workloadsRoutes },
-    { title: "Networking", routes: networkingRoutes },
-    { title: "Configurations", routes: configurationRoutes },
-    { title: "Cluster", routes: clusterRoutes },
-  ];
+    { title: "Workload", titleRoute: "/workload-overview", routes: workloadsRoutes },
+    { title: "Networking", titleRoute: "/networking-overview", routes: networkingRoutes },
+    { title: "Configurations", titleRoute: "/configuration-overview", routes: configurationRoutes },
+    { title: "Cluster", titleRoute: null, routes: clusterRoutes },
+  ] as const;
 
   const { namespaceQuery } = useNamespace();
 
@@ -50,16 +50,21 @@ export function Layout({ children }: PropsWithChildren) {
 
         <div className="flex flex-1 flex-col overflow-y-auto">
           <nav className="flex-1 space-y-1 px-4">
-            {sections.map(({ title, routes }) => (
-              <span key={title}>
-                <Link to={`${title.toLowerCase()}-overview`} className="mt-4 font-bold">
+            {sections.map(({ title, titleRoute, routes }) => (
+              <div key={title}>
+                <Link
+                  to={titleRoute}
+                  className={`mt-8 font-bold ${titleRoute ? "" : "cursor-default"}`}
+                  search={{}}
+                  params={{}}
+                >
                   {title}
                 </Link>
                 {routes.map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`group flex items-center rounded-md p-2 text-sm font-medium text-gray-800 hover:bg-gray-400 dark:text-gray-100 hover:dark:bg-gray-500 ${
+                    className={`group flex items-center rounded-md px-2 py-1 text-sm font-medium text-gray-800 hover:bg-gray-400 dark:text-gray-100 hover:dark:bg-gray-500 ${
                       window.location.pathname === item.path ? "bg-gray-300 dark:bg-gray-600" : ""
                     }`}
                     search={{}}
@@ -68,7 +73,7 @@ export function Layout({ children }: PropsWithChildren) {
                     {item.name}
                   </Link>
                 ))}
-              </span>
+              </div>
             ))}
           </nav>
         </div>
