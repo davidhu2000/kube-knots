@@ -11,7 +11,8 @@ import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
 import { NetworkingOverview } from "./networking/networking-overview";
 import { Services } from "./networking/services";
-import { RootView } from "./root-view/root-view";
+import { MetricsOverview } from "./root-view/metrics-overview";
+import { ResourcesOverview } from "./root-view/resources-overview";
 import { CronJobs } from "./workloads/cron-jobs";
 import { DaemonSets } from "./workloads/daemon-sets";
 import { Deployments } from "./workloads/deployments";
@@ -59,24 +60,26 @@ export const clusterRoutes = [
 const overviewRoutes = [
   { name: "Networking Overview", path: "/networking-overview", component: NetworkingOverview },
   { name: "Workload Overview", path: "/workload-overview", component: WorkloadOverview },
-  {
-    name: "Configuration Overview",
-    path: "/configuration-overview",
-    component: ConfigurationOverview,
-  },
+  { name: "Config Overview", path: "/configuration-overview", component: ConfigurationOverview },
+];
+
+export const allRoutes = [
+  { name: "Metrics", path: "/metrics", component: MetricsOverview },
+  { name: "Resources", path: "/all-resources", component: ResourcesOverview },
 ];
 
 const routeTree = rootRoute.addChildren([
   new Route({
     getParentRoute: () => rootRoute,
     path: "/",
-    component: RootView,
+    component: MetricsOverview,
   }),
   ...[
     workloadsRoutes,
     networkingRoutes,
     configurationRoutes,
     clusterRoutes,
+    allRoutes,
     overviewRoutes,
   ].flatMap((routes) =>
     routes.map((route) => new Route({ ...route, getParentRoute: () => rootRoute }))

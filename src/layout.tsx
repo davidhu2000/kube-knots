@@ -10,7 +10,13 @@ import { QueryWrapper } from "./components/query-wrapper";
 import { Context, ContextSwitcher } from "./core/contexts";
 import { useNamespace } from "./providers/namespaces-provider";
 import { useTheme } from "./providers/theme-provider";
-import { clusterRoutes, configurationRoutes, networkingRoutes, workloadsRoutes } from "./router";
+import {
+  allRoutes,
+  clusterRoutes,
+  configurationRoutes,
+  networkingRoutes,
+  workloadsRoutes,
+} from "./router";
 
 const Settings = lazy(() =>
   import("./settings/settings").then((module) => ({ default: module.Settings }))
@@ -24,6 +30,7 @@ const ResourceCreateDrawer = lazy(() =>
 
 export function Layout({ children }: PropsWithChildren) {
   const sections = [
+    { title: "Overview", titleRoute: "/overview", routes: allRoutes },
     { title: "Workload", titleRoute: "/workload-overview", routes: workloadsRoutes },
     { title: "Networking", titleRoute: "/networking-overview", routes: networkingRoutes },
     { title: "Configurations", titleRoute: "/configuration-overview", routes: configurationRoutes },

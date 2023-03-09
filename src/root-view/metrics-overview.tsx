@@ -21,7 +21,7 @@ function formatChartData<T>(data: T[], getStatus: (item: T) => string) {
   return chartData;
 }
 
-export function RootView() {
+export function MetricsOverview() {
   const {
     data: { items: pods },
   } = useResourceList<V1Pod>("get_pods");
