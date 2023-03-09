@@ -10,11 +10,13 @@ mod internal;
 pub mod cluster;
 pub mod configurations;
 pub mod core;
+pub mod menu;
 pub mod networking;
 pub mod workloads;
 
 fn main() {
     tauri::Builder::default()
+        .menu(menu::app_menu())
         .invoke_handler(tauri::generate_handler![
             // events
             cluster::events::get_events,
