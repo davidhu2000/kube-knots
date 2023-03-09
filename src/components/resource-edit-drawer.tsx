@@ -1,12 +1,17 @@
-import { Switch } from "@headlessui/react";
 import { type V1ObjectMeta } from "@kubernetes/client-node";
 import Editor, { DiffEditor } from "@monaco-editor/react";
+import { useMutation } from "@tanstack/react-query";
+import { invoke } from "@tauri-apps/api";
 import yaml from "js-yaml";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
+import { camelToSnakeCase } from "../helpers/casing-helpers";
+import { useCurrentContext } from "../providers/current-context-provider";
 import { useDefaultLanguage } from "../providers/default-language-provider";
 import { useTheme } from "../providers/theme-provider";
-import { Drawer } from "./drawer";
+import { Drawer } from "./base/drawer";
+import { ToggleButton } from "./base/toggle-button";
 
 interface ResourceEditDrawerProps<T> {
   isOpen: boolean;
@@ -14,38 +19,7 @@ interface ResourceEditDrawerProps<T> {
   handleClose: () => void;
 }
 
-interface ToggleButtonProps {
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  checkedLabel: string;
-  uncheckedLabel: string;
-}
-function ToggleButton({ checked, onChange, checkedLabel, uncheckedLabel }: ToggleButtonProps) {
-  const label = checked ? checkedLabel : uncheckedLabel;
-  return (
-    <Switch.Group as="div" className="flex items-center">
-      <Switch
-        checked={checked}
-        onChange={onChange}
-        className={`${
-          checked ? "bg-blue-600 dark:bg-blue-300" : "bg-gray-200 dark:bg-gray-500"
-        } relative inline-flex h-6 w-11 items-center rounded-full`}
-      >
-        <span className="sr-only">{label}</span>
-        <span
-          className={`${
-            checked ? "translate-x-6" : "translate-x-1"
-          } inline-block h-4 w-4 rounded-full bg-white transition`}
-        />
-      </Switch>
-      <Switch.Label as="span" className="ml-2">
-        <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{label}</span>
-      </Switch.Label>
-    </Switch.Group>
-  );
-}
-
-function getEditorTheme(
+export function getEditorTheme(
   theme: ReturnType<typeof useTheme>["theme"],
   systemTheme: ReturnType<typeof useTheme>["systemTheme"]
 ) {
@@ -56,13 +30,14 @@ function getEditorTheme(
   return theme === "dark" ? "vs-dark" : "light";
 }
 
-export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
+export function ResourceEditDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
   isOpen,
   selectedResource,
   handleClose,
 }: ResourceEditDrawerProps<T>) {
   const { language } = useDefaultLanguage();
   const { theme, systemTheme } = useTheme();
+  const { currentContext } = useCurrentContext();
 
   const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));
   const [showYaml, setShowYaml] = useState(language === "yaml");
@@ -94,6 +69,26 @@ export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
     setShowYaml(showYaml);
   };
 
+  const updateMutation = useMutation({
+    mutationFn: (resource: T) => {
+      const resourceKind = camelToSnakeCase(resource.kind);
+
+      return invoke<boolean>(`update_${resourceKind}`, {
+        context: currentContext,
+        namespace: resource.metadata?.namespace,
+        name: resource.metadata?.name,
+        resource,
+      });
+    },
+    onSuccess: (_data, variables) => {
+      handleClose();
+      toast.success(`Updated ${variables.metadata?.name}`);
+    },
+    onError: (error) => {
+      toast.error(error as string);
+    },
+  });
+
   const editorTheme = getEditorTheme(theme, systemTheme);
 
   const editorLanguage = showYaml ? "yaml" : "json";
@@ -104,7 +99,7 @@ export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
       handleClose={handleClose}
       title={selectedResource?.metadata?.name ?? ""}
       description={
-        <div className="flex gap-8">
+        <div className="flex w-full gap-8 p-2">
           <ToggleButton
             checked={showDiff}
             onChange={setShowDiff}
@@ -117,6 +112,17 @@ export function ResourceEditDrawer<T extends { metadata?: V1ObjectMeta }>({
             checkedLabel="Yaml"
             uncheckedLabel="JSON"
           />
+
+          <div className="flex-1 grow" />
+          <button
+            onClick={() => {
+              const jsonObj = (showYaml ? yaml.load(code) : JSON.parse(code)) as T;
+              updateMutation.mutate(jsonObj);
+            }}
+            className="rounded-md border bg-blue-200 px-4 py-2 text-gray-900 shadow-md hover:bg-blue-300 dark:border-gray-700 dark:bg-blue-800 dark:text-gray-100 hover:dark:bg-blue-900"
+          >
+            Save
+          </button>
         </div>
       }
     >

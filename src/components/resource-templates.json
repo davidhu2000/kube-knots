@@ -1,0 +1,388 @@
+{
+  "ConfigMap": {
+    "apiVersion": "v1",
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "game-demo"
+    },
+    "data": {
+      "player_initial_lives": "3",
+      "ui_properties_file_name": "user-interface.properties",
+      "game.properties": "enemy.types=aliens,monsters\nplayer.maximum-lives=5    \n",
+      "user-interface.properties": "color.good=purple\ncolor.bad=yellow\nallow.textmode=true  \n"
+    }
+  },
+  "CronJob": {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "name": "cronjob-example",
+      "namespace": "default"
+    },
+    "spec": {
+      "schedule": "*/1 * * * *",
+      "jobTemplate": {
+        "spec": {
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "name": "hello",
+                  "image": "busybox",
+                  "imagePullPolicy": "IfNotPresent",
+                  "command": ["/bin/sh", "-c", "date; echo Hello from the Kubernetes cluster"]
+                }
+              ],
+              "restartPolicy": "OnFailure"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Deployment": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "deployment-example",
+      "namespace": "default",
+      "labels": {
+        "app": "nginx"
+      }
+    },
+    "spec": {
+      "replicas": 3,
+      "selector": {
+        "matchLabels": {
+          "app": "nginx"
+        }
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "nginx"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "name": "nginx",
+              "image": "nginx:1.14.2",
+              "ports": [
+                {
+                  "containerPort": 80
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "DaemonSet": {
+    "apiVersion": "apps/v1",
+    "kind": "DaemonSet",
+    "metadata": {
+      "name": "fluentd-elasticsearch",
+      "namespace": "default",
+      "labels": {
+        "k8s-app": "fluentd-logging"
+      }
+    },
+    "spec": {
+      "selector": {
+        "matchLabels": {
+          "name": "fluentd-elasticsearch"
+        }
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "name": "fluentd-elasticsearch"
+          }
+        },
+        "spec": {
+          "tolerations": [
+            {
+              "key": "node-role.kubernetes.io/control-plane",
+              "operator": "Exists",
+              "effect": "NoSchedule"
+            },
+            {
+              "key": "node-role.kubernetes.io/master",
+              "operator": "Exists",
+              "effect": "NoSchedule"
+            }
+          ],
+          "containers": [
+            {
+              "name": "fluentd-elasticsearch",
+              "image": "quay.io/fluentd_elasticsearch/fluentd:v2.5.2",
+              "resources": {
+                "limits": {
+                  "memory": "200Mi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "200Mi"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "name": "varlog",
+                  "mountPath": "/var/log"
+                }
+              ]
+            }
+          ],
+          "terminationGracePeriodSeconds": 30,
+          "volumes": [
+            {
+              "name": "varlog",
+              "hostPath": {
+                "path": "/var/log"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Ingress": {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": {
+      "name": "ingress-example",
+      "namespace": "default"
+    },
+    "spec": {
+      "ingressClassName": "nginx-example",
+      "rules": [
+        {
+          "http": {
+            "paths": [
+              {
+                "path": "/testpath",
+                "pathType": "Prefix",
+                "backend": {
+                  "service": {
+                    "name": "test",
+                    "port": {
+                      "number": 80
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "HorizontalPodAutoscaler": {
+    "apiVersion": "autoscaling/v1",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "name": "php-apache",
+      "namespace": "default"
+    },
+    "spec": {
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "php-apache"
+      },
+      "minReplicas": 1,
+      "maxReplicas": 10,
+      "metrics": [
+        {
+          "type": "Resource",
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "type": "Utilization",
+              "averageUtilization": 50
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Job": {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "pi",
+      "namespace": "default"
+    },
+    "spec": {
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "name": "pi",
+              "image": "perl:5.34.0",
+              "command": ["perl", "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+            }
+          ],
+          "restartPolicy": "Never"
+        }
+      },
+      "backoffLimit": 4
+    }
+  },
+  "Namespace": {
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+      "name": "example-namespace"
+    }
+  },
+  "Pod": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "name": "nginx",
+      "namespace": "default"
+    },
+    "spec": {
+      "containers": [
+        {
+          "name": "nginx",
+          "image": "nginx:1.14.2",
+          "ports": [
+            {
+              "containerPort": 80
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "ReplicaSet": {
+    "apiVersion": "apps/v1",
+    "kind": "ReplicaSet",
+    "metadata": {
+      "name": "replicaset-example",
+      "namespace": "default",
+      "labels": {
+        "app": "guestbook",
+        "tier": "frontend"
+      }
+    },
+    "spec": {
+      "replicas": 3,
+      "selector": {
+        "matchLabels": {
+          "tier": "frontend"
+        }
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "tier": "frontend"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "name": "php-redis",
+              "image": "gcr.io/google_samples/gb-frontend:v3"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "StatefulSet": {
+    "apiVersion": "apps/v1",
+    "kind": "StatefulSet",
+    "metadata": {
+      "name": "web",
+      "namespace": "default"
+    },
+    "spec": {
+      "selector": {
+        "matchLabels": {
+          "app": "nginx"
+        }
+      },
+      "serviceName": "nginx",
+      "replicas": 3,
+      "minReadySeconds": 10,
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "nginx"
+          }
+        },
+        "spec": {
+          "terminationGracePeriodSeconds": 10,
+          "containers": [
+            {
+              "name": "nginx",
+              "image": "registry.k8s.io/nginx-slim:0.8",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "name": "web"
+                }
+              ],
+              "volumeMounts": [
+                {
+                  "name": "www",
+                  "mountPath": "/usr/share/nginx/html"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "volumeClaimTemplates": [
+        {
+          "metadata": {
+            "name": "www"
+          },
+          "spec": {
+            "accessModes": ["ReadWriteOnce"],
+            "storageClassName": "my-storage-class",
+            "resources": {
+              "requests": {
+                "storage": "1Gi"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Secret": {
+    "apiVersion": "v1",
+    "kind": "Secret",
+    "metadata": {
+      "name": "example",
+      "namespace": "default"
+    },
+    "type": "Opaque"
+  },
+  "Service": {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "service-example",
+      "namespace": "default"
+    },
+    "spec": {
+      "selector": {
+        "app.kubernetes.io/name": "app"
+      },
+      "ports": [
+        {
+          "protocol": "TCP",
+          "port": 80,
+          "targetPort": 9376
+        }
+      ]
+    }
+  }
+}

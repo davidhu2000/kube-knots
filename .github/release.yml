@@ -1,0 +1,17 @@
+changelog:
+  categories:
+    - title: New Features 🎉
+      labels:
+        - feat
+    - title: Bug Fixes 🛠
+      labels:
+        - fix
+    - title: Chores 🛠
+      labels:
+        - chore
+    - title: Docs 📝
+      label:
+        - docs
+    - title: Other Changes
+      labels:
+        - "*"

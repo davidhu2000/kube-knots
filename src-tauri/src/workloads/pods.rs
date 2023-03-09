@@ -2,36 +2,86 @@ use crate::internal::get_api;
 use futures::{SinkExt, StreamExt};
 use k8s_openapi::api::core::v1::Pod;
 use kube::{
-    api::{AttachParams, AttachedProcess, ListParams, LogParams},
+    api::{EvictParams, ListParams, LogParams},
     core::ObjectList,
     Api,
 };
-use log::{error, info};
-use std::{net::SocketAddr, time::Duration};
-use tokio::net::{TcpListener, TcpStream};
-use tokio_tungstenite::{accept_async, tungstenite::Error};
-use tungstenite::{Message, Result};
+
+use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
-pub async fn get_pods(namespace: Option<String>) -> ObjectList<Pod> {
-    let api: Api<Pod> = get_api(namespace).await;
+pub async fn get_pods(
+    context: Option<String>,
+    namespace: Option<String>,
+) -> Result<ObjectList<Pod>, String> {
+    let api: Api<Pod> = get_resource_api(context, namespace).await;
     let lp = ListParams::default();
-    return api.list(&lp).await.unwrap();
+
+    let result = api.list(&lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
 }
 
 #[tauri::command]
 pub async fn get_pod_logs(
+    context: Option<String>,
     namespace: Option<String>,
     pod_name: String,
-    container_name: Option<String>,
-) -> String {
-    let pods: Api<Pod> = get_api(namespace).await;
+    container: Option<String>,
+) -> Result<String, String> {
+    let pods: Api<Pod> = get_resource_api(context, namespace).await;
 
     let mut lp = LogParams::default();
-    lp.container = container_name;
-    let log_string = pods.logs(&pod_name, &lp).await.unwrap();
+    lp.container = container;
+    let result = pods.logs(&pod_name, &lp).await;
 
-    return log_string;
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
+}
+
+#[tauri::command]
+pub async fn create_pod(context: Option<String>, resource: Pod) -> Result<Pod, String> {
+    return create_resource(context, resource).await;
+}
+
+#[tauri::command]
+pub async fn update_pod(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+    resource: Pod,
+) -> Result<Pod, String> {
+    return update_resource(context, namespace, name, resource).await;
+}
+
+#[tauri::command]
+pub async fn delete_pod(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    return delete_resource::<Pod>(context, namespace, name).await;
+}
+
+#[tauri::command]
+pub async fn evict_pod(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    let pods: Api<Pod> = get_resource_api(context, namespace).await;
+
+    let result = pods.evict(&name, &EvictParams::default()).await;
+
+    return match result {
+        Ok(_) => Ok(true),
+        Err(e) => Err(e.to_string()),
+    };
 }
 
 #[warn(dead_code)]

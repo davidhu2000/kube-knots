@@ -5,46 +5,86 @@ use kube::{
     Api,
 };
 
-use crate::internal::get_api;
+use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
 
 #[tauri::command]
-pub async fn get_deployments(namespace: Option<String>) -> ObjectList<Deployment> {
-    let api: Api<Deployment> = get_api(namespace).await;
+pub async fn get_deployments(
+    context: Option<String>,
+    namespace: Option<String>,
+) -> Result<ObjectList<Deployment>, String> {
+    let api: Api<Deployment> = get_resource_api(context, namespace).await;
     let lp = ListParams::default();
-    return api.list(&lp).await.unwrap();
+    let result = api.list(&lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
 }
 
 #[tauri::command]
-pub async fn restart_deployment(namespace: Option<String>, name: String) -> bool {
-    let api: Api<Deployment> = get_api(namespace).await;
-    println!("{}", name);
+pub async fn create_deployment(
+    context: Option<String>,
+    resource: Deployment,
+) -> Result<Deployment, String> {
+    return create_resource(context, resource).await;
+}
+
+#[tauri::command]
+pub async fn update_deployment(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+    resource: Deployment,
+) -> Result<Deployment, String> {
+    return update_resource(context, namespace, name, resource).await;
+}
+
+#[tauri::command]
+pub async fn delete_deployment(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    return delete_resource::<Deployment>(context, namespace, name).await;
+}
+
+#[tauri::command]
+pub async fn restart_deployment(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String> {
+    let api: Api<Deployment> = get_resource_api(context, namespace).await;
     let resource = api.restart(&name).await;
 
-    let result = match resource {
-        Ok(_resource) => true,
+    return match resource {
+        Ok(_resource) => Ok(true),
         Err(err) => {
             println!("Error restarting deployment: {}", err);
-            return false;
+            return Err(err.to_string());
         }
     };
-    return result;
 }
 
 #[tauri::command]
-pub async fn scale_deployment(namespace: Option<String>, name: String, replicas: u8) -> bool {
-    let api: Api<Deployment> = get_api(namespace).await;
+pub async fn scale_deployment(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+    replicas: u8,
+) -> Result<bool, String> {
+    let api: Api<Deployment> = get_resource_api(context, namespace).await;
     let spec = serde_json::json!({ "spec": { "replicas": replicas }});
     let pp = PatchParams::default();
     let patch = Patch::Merge(&spec);
     let resource = api.patch_scale(&name, &pp, &patch).await;
 
-    let result = match resource {
-        Ok(_resource) => true,
+    return match resource {
+        Ok(_resource) => Ok(true),
         Err(err) => {
             println!("Error scaling deployment: {}", err);
-            return false;
+            return Err(err.to_string());
         }
     };
-
-    return result;
 }

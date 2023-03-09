@@ -1,72 +1,57 @@
-import { RadioGroup } from "@headlessui/react";
-
-import { BaseModal, ModalButton } from "../components/modal";
+import { BaseModal, ModalButton } from "../components/base/modal";
+import { RadioButtonGroup } from "../components/base/radio-button-group";
+import { ToggleButton } from "../components/base/toggle-button";
 import { useDefaultLanguage } from "../providers/default-language-provider";
+import { useQuerySetting } from "../providers/query-setting-provider";
 import { useTheme } from "../providers/theme-provider";
-
-interface RadioButtonGroupProp<T> {
-  title: string;
-  value: T;
-  onChange: (value: T) => void;
-  values: T[];
-}
-
-function RadioButtonGroup<T extends string>({
-  value,
-  onChange,
-  values,
-  title,
-}: RadioButtonGroupProp<T>) {
-  return (
-    <RadioGroup value={value} onChange={onChange} className="p-4">
-      <RadioGroup.Label className="text-gray-900 dark:text-gray-100">{title}</RadioGroup.Label>
-      <div className="grid grid-cols-3 gap-2">
-        {values.map((value) => (
-          <RadioGroup.Option
-            key={value}
-            value={value}
-            className={({ checked }) =>
-              `${
-                checked ? "bg-gray-800 text-white" : "bg-white"
-              } flex cursor-pointer rounded-lg p-4 shadow-md w-32 h-12`
-            }
-          >
-            {({ checked }) => (
-              <div className="flex w-full items-center justify-between">
-                <div className="flex items-center">
-                  <div className="text-sm">
-                    <RadioGroup.Label
-                      as="p"
-                      className={`font-medium  ${checked ? "text-white" : "text-gray-900"}`}
-                    >
-                      {value}
-                    </RadioGroup.Label>
-                  </div>
-                </div>
-              </div>
-            )}
-          </RadioGroup.Option>
-        ))}
-      </div>
-    </RadioGroup>
-  );
-}
 
 export function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () => void }) {
   const { theme, changeTheme, themes } = useTheme();
 
   const { language, changeLanguage, languages } = useDefaultLanguage();
 
+  const { refetchInternal, updateRefreshInterval, showDevtools, toggleDevtools } =
+    useQuerySetting();
+
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose} title="Settings">
-      <RadioButtonGroup title="Theme" value={theme} onChange={changeTheme} values={themes} />
+      <RadioButtonGroup
+        title="Theme"
+        value={theme}
+        onChange={changeTheme}
+        values={themes}
+        numberOfColumns={3}
+      />
       <RadioButtonGroup
         title="Default Language"
         value={language}
         onChange={changeLanguage}
         values={languages}
+        numberOfColumns={3}
+        textTransform="uppercase"
       />
 
+      <label className="mt-4 text-gray-900 dark:text-gray-100">
+        Query Refresh Interval Seconds
+      </label>
+      <input
+        onChange={(e) => updateRefreshInterval(parseInt(e.target.value ?? ""))}
+        type="number"
+        value={refetchInternal}
+        className="block w-full rounded-md border-gray-300 focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:focus:ring-slate-500 sm:text-sm"
+        step={1}
+        min={1}
+      />
+
+      <div className="mt-4">
+        <label className="text-gray-900 dark:text-gray-100">Show Query DevTools</label>
+        <ToggleButton
+          checked={showDevtools}
+          onChange={toggleDevtools}
+          checkedLabel="On"
+          uncheckedLabel="Off"
+        />
+      </div>
       <ModalButton label="Close" onClick={handleClose} />
     </BaseModal>
   );

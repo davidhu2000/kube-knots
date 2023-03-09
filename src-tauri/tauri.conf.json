@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/core/config-schema/schema.json",
   "build": {
     "beforeDevCommand": "yarn dev",
     "beforeBuildCommand": "yarn build",
@@ -50,7 +51,10 @@
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": true,
+      "endpoints": ["https://gist.github.com/davidhu2000/b7804a3afa732f578ea0c6b73b9a74f0/raw"],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdBQ0JGRTZERDk4REUxM0IKUldRNzRZM1piZjdMZW1iNTBxQWMzSnFtcGgvdlVpNlU4Mlh2MEhiR1F6Y0ZEQmNqOWNYUDFQVkUK"
     },
     "windows": [
       {

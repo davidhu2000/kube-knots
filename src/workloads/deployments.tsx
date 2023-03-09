@@ -1,80 +1,23 @@
 import { type V1Deployment } from "@kubernetes/client-node";
-import { lazy, Suspense } from "react";
 
-import { ActionButton, ActionGroup } from "../components/action-group";
-import { ScaleModal } from "../components/scale-modal";
-import { Table, TableHeader, TableBody, TableCell } from "../components/table";
-import { useResourceActions } from "../hooks/use-resource-actions";
-import { useResourceList } from "../hooks/use-resource-list";
-import { restartMutation } from "./restart-mutation";
-
-const ResourceEditDrawer = lazy(() =>
-  import("../components/resource-edit-drawer").then((module) => ({
-    default: module.ResourceEditDrawer,
-  }))
-);
+import { TableCell } from "../components/base/table";
+import { ResourceTable } from "../components/resource-table";
 
 export function Deployments() {
-  const {
-    data: { items },
-  } = useResourceList<V1Deployment>("get_deployments");
-
-  const { selected, handleOpen, handleClose, action } = useResourceActions<
-    V1Deployment,
-    "edit" | "scale"
-  >();
-
-  const restartResource = restartMutation("deployment");
-
   return (
-    <div>
-      <Table>
-        <TableHeader headers={["Name", "Image", "Pods", "Actions"]} />
-        <TableBody>
-          {items.map((item) => (
-            <tr key={item.metadata?.uid}>
-              <TableCell>{item.metadata?.name}</TableCell>
-              <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>
-              <TableCell>
-                {item.status?.availableReplicas} / {item.status?.replicas}
-              </TableCell>
-              <TableCell>
-                <ActionGroup>
-                  <ActionButton
-                    label="restart"
-                    position="left"
-                    onClick={() => restartResource.mutate(item)}
-                  />
-                  <ActionButton
-                    label="scale"
-                    position="middle"
-                    onClick={() => handleOpen(item, "scale")}
-                  />
-                  <ActionButton
-                    label="edit"
-                    position="right"
-                    onClick={() => handleOpen(item, "edit")}
-                  />
-                </ActionGroup>
-              </TableCell>
-            </tr>
-          ))}
-        </TableBody>
-      </Table>
-
-      <Suspense fallback={<div>Loading Editor</div>}>
-        <ResourceEditDrawer
-          isOpen={action === "edit"}
-          handleClose={handleClose}
-          selectedResource={selected}
-        />
-      </Suspense>
-
-      <Suspense fallback={<div>Loading Scale Form</div>}>
-        {selected && (
-          <ScaleModal isOpen={action === "scale"} handleClose={handleClose} resource={selected} />
-        )}
-      </Suspense>
-    </div>
+    <ResourceTable<V1Deployment>
+      command="get_deployments"
+      headers={["Name", "Image", "Pods"]}
+      actions={["restart", "edit", "scale", "delete"]}
+      renderData={(item) => (
+        <>
+          <TableCell>{item.metadata?.name}</TableCell>
+          <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>
+          <TableCell>
+            {item.status?.availableReplicas} / {item.status?.replicas}
+          </TableCell>
+        </>
+      )}
+    />
   );
 }
