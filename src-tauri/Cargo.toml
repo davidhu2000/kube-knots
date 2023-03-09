@@ -16,7 +16,7 @@ tauri-build = { version = "1.2", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["api-all"] }
+tauri = { version = "1.2", features = ["api-all", "updater"] }
 kube = { version = "0.78.0", features = ["runtime", "derive", "ws"] }
 k8s-openapi = { version = "0.17.0", features = ["v1_26"] }
 openssl = { version = "0.10.35", features = ["vendored"] }
@@ -26,7 +26,6 @@ futures = "0.3"
 tungstenite = "0.18.0"
 tokio-tungstenite = "0.18.0"
 log = "0.4.17"
-tauri = { version = "1.2", features = ["api-all", "updater"] }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 
 [features]
