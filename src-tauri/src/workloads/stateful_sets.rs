@@ -1,13 +1,9 @@
 use k8s_openapi::api::apps::v1::StatefulSet;
-use kube::{
-    api::{ListParams, Patch, PatchParams},
-    core::ObjectList,
-    Api,
-};
+use kube::{api::ListParams, core::ObjectList, Api};
 
 use crate::internal::{
     client::get_resource_api,
-    resources::{create_resource, delete_resource, update_resource},
+    resources::{create_resource, delete_resource, scale_resource, update_resource},
 };
 
 #[tauri::command]
@@ -77,17 +73,5 @@ pub async fn scale_stateful_set(
     name: String,
     replicas: u8,
 ) -> Result<bool, String> {
-    let api: Api<StatefulSet> = get_resource_api(context, namespace).await;
-    let spec = serde_json::json!({ "spec": { "replicas": replicas }});
-    let pp = PatchParams::default();
-    let patch = Patch::Merge(&spec);
-    let resource = api.patch_scale(&name, &pp, &patch).await;
-
-    return match resource {
-        Ok(_resource) => Ok(true),
-        Err(err) => {
-            println!("Error scaling stateful set: {}", err);
-            return Err(err.to_string());
-        }
-    };
+    return scale_resource::<StatefulSet>(context, namespace, name, replicas).await;
 }
