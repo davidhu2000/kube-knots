@@ -2,6 +2,7 @@ import { type V1Deployment } from "@kubernetes/client-node";
 
 import { TableCell } from "../components/base/table";
 import { ResourceTable } from "../components/resource-table";
+import { renderContainerImages } from "../helpers/table-helpers";
 
 export function Deployments() {
   return (
@@ -12,7 +13,7 @@ export function Deployments() {
       renderData={(item) => (
         <>
           <TableCell>{item.metadata?.name}</TableCell>
-          <TableCell>{item.spec?.template.spec?.containers[0].image}</TableCell>
+          <TableCell>{renderContainerImages(item.spec?.template.spec?.containers)}</TableCell>
           <TableCell>
             {item.status?.availableReplicas} / {item.status?.replicas}
           </TableCell>
