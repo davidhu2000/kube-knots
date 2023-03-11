@@ -5,4 +5,5 @@ pub mod jobs;
 pub mod pod_metrics;
 pub mod pods;
 pub mod replica_sets;
+pub mod replication_controllers;
 pub mod stateful_sets;

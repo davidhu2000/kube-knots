@@ -20,6 +20,7 @@ export type ResourceListCommands =
   | "get_pod_metrics"
   | "get_pods"
   | "get_replica_sets"
+  | "get_replication_controllers"
   | "get_secrets"
   | "get_services"
   | "get_stateful_sets";

@@ -95,6 +95,12 @@ fn main() {
             workloads::replica_sets::get_replica_sets,
             workloads::replica_sets::scale_replica_set,
             workloads::replica_sets::update_replica_set,
+            // replication controllers
+            workloads::replication_controllers::create_replication_controller,
+            workloads::replication_controllers::delete_replication_controller,
+            workloads::replication_controllers::get_replication_controllers,
+            workloads::replication_controllers::scale_replication_controller,
+            workloads::replication_controllers::update_replication_controller,
             // stateful sets
             workloads::stateful_sets::create_stateful_set,
             workloads::stateful_sets::delete_stateful_set,
