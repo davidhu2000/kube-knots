@@ -1,10 +1,10 @@
 import { Cog8ToothIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
 import { lazy, Suspense, useState, type PropsWithChildren } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
+import iconUrl from "../src-tauri/icons/32x32.png";
 import { NamespaceSelect } from "./components/namespace-select";
 import { QueryWrapper } from "./components/query-wrapper";
 import { Context, ContextSwitcher } from "./core/contexts";
@@ -50,8 +50,7 @@ export function Layout({ children }: PropsWithChildren) {
     <div className="min-h-screen">
       <div className="fixed inset-y-0 flex w-40 flex-col bg-gray-200 dark:bg-gray-700 dark:text-gray-100">
         <Link to="/" className="flex h-16 items-center px-4 font-medium">
-          {/* TODO: update logo */}
-          <DocumentMagnifyingGlassIcon className="mr-2 h-6 w-6" aria-hidden="true" />
+          <img src={iconUrl} className="mr-2 h-6 w-6" alt="Icon" />
           Kube Knots
         </Link>
 
