@@ -5,7 +5,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::get_resource_api;
+use crate::internal::client::get_resource_api;
 
 #[derive(serde::Deserialize, serde::Serialize, Clone, Debug)]
 pub struct PodMetricsContainer {

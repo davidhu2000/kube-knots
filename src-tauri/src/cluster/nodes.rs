@@ -5,7 +5,7 @@ use kube::{
     Api,
 };
 
-use crate::internal::get_client_with_context;
+use crate::internal::client::get_client_with_context;
 
 #[tauri::command]
 pub async fn get_nodes(context: Option<String>) -> Result<ObjectList<Node>, String> {

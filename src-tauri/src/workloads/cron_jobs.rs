@@ -1,7 +1,10 @@
 use k8s_openapi::api::batch::v1::CronJob;
 use kube::{api::ListParams, core::ObjectList, Api};
 
-use crate::internal::{create_resource, delete_resource, get_resource_api, update_resource};
+use crate::internal::{
+    client::get_resource_api,
+    resources::{create_resource, delete_resource, update_resource},
+};
 
 #[tauri::command]
 pub async fn get_cron_jobs(
