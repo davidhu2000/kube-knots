@@ -1,19 +1,10 @@
-import type { V1Ingress, V1Service } from "@kubernetes/client-node";
-
 import { Table, TableBody, TableCell, TableHeader } from "../components/base/table";
 import { PathnameTitle } from "../components/pathname-title";
-import { useResourceList } from "../hooks/use-resource-list";
+import { useNetworkingResources } from "../hooks/use-multi-resource-list";
 import { SearchInput, useSearch } from "../hooks/use-search";
 
 export function NetworkingOverview() {
-  const {
-    data: { items: ingresses },
-  } = useResourceList<V1Ingress>("get_ingresses");
-  const {
-    data: { items: services },
-  } = useResourceList<V1Service>("get_services");
-
-  const data = [...ingresses, ...services];
+  const data = useNetworkingResources();
 
   const { filteredData, handleSearch, search } = useSearch({
     data,

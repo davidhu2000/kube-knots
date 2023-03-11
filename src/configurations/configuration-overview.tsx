@@ -1,24 +1,10 @@
-import type { V1ConfigMap, V1HorizontalPodAutoscaler, V1Secret } from "@kubernetes/client-node";
-
 import { Table, TableBody, TableCell, TableHeader } from "../components/base/table";
 import { PathnameTitle } from "../components/pathname-title";
-import { useResourceList } from "../hooks/use-resource-list";
+import { useConfigResources } from "../hooks/use-multi-resource-list";
 import { SearchInput, useSearch } from "../hooks/use-search";
 
 export function ConfigurationOverview() {
-  const {
-    data: { items: configMaps },
-  } = useResourceList<V1ConfigMap>("get_config_maps");
-
-  const {
-    data: { items: hpas },
-  } = useResourceList<V1HorizontalPodAutoscaler>("get_horizontal_pod_autoscalers");
-
-  const {
-    data: { items: secrets },
-  } = useResourceList<V1Secret>("get_secrets");
-
-  const data = [...configMaps, ...hpas, ...secrets];
+  const data = useConfigResources();
 
   const { filteredData, handleSearch, search } = useSearch({
     data,
