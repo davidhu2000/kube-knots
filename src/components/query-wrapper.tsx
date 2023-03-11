@@ -24,7 +24,7 @@ function WrapperContent({ title, subtitle, action }: WrapperContentProps) {
 
 export function QueryWrapper({ query, children }: QueryWrapperProps) {
   // TODO: improve the UI for these states
-  if (query.isLoading || query.isFetching) {
+  if (query.isLoading) {
     return <WrapperContent title="Loading..." subtitle="..." />;
   }
 
