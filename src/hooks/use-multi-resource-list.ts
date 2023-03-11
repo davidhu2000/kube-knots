@@ -11,6 +11,7 @@ import type {
   V1StatefulSet,
   V1Service,
   V1Secret,
+  V1ReplicationController,
 } from "@kubernetes/client-node";
 
 import { useResourceList } from "./use-resource-list";
@@ -35,6 +36,9 @@ export function useWorkloadResources() {
     data: { items: replicasets },
   } = useResourceList<V1ReplicaSet>("get_replica_sets");
   const {
+    data: { items: replicationControllers },
+  } = useResourceList<V1ReplicationController>("get_replication_controllers");
+  const {
     data: { items: statefulsets },
   } = useResourceList<V1StatefulSet>("get_stateful_sets");
 
@@ -45,6 +49,7 @@ export function useWorkloadResources() {
     ...jobs,
     ...pods,
     ...replicasets,
+    ...replicationControllers,
     ...statefulsets,
   ];
 }

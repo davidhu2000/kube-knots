@@ -19,6 +19,7 @@ import { Deployments } from "./workloads/deployments";
 import { Jobs } from "./workloads/jobs";
 import { Pods } from "./workloads/pods";
 import { ReplicaSets } from "./workloads/replica-sets";
+import { ReplicationControllers } from "./workloads/replication-controllers";
 import { StatefulSets } from "./workloads/stateful-sets";
 import { WorkloadOverview } from "./workloads/workload-overview";
 
@@ -37,6 +38,11 @@ export const workloadsRoutes = [
   { name: "Jobs", path: "/jobs", component: Jobs },
   { name: "Pods", path: "/pods", component: Pods },
   { name: "Replica Sets", path: "/replica-sets", component: ReplicaSets },
+  {
+    name: "Replication Controllers",
+    path: "/replication-controllers",
+    component: ReplicationControllers,
+  },
   { name: "Stateful Sets", path: "/stateful-sets", component: StatefulSets },
 ] as const;
 
