@@ -1,7 +1,7 @@
 use k8s_openapi::api::core::v1::Namespace;
 use kube::api::{Api, DeleteParams, ListParams, ObjectList, Patch, PatchParams};
 
-use crate::internal::get_client_with_context;
+use crate::internal::client::get_client_with_context;
 
 #[tauri::command]
 pub async fn get_namespaces(context: Option<String>) -> Result<ObjectList<Namespace>, String> {

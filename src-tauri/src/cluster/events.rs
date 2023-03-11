@@ -1,7 +1,7 @@
 use k8s_openapi::api::core::v1::Event;
 use kube::{api::ListParams, core::ObjectList, Api};
 
-use crate::internal::get_resource_api;
+use crate::internal::client::get_resource_api;
 
 #[tauri::command]
 pub async fn get_events(

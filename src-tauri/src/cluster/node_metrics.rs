@@ -4,7 +4,7 @@ use kube::{
 };
 use serde::{Deserialize, Serialize};
 
-use crate::internal::get_client_with_context;
+use crate::internal::client::get_client_with_context;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Usage {
