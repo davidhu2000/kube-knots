@@ -104,3 +104,30 @@ where
         Err(e) => Err(e.to_string()),
     };
 }
+
+pub async fn scale_resource<T>(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+    replicas: u8,
+) -> Result<bool, String>
+where
+    T: serde::de::DeserializeOwned
+        + std::fmt::Debug
+        + Clone
+        + k8s_openapi::Metadata
+        + kube::Resource<Scope = NamespaceResourceScope>
+        + Serialize,
+    <T as kube::Resource>::DynamicType: std::default::Default,
+{
+    let api: Api<T> = get_resource_api(context, namespace).await;
+    let spec = serde_json::json!({ "spec": { "replicas": replicas }});
+    let pp = PatchParams::default();
+    let patch = Patch::Merge(&spec);
+    let resource = api.patch_scale(&name, &pp, &patch).await;
+
+    return match resource {
+        Ok(_resource) => Ok(true),
+        Err(err) => Err(err.to_string()),
+    };
+}
