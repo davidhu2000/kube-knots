@@ -22,9 +22,9 @@ const Settings = lazy(() =>
   import("./settings/settings").then((module) => ({ default: module.Settings }))
 );
 
-const ResourceCreateDrawer = lazy(() =>
-  import("./components/resource-create-drawer").then((module) => ({
-    default: module.ResourceCreateDrawer,
+const ResourceCreateEditDrawer = lazy(() =>
+  import("./components/resource-create-edit-drawer").then((module) => ({
+    default: module.ResourceCreateEditDrawer,
   }))
 );
 
@@ -109,7 +109,12 @@ export function Layout({ children }: PropsWithChildren) {
             <Settings isOpen={showSetting} handleClose={() => setShowSetting(false)} />
           </Suspense>
           <Suspense fallback={<div>Loading Settings</div>}>
-            <ResourceCreateDrawer isOpen={showCreate} handleClose={() => setShowCreate(false)} />
+            <ResourceCreateEditDrawer
+              action="create"
+              isOpen={showCreate}
+              handleClose={() => setShowCreate(false)}
+              selectedResource={null}
+            />
           </Suspense>
           <ContextSwitcher
             isOpen={showContextSwitcher}

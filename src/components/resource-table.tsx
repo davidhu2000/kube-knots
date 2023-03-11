@@ -9,8 +9,10 @@ import { Table, TableHeader, TableBody } from "./base/table";
 import { PathnameTitle } from "./pathname-title";
 import { QueryWrapper } from "./query-wrapper";
 
-const ResourceEditDrawer = lazy(() =>
-  import("./resource-edit-drawer").then((module) => ({ default: module.ResourceEditDrawer }))
+const ResourceCreateEditDrawer = lazy(() =>
+  import("./resource-create-edit-drawer").then((module) => ({
+    default: module.ResourceCreateEditDrawer,
+  }))
 );
 const ResourceTriggerModal = lazy(() =>
   import("./resource-trigger-modal").then((module) => ({ default: module.ResourceTriggerModal }))
@@ -85,7 +87,8 @@ export function ResourceTable<T extends ResourceBase>({
 
       <Suspense fallback={<div>Loading Form</div>}>
         {actions.includes("edit") && (
-          <ResourceEditDrawer
+          <ResourceCreateEditDrawer
+            action="update"
             isOpen={action === "edit"}
             handleClose={handleClose}
             selectedResource={selected}

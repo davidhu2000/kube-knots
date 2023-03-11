@@ -15,9 +15,9 @@ const NodeCordonModal = lazy(() =>
 const NodeDrainModal = lazy(() =>
   import("./node-drain-modal").then((module) => ({ default: module.NodeDrainModal }))
 );
-const ResourceEditDrawer = lazy(() =>
-  import("../components/resource-edit-drawer").then((module) => ({
-    default: module.ResourceEditDrawer,
+const ResourceCreateEditDrawer = lazy(() =>
+  import("../components/resource-create-edit-drawer").then((module) => ({
+    default: module.ResourceCreateEditDrawer,
   }))
 );
 const ResourceDeleteModal = lazy(() =>
@@ -111,7 +111,8 @@ export function Nodes() {
 
       <Suspense fallback={<div>Loading Form</div>}>
         {actions.includes("edit") && (
-          <ResourceEditDrawer
+          <ResourceCreateEditDrawer
+            action="update"
             isOpen={action === "edit"}
             handleClose={handleClose}
             selectedResource={selected}
