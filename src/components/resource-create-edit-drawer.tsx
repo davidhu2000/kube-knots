@@ -1,5 +1,5 @@
 import { type V1ObjectMeta } from "@kubernetes/client-node";
-import Editor from "@monaco-editor/react";
+import Editor, { DiffEditor } from "@monaco-editor/react";
 import { useMutation } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import yaml from "js-yaml";
@@ -13,27 +13,45 @@ import { useTheme } from "../providers/theme-provider";
 import { Drawer } from "./base/drawer";
 import { SelectInput } from "./base/select-input";
 import { ToggleButton } from "./base/toggle-button";
-import { getEditorTheme } from "./resource-edit-drawer";
 import resourceTemplate from "./resource-templates.json";
-
-interface ResourceCreateDrawerProps {
-  isOpen: boolean;
-  handleClose: () => void;
-}
 
 type AvailableTemplates = keyof typeof resourceTemplate;
 
 const templates = Object.keys(resourceTemplate) as AvailableTemplates[];
 
-export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
+interface ResourceCreateEditDrawerProps<T> {
+  isOpen: boolean;
+  selectedResource: T | null;
+  handleClose: () => void;
+  action: "create" | "update";
+}
+
+function getEditorTheme(
+  theme: ReturnType<typeof useTheme>["theme"],
+  systemTheme: ReturnType<typeof useTheme>["systemTheme"]
+) {
+  if (theme === "system") {
+    return systemTheme === "dark" ? "vs-dark" : "light";
+  }
+
+  return theme === "dark" ? "vs-dark" : "light";
+}
+
+export function ResourceCreateEditDrawer<T extends { kind?: string; metadata?: V1ObjectMeta }>({
   isOpen,
+  selectedResource,
   handleClose,
-}: ResourceCreateDrawerProps) {
+  action,
+}: ResourceCreateEditDrawerProps<T>) {
   const { language } = useDefaultLanguage();
   const { theme, systemTheme } = useTheme();
   const { currentContext } = useCurrentContext();
-  const [template, setTemplate] = useState<AvailableTemplates | null>(null);
 
+  const [code, setCode] = useState<string>(JSON.stringify(selectedResource, null, 4));
+  const [showYaml, setShowYaml] = useState(language === "yaml");
+  const [showDiff, setShowDiff] = useState(false);
+
+  const [template, setTemplate] = useState<AvailableTemplates | null>(null);
   const handleTemplateChange = (template: AvailableTemplates) => {
     setTemplate(template);
 
@@ -44,16 +62,24 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
     setCode(code);
   };
 
-  const [code, setCode] = useState<string>("");
-  const [showYaml, setShowYaml] = useState(language === "yaml");
+  useEffect(() => {
+    if (showYaml) {
+      setCode(yaml.dump(selectedResource));
+    } else {
+      setCode(JSON.stringify(selectedResource, null, 4));
+    }
+    setShowDiff(false);
+  }, [selectedResource]);
 
   useEffect(() => {
     setShowYaml(language === "yaml");
   }, [language]);
 
   useEffect(() => {
-    setCode("");
-    setTemplate(null);
+    if (!isOpen) {
+      setCode("");
+      setTemplate(null);
+    }
   }, [isOpen]);
 
   const handleShowYaml = (showYaml: boolean) => {
@@ -74,11 +100,11 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
     }
   };
 
-  const createMutation = useMutation({
+  const resourceMutation = useMutation({
     mutationFn: (resource: T) => {
       const resourceKind = camelToSnakeCase(resource.kind);
 
-      return invoke<boolean>(`create_${resourceKind}`, {
+      return invoke<boolean>(`${action}_${resourceKind}`, {
         context: currentContext,
         namespace: resource.metadata?.namespace,
         name: resource.metadata?.name,
@@ -87,7 +113,7 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
     },
     onSuccess: (_data, variables) => {
       handleClose();
-      toast.success(`Created ${variables.metadata?.name}`);
+      toast.success(`${action} ${variables.metadata?.name}`);
     },
     onError: (error) => {
       toast.error(error as string);
@@ -102,15 +128,25 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
     <Drawer
       isOpen={isOpen}
       handleClose={handleClose}
-      title={"Create New Resource"}
+      title={selectedResource?.metadata?.name ?? ""}
       description={
         <div className="flex w-full gap-8 p-2">
-          <SelectInput
-            onChange={handleTemplateChange}
-            value={template}
-            options={templates}
-            defaultLabel="Select Template"
-          />
+          {action === "update" && (
+            <ToggleButton
+              checked={showDiff}
+              onChange={setShowDiff}
+              checkedLabel="Hide Diff"
+              uncheckedLabel="Show Diff"
+            />
+          )}
+          {action === "create" && (
+            <SelectInput
+              onChange={handleTemplateChange}
+              value={template}
+              options={templates}
+              defaultLabel="Select Template"
+            />
+          )}
           <ToggleButton
             checked={showYaml}
             onChange={handleShowYaml}
@@ -122,7 +158,7 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
           <button
             onClick={() => {
               const jsonObj = (showYaml ? yaml.load(code) : JSON.parse(code)) as T;
-              createMutation.mutate(jsonObj);
+              resourceMutation.mutate(jsonObj);
             }}
             className="rounded-md border bg-blue-200 px-4 py-2 text-gray-900 shadow-md hover:bg-blue-300 dark:border-gray-700 dark:bg-blue-800 dark:text-gray-100 hover:dark:bg-blue-900"
           >
@@ -131,12 +167,23 @@ export function ResourceCreateDrawer<T extends { kind?: string; metadata?: V1Obj
         </div>
       }
     >
-      <Editor
-        language={editorLanguage}
-        value={code}
-        theme={editorTheme}
-        onChange={(code) => setCode(code ?? "")}
-      />
+      {showDiff ? (
+        <DiffEditor
+          language={editorLanguage}
+          original={
+            showYaml ? yaml.dump(selectedResource) : JSON.stringify(selectedResource, null, 4)
+          }
+          theme={editorTheme}
+          modified={code}
+        />
+      ) : (
+        <Editor
+          language={editorLanguage}
+          value={code}
+          theme={editorTheme}
+          onChange={(code) => setCode(code ?? "")}
+        />
+      )}
     </Drawer>
   );
 }
