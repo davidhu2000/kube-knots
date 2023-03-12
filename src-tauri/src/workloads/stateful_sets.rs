@@ -1,9 +1,9 @@
 use k8s_openapi::api::apps::v1::StatefulSet;
-use kube::{api::ListParams, core::ObjectList, Api};
+use kube::{core::ObjectList, Api};
 
 use crate::internal::{
     client::get_resource_api,
-    resources::{create_resource, delete_resource, scale_resource, update_resource},
+    resources::{create_resource, delete_resource, get_resources, scale_resource, update_resource},
 };
 
 #[tauri::command]
@@ -11,14 +11,7 @@ pub async fn get_stateful_sets(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<StatefulSet>, String> {
-    let api: Api<StatefulSet> = get_resource_api(context, namespace).await;
-    let lp = ListParams::default();
-    let result = api.list(&lp).await;
-
-    return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
-    };
+    return get_resources::<StatefulSet>(context, namespace).await;
 }
 
 #[tauri::command]

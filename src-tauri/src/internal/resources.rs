@@ -1,11 +1,35 @@
 use k8s_openapi::NamespaceResourceScope;
 use kube::{
-    api::{DeleteParams, Patch, PatchParams},
+    api::{DeleteParams, ListParams, Patch, PatchParams},
+    core::ObjectList,
     Api,
 };
 use serde::Serialize;
 
 use super::client::get_resource_api;
+
+pub async fn get_resources<T>(
+    context: Option<String>,
+    namespace: Option<String>,
+) -> Result<ObjectList<T>, String>
+where
+    T: serde::de::DeserializeOwned
+        + std::fmt::Debug
+        + Clone
+        + k8s_openapi::Metadata
+        + kube::Resource<Scope = NamespaceResourceScope>
+        + Serialize,
+    <T as kube::Resource>::DynamicType: std::default::Default,
+{
+    let api: Api<T> = get_resource_api(context, namespace).await;
+    let lp = ListParams::default();
+    let result = api.list(&lp).await;
+
+    return match result {
+        Ok(items) => Ok(items),
+        Err(e) => Err(e.to_string()),
+    };
+}
 
 pub async fn create_resource<T>(context: Option<String>, resource: T) -> Result<T, String>
 where
