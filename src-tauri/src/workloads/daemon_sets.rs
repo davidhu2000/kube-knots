@@ -1,9 +1,8 @@
 use k8s_openapi::api::apps::v1::DaemonSet;
-use kube::{core::ObjectList, Api};
+use kube::core::ObjectList;
 
-use crate::internal::{
-    client::get_resource_api,
-    resources::{create_resource, delete_resource, get_resources, update_resource},
+use crate::internal::resources::{
+    create_resource, delete_resource, get_resources, restart_resource, update_resource,
 };
 
 #[tauri::command]
@@ -47,14 +46,5 @@ pub async fn restart_daemon_set(
     namespace: Option<String>,
     name: String,
 ) -> Result<bool, String> {
-    let api: Api<DaemonSet> = get_resource_api(context, namespace).await;
-    let resource = api.restart(&name).await;
-
-    return match resource {
-        Ok(_resource) => Ok(true),
-        Err(err) => {
-            println!("Error restarting daemon set: {}", err);
-            return Err(err.to_string());
-        }
-    };
+    return restart_resource::<DaemonSet>(context, namespace, name).await;
 }

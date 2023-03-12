@@ -1,9 +1,9 @@
 use k8s_openapi::api::apps::v1::Deployment;
-use kube::{core::ObjectList, Api};
+use kube::core::ObjectList;
 
-use crate::internal::{
-    client::get_resource_api,
-    resources::{create_resource, delete_resource, get_resources, scale_resource, update_resource},
+use crate::internal::resources::{
+    create_resource, delete_resource, get_resources, restart_resource, scale_resource,
+    update_resource,
 };
 
 #[tauri::command]
@@ -47,16 +47,7 @@ pub async fn restart_deployment(
     namespace: Option<String>,
     name: String,
 ) -> Result<bool, String> {
-    let api: Api<Deployment> = get_resource_api(context, namespace).await;
-    let resource = api.restart(&name).await;
-
-    return match resource {
-        Ok(_resource) => Ok(true),
-        Err(err) => {
-            println!("Error restarting deployment: {}", err);
-            return Err(err.to_string());
-        }
-    };
+    return restart_resource::<Deployment>(context, namespace, name).await;
 }
 
 #[tauri::command]
