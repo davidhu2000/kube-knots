@@ -1,7 +1,7 @@
 use k8s_openapi::NamespaceResourceScope;
 use kube::{
     api::{DeleteParams, ListParams, Patch, PatchParams},
-    core::ObjectList,
+    core::{util::Restart, ObjectList},
     Api,
 };
 use serde::Serialize;
@@ -129,6 +129,32 @@ where
     };
 }
 
+pub async fn restart_resource<T>(
+    context: Option<String>,
+    namespace: Option<String>,
+    name: String,
+) -> Result<bool, String>
+where
+    T: serde::de::DeserializeOwned
+        + std::fmt::Debug
+        + Clone
+        + k8s_openapi::Metadata
+        + kube::Resource<Scope = NamespaceResourceScope>
+        + serde::Serialize
+        + Restart,
+    <T as kube::Resource>::DynamicType: std::default::Default,
+{
+    let api: Api<T> = get_resource_api(context, namespace).await;
+    let resource = api.restart(&name).await;
+
+    return match resource {
+        Ok(_resource) => Ok(true),
+        Err(err) => {
+            println!("Error restarting resource {}: {}", name, err);
+            return Err(err.to_string());
+        }
+    };
+}
 pub async fn scale_resource<T>(
     context: Option<String>,
     namespace: Option<String>,
