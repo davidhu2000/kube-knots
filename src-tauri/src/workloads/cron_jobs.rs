@@ -1,9 +1,8 @@
 use k8s_openapi::api::batch::v1::CronJob;
-use kube::{api::ListParams, core::ObjectList, Api};
+use kube::core::ObjectList;
 
-use crate::internal::{
-    client::get_resource_api,
-    resources::{create_resource, delete_resource, update_resource},
+use crate::internal::resources::{
+    create_resource, delete_resource, get_resources, update_resource,
 };
 
 #[tauri::command]
@@ -11,14 +10,7 @@ pub async fn get_cron_jobs(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<CronJob>, String> {
-    let api: Api<CronJob> = get_resource_api(context, namespace).await;
-    let lp = ListParams::default();
-    let result = api.list(&lp).await;
-
-    return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
-    };
+    return get_resources::<CronJob>(context, namespace).await;
 }
 
 #[tauri::command]

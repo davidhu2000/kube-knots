@@ -1,9 +1,8 @@
 use k8s_openapi::api::networking::v1::Ingress;
-use kube::{api::ListParams, core::ObjectList, Api};
+use kube::core::ObjectList;
 
-use crate::internal::{
-    client::get_resource_api,
-    resources::{create_resource, delete_resource, update_resource},
+use crate::internal::resources::{
+    create_resource, delete_resource, get_resources, update_resource,
 };
 
 #[tauri::command]
@@ -11,15 +10,7 @@ pub async fn get_ingresses(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<Ingress>, String> {
-    let api: Api<Ingress> = get_resource_api(context, namespace).await;
-    let lp = ListParams::default();
-
-    let result = api.list(&lp).await;
-
-    return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
-    };
+    return get_resources::<Ingress>(context, namespace).await;
 }
 
 #[tauri::command]

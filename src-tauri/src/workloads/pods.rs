@@ -1,14 +1,14 @@
 use k8s_openapi::api::core::v1::Pod;
 
 use kube::{
-    api::{EvictParams, ListParams, LogParams},
+    api::{EvictParams, LogParams},
     core::ObjectList,
     Api,
 };
 
 use crate::internal::{
     client::get_resource_api,
-    resources::{create_resource, delete_resource, update_resource},
+    resources::{create_resource, delete_resource, get_resources, update_resource},
 };
 
 #[tauri::command]
@@ -16,15 +16,7 @@ pub async fn get_pods(
     context: Option<String>,
     namespace: Option<String>,
 ) -> Result<ObjectList<Pod>, String> {
-    let api: Api<Pod> = get_resource_api(context, namespace).await;
-    let lp = ListParams::default();
-
-    let result = api.list(&lp).await;
-
-    return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
-    };
+    return get_resources::<Pod>(context, namespace).await;
 }
 
 #[tauri::command]
