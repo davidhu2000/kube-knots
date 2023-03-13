@@ -41,7 +41,9 @@ jobs:
             return data.id
   build-tauri:
     needs: create-release
-    working-directory: app/kube-knots
+    defaults:
+      run:
+        working-directory: app/kube-knots
     strategy:
       fail-fast: false
       matrix:
