@@ -5,5 +5,5 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["app/kube-knots/vite.config.ts"]
+  "include": ["./vite.config.ts"]
 }
