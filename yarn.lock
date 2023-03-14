@@ -3317,9 +3317,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kube-knots@workspace:.":
+"kube-knots-workspace@workspace:.":
   version: 0.0.0-use.local
-  resolution: "kube-knots@workspace:."
+  resolution: "kube-knots-workspace@workspace:."
+  languageName: unknown
+  linkType: soft
+
+"kube-knots@workspace:app/kube-knots":
+  version: 0.0.0-use.local
+  resolution: "kube-knots@workspace:app/kube-knots"
   dependencies:
     "@headlessui/react": ^1.7.7
     "@heroicons/react": ^2.0.13
