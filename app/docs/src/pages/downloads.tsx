@@ -1,17 +1,22 @@
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { ArrowDownTrayIcon } from "@heroicons/react/20/solid";
+// @ts-expect-error this is how to import static assets in Docusaurus
+import appLogoUrl from "@site/static/img/StoreLogo.png";
 import Layout from "@theme/Layout";
 import React from "react";
 
-type Platform = "Linux" | "MacOS" | "Windows";
+import appPackageJson from "../../../kube-knots/package.json";
 
-const latestVersion = "0.0.27";
+const latestVersion = appPackageJson.version;
 
-// TODO: figure out how to make these dynamic
-// TODO: add linux and windows url
+// TODO: add linux and windows url which auto adds the download button
 const downloadUrls = {
-  MacOS: `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_x64.dmg`,
+  macOS: `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_x64.dmg`,
 } as const;
+
+export const availablePlatforms = Object.keys(downloadUrls) as (keyof typeof downloadUrls)[];
+
+type Platform = (typeof availablePlatforms)[number];
 
 export function DownloadButton({ platform }: { platform: Platform }): JSX.Element {
   return (
@@ -31,12 +36,15 @@ export default function Downloads(): JSX.Element {
   return (
     <Layout title={`Download ${siteConfig.title}`} description="Untangling the web of kubernetes">
       <main className="m-auto flex flex-col items-center justify-center">
-        <h1 className="text-4xl">Download Kube Knots</h1>
+        <div className="flex items-center justify-center ">
+          <img src={appLogoUrl} className="mr-2" />
+          <h1 className="m-0 text-4xl">Download Kube Knots</h1>
+        </div>
 
         <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <DownloadButton platform="MacOS" />
-          <DownloadButton platform="Windows" />
-          <DownloadButton platform="Linux" />
+          {availablePlatforms.map((platform) => (
+            <DownloadButton key={platform} platform={platform} />
+          ))}
         </div>
       </main>
     </Layout>
