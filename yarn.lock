@@ -8639,6 +8639,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "kube-knots-workspace@workspace:."
   dependencies:
+    "@heroicons/react": ^2.0.13
     "@tailwindcss/forms": ^0.5.3
     "@trivago/prettier-plugin-sort-imports": ^4.0.0
     "@types/node": ^18.11.18
@@ -8664,7 +8665,6 @@ __metadata:
   resolution: "kube-knots@workspace:app/kube-knots"
   dependencies:
     "@headlessui/react": ^1.7.7
-    "@heroicons/react": ^2.0.13
     "@kubernetes/client-node": ^0.18.0
     "@monaco-editor/react": ^4.4.6
     "@tanstack/react-query": ^4.22.0
