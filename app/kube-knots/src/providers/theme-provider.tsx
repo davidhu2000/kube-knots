@@ -23,10 +23,12 @@ const ThemeContext = createContext<ThemeContext>({
 
 export const useTheme = () => useContext(ThemeContext);
 
+const colorThemeKey = "color-theme";
+
 export function ThemeProvider({ children }: PropsWithChildren) {
   const isCurrentThemeDark =
-    localStorage.getItem("color-theme") === "dark" ||
-    (!("color-theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    localStorage.getItem(colorThemeKey) === "dark" ||
+    (!(colorThemeKey in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   const [theme, setTheme] = useState<Themes>(isCurrentThemeDark ? "dark" : "light");
 
@@ -38,12 +40,12 @@ export function ThemeProvider({ children }: PropsWithChildren) {
 
   const changeTheme = (theme: Themes) => {
     if (theme !== "system") {
-      localStorage.setItem("color-theme", theme);
+      localStorage.setItem(colorThemeKey, theme);
       setTheme(theme);
       return;
     }
 
-    localStorage.removeItem("color-theme");
+    localStorage.removeItem(colorThemeKey);
     setTheme("system");
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       document.documentElement.classList.add("dark");
@@ -55,13 +57,13 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
-      if (localStorage.getItem("color-theme")) {
-        localStorage.setItem("color-theme", "dark");
+      if (localStorage.getItem(colorThemeKey)) {
+        localStorage.setItem(colorThemeKey, "dark");
       }
     } else if (theme === "light") {
-      if (localStorage.getItem("color-theme")) {
+      if (localStorage.getItem(colorThemeKey)) {
         document.documentElement.classList.remove("dark");
-        localStorage.setItem("color-theme", "light");
+        localStorage.setItem(colorThemeKey, "light");
       }
     }
   }, [theme]);
