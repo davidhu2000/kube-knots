@@ -78,18 +78,10 @@ const config = {
           src: "img/StoreLogo.png",
         },
         items: [
-          {
-            type: "doc",
-            docId: "intro",
-            position: "left",
-            label: "Docs",
-          },
+          { to: "/downloads", label: "Downloads", position: "left" },
+          { type: "doc", docId: "intro", position: "left", label: "Docs" },
           { to: "/blog", label: "Blog", position: "left" },
-          {
-            to: githubLink,
-            label: "GitHub",
-            position: "right",
-          },
+          { to: githubLink, label: "GitHub", position: "right" },
         ],
       },
       footer: {
