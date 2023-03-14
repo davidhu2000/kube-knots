@@ -23,14 +23,10 @@
     "react-toastify": "^9.1.1"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.3",
     "@tauri-apps/cli": "^1.2.2",
     "@types/jsoneditor": "^9.9.0",
     "@types/prismjs": "^1.26.0",
     "@vitejs/plugin-react": "^3.0.1",
-    "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.4",
     "vite": "^4.0.4"
   },
   "packageManager": "yarn@3.3.1"
