@@ -6,17 +6,26 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-navbar-link-hover-color: #2563eb;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --ifm-navbar-link-hover-color: #2563eb;
+  --ifm-link-color: #2563eb;
+  --ifm-breadcrumb-color-active: #2563eb;
+  --ifm-menu-color-active: #2563eb;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme="dark"] {
-  --ifm-navbar-link-hover-color: #3b82f6;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-navbar-link-hover-color: #3b82f6;
+  --ifm-link-color: #3b82f6;
+  --ifm-breadcrumb-color-active: #3b82f6;
+  --ifm-menu-color-active: #3b82f6;
 }
 
-@tailwind base;
+/* tailwind base breaks docusaurus markdown page styles */
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
