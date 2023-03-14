@@ -41,11 +41,11 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/docs",
+          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/",
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/docs",
+          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -79,7 +79,7 @@ const config = {
         },
         items: [
           { to: "/downloads", label: "Downloads", position: "left" },
-          { type: "doc", docId: "intro", position: "left", label: "Docs" },
+          { type: "doc", docId: "intro/index", position: "left", label: "Docs" },
           { to: "/blog", label: "Blog", position: "left" },
           { to: githubLink, label: "GitHub", position: "right" },
         ],
