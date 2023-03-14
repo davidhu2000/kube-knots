@@ -19,28 +19,30 @@ const CurrentContextContext = createContext<{
 
 export const useCurrentContext = () => useContext(CurrentContextContext);
 
+const contextKey = "current-context";
+
 export function CurrentContextProvider({ children }: PropsWithChildren) {
   const { data, isSuccess } = useResource<KubeConfig>("get_config");
 
   const availableContexts = data?.contexts ?? [];
 
-  const storedCurrentContext = localStorage.getItem("current-context");
+  const storedCurrentContext = localStorage.getItem(contextKey);
 
   const [currentContext, setCurrentContext] = useState<CurrentContext>(
     // @ts-expect-error: result is current-context instead of currentContext
-    storedCurrentContext || data?.["current-context"]
+    storedCurrentContext || data?.[contextKey]
   );
 
   useEffect(() => {
     if (!currentContext && isSuccess) {
       // @ts-expect-error: result is current-context instead of currentContext
-      setCurrentContext(data["current-context"]);
+      setCurrentContext(data[contextKey]);
     }
   }, [isSuccess]);
 
   const changeCurrentContext = (context: CurrentContext) => {
     if (context) {
-      localStorage.setItem("current-context", context);
+      localStorage.setItem(contextKey, context);
     }
     setCurrentContext(context);
   };

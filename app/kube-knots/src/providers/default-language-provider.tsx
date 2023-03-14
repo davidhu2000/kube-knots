@@ -17,13 +17,15 @@ const DefaultLanguageContext = createContext<{
 
 export const useDefaultLanguage = () => useContext(DefaultLanguageContext);
 
+const languageKey = "preferred-language";
+
 export function DefaultLanguageProvider({ children }: PropsWithChildren) {
-  const preferredLanguage = (localStorage.getItem("preferred-language") || "yaml") as Language;
+  const preferredLanguage = (localStorage.getItem(languageKey) || "yaml") as Language;
 
   const [language, setLanguage] = useState<Language>(preferredLanguage);
 
   const changeLanguage = (language: Language) => {
-    localStorage.setItem("preferred-language", language);
+    localStorage.setItem(languageKey, language);
     setLanguage(language);
   };
 
