@@ -134,7 +134,7 @@ export function Layout({ children }: PropsWithChildren) {
       <ToastContainer
         theme={themeToUse}
         position="bottom-right"
-        autoClose={5000}
+        autoClose={3000}
         closeOnClick
         pauseOnFocusLoss
         draggable
