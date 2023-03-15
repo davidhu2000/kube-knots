@@ -12,7 +12,7 @@ See the [Features](/docs/category/features) page for more information on what Ku
 
 ### Open Source
 
-Kube Knots is open source and free to use. You can find the source code on [GitHub](https://github.com/davidhu2000/kube-knots)
+Kube Knots is open source and free to use. You can find the source code on [GitHub](https://github.com/davidhu2000/kube-knots). Most of the code are licensed under the MIT License, with a potential exception to the currently non-existent `ee` folder.
 
 ### Low Resource Usage
 
@@ -25,3 +25,7 @@ Kube Knots is not built using Electron as many other desktop applications are. T
 Kube Knots is only <30MB in size on macOS.
 
 ![Kube Knots Application Size](./app-size.png)
+
+### Download
+
+You can download Kube Knots [here](/downloads)
