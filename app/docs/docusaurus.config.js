@@ -41,11 +41,11 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/",
+          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/docs/",
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/",
+          editUrl: "https://github.com/davidhu2000/kube-knots/tree/main/app/docs/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -74,7 +74,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: "img/docusaurus-social-card.jpg",
+      image: "img/app-screenshot.jpg",
       navbar: {
         title: "Kube Knots",
         logo: {
