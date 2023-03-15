@@ -41,7 +41,7 @@ export default function Downloads(): JSX.Element {
           <h1 className="m-0 text-4xl">Download Kube Knots</h1>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className={`mt-12 grid grid-cols-1 gap-4`}>
           {availablePlatforms.map((platform) => (
             <DownloadButton key={platform} platform={platform} />
           ))}
