@@ -37,7 +37,7 @@ jobs:
 
   deploy-site:
     if: ${{ github.event_name != 'pull_request' }}
-    needs: [build-site, lint, tests]
+    needs: [build-site]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
