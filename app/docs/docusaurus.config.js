@@ -85,7 +85,7 @@ const config = {
           { to: "/downloads", label: "Downloads", position: "left" },
           { type: "doc", docId: "intro/index", position: "left", label: "Docs" },
           { to: "/blog", label: "Blog", position: "left" },
-          { to: githubLink, label: "GitHub", position: "right" },
+          { href: githubLink, label: "GitHub", position: "right" },
         ],
       },
       footer: {
@@ -101,7 +101,7 @@ const config = {
           },
           {
             label: "GitHub",
-            to: githubLink,
+            href: githubLink,
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Kube Knots, Inc. Built with Docusaurus.`,
