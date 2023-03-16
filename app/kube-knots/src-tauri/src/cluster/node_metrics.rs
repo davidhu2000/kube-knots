@@ -22,7 +22,7 @@ pub struct NodeMetrics {
 
 #[tauri::command]
 pub async fn get_node_metrics(context: Option<String>) -> Result<ObjectList<NodeMetrics>, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let request = Request::new("/apis/metrics.k8s.io/v1beta1/nodes");
     let result = client
         .clone()

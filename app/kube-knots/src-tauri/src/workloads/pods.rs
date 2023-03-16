@@ -26,7 +26,7 @@ pub async fn get_pod_logs(
     pod_name: String,
     container: Option<String>,
 ) -> Result<String, String> {
-    let pods: Api<Pod> = get_resource_api(context, namespace).await;
+    let pods: Api<Pod> = get_resource_api(context, namespace).await?;
 
     let mut lp = LogParams::default();
     lp.container = container;
@@ -68,7 +68,7 @@ pub async fn evict_pod(
     namespace: Option<String>,
     name: String,
 ) -> Result<bool, String> {
-    let pods: Api<Pod> = get_resource_api(context, namespace).await;
+    let pods: Api<Pod> = get_resource_api(context, namespace).await?;
 
     let result = pods.evict(&name, &EvictParams::default()).await;
 

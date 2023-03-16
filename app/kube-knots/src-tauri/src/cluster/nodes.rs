@@ -9,7 +9,7 @@ use crate::internal::client::get_client_with_context;
 
 #[tauri::command]
 pub async fn get_nodes(context: Option<String>) -> Result<ObjectList<Node>, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api = Api::<Node>::all(client);
     let result = api.list(&ListParams::default()).await;
 
@@ -21,7 +21,7 @@ pub async fn get_nodes(context: Option<String>) -> Result<ObjectList<Node>, Stri
 
 #[tauri::command]
 pub async fn create_node(context: Option<String>, resource: Node) -> Result<Node, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api: Api<Node> = Api::all(client);
     let result = api.create(&Default::default(), &resource).await;
 
@@ -37,7 +37,7 @@ pub async fn update_node(
     name: String,
     resource: Node,
 ) -> Result<Node, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api: Api<Node> = Api::all(client);
     let result = api
         .patch(&name, &PatchParams::default(), &Patch::Merge(&resource))
@@ -51,7 +51,7 @@ pub async fn update_node(
 
 #[tauri::command]
 pub async fn delete_node(context: Option<String>, name: String) -> Result<bool, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api: Api<Node> = Api::all(client);
     let result = api.delete(&name, &DeleteParams::default()).await;
 
@@ -63,7 +63,7 @@ pub async fn delete_node(context: Option<String>, name: String) -> Result<bool, 
 
 #[tauri::command]
 pub async fn cordon_node(context: Option<String>, name: String) -> Result<Node, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
 
     let api = Api::<Node>::all(client);
     let result = api.cordon(&name).await;
@@ -76,7 +76,7 @@ pub async fn cordon_node(context: Option<String>, name: String) -> Result<Node, 
 
 #[tauri::command]
 pub async fn uncordon_node(context: Option<String>, name: String) -> Result<Node, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
 
     let api = Api::<Node>::all(client);
     let result = api.uncordon(&name).await;

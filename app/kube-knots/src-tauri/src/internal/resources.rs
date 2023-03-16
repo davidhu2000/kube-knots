@@ -21,7 +21,7 @@ where
         + Serialize,
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
-    let api: Api<T> = get_resource_api(context, namespace).await;
+    let api: Api<T> = get_resource_api(context, namespace).await?;
     let lp = ListParams::default();
     let result = api.list(&lp).await;
 
@@ -68,7 +68,7 @@ where
         }
     };
 
-    let api: Api<T> = get_resource_api(context, Some(namespace.to_string())).await;
+    let api: Api<T> = get_resource_api(context, Some(namespace.to_string())).await?;
 
     let result = api.create(&Default::default(), &resource).await;
 
@@ -93,7 +93,7 @@ where
         + Serialize,
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
-    let api: Api<T> = get_resource_api(context, namespace).await;
+    let api: Api<T> = get_resource_api(context, namespace).await?;
 
     let pp = PatchParams::default();
     let result = api.patch(&name, &pp, &Patch::Merge(&resource)).await;
@@ -118,7 +118,7 @@ where
         + Serialize,
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
-    let api: Api<T> = get_resource_api(context, namespace).await;
+    let api: Api<T> = get_resource_api(context, namespace).await?;
 
     let dp = DeleteParams::default();
     let result = api.delete(&name, &dp).await;
@@ -144,7 +144,7 @@ where
         + Restart,
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
-    let api: Api<T> = get_resource_api(context, namespace).await;
+    let api: Api<T> = get_resource_api(context, namespace).await?;
     let resource = api.restart(&name).await;
 
     return match resource {
@@ -170,7 +170,7 @@ where
         + Serialize,
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
-    let api: Api<T> = get_resource_api(context, namespace).await;
+    let api: Api<T> = get_resource_api(context, namespace).await?;
     let spec = serde_json::json!({ "spec": { "replicas": replicas }});
     let pp = PatchParams::default();
     let patch = Patch::Merge(&spec);

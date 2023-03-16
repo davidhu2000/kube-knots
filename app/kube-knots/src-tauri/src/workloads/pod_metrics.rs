@@ -55,7 +55,7 @@ pub async fn get_pod_metrics(
     namespace: Option<String>,
 ) -> Result<ObjectList<PodMetrics>, String> {
     // https://github.com/kube-rs/kube/issues/492
-    let api: Api<PodMetrics> = get_resource_api(context, namespace).await;
+    let api: Api<PodMetrics> = get_resource_api(context, namespace).await?;
 
     let lp = ListParams::default();
     let metrics_result = api.list(&lp).await;
