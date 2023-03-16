@@ -5,7 +5,7 @@ use crate::internal::client::get_client_with_context;
 
 #[tauri::command]
 pub async fn get_namespaces(context: Option<String>) -> Result<ObjectList<Namespace>, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api: Api<Namespace> = Api::all(client);
 
     let lp = ListParams::default();
@@ -23,7 +23,7 @@ pub async fn create_namespace(
     context: Option<String>,
     resource: Namespace,
 ) -> Result<Namespace, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api: Api<Namespace> = Api::all(client);
     let result = api.create(&Default::default(), &resource).await;
 
@@ -39,7 +39,7 @@ pub async fn update_namespace(
     name: String,
     resource: Namespace,
 ) -> Result<Namespace, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api: Api<Namespace> = Api::all(client);
     let result = api
         .patch(&name, &PatchParams::default(), &Patch::Merge(&resource))
@@ -53,7 +53,7 @@ pub async fn update_namespace(
 
 #[tauri::command]
 pub async fn delete_namespace(context: Option<String>, name: String) -> Result<bool, String> {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
     let api: Api<Namespace> = Api::all(client);
     let result = api.delete(&name, &DeleteParams::default()).await;
 

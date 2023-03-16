@@ -4,7 +4,10 @@ use kube::{
     Api, Client, Config,
 };
 
-pub async fn get_resource_api<T>(context: Option<String>, namespace: Option<String>) -> Api<T>
+pub async fn get_resource_api<T>(
+    context: Option<String>,
+    namespace: Option<String>,
+) -> Result<Api<T>, String>
 where
     T: serde::de::DeserializeOwned
         + std::fmt::Debug
@@ -13,17 +16,26 @@ where
         + kube::Resource<Scope = NamespaceResourceScope>,
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
-    let client = get_client_with_context(context).await;
+    let client = get_client_with_context(context).await?;
 
     let api: Api<T> = match namespace {
         Some(ns) => Api::<T>::namespaced(client, &ns),
         None => Api::<T>::all(client),
     };
-    return api;
+
+    return Ok(api);
 }
 
-pub async fn get_client_with_context(context: Option<String>) -> Client {
-    let kubeconfig = Kubeconfig::read().unwrap();
+pub async fn get_client_with_context(context: Option<String>) -> Result<Client, String> {
+    let kubeconfig = Kubeconfig::read();
+
+    let kubeconfig = match kubeconfig {
+        Ok(k) => k,
+        Err(e) => {
+            println!("get_client_with_context: Error reading kubeconfig: {}", e);
+            return Err(e.to_string());
+        }
+    };
 
     let client = match context {
         Some(c) => {
@@ -39,14 +51,27 @@ pub async fn get_client_with_context(context: Option<String>) -> Client {
                 user: None,
             };
 
-            let config = Config::from_custom_kubeconfig(kubeconfig, &options)
-                .await
-                .unwrap();
+            let config = Config::from_custom_kubeconfig(kubeconfig, &options).await;
 
-            Client::try_from(config).unwrap()
+            match config {
+                Ok(c) => Client::try_from(c),
+                Err(e) => {
+                    println!(
+                        "get_client_with_context: Error creating client from kubeconfig: {}",
+                        e
+                    );
+                    return Err(e.to_string());
+                }
+            }
         }
-        None => Client::try_default().await.unwrap(),
+        None => Client::try_default().await,
     };
 
-    return client;
+    return match client {
+        Ok(c) => Ok(c),
+        Err(e) => {
+            println!("get_client_with_context: Error creating client: {}", e);
+            return Err(e.to_string());
+        }
+    };
 }
