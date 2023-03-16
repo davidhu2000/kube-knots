@@ -9,7 +9,7 @@ Thank you for your interest in contributing to the project! There are many ways 
 - spread the word about the project
 - and many more!
 
-To name a few :)
+To name a few 😃.
 
 To get started, please refer to the [guide](/docs/contributing/local-development) on setting up your local development environment, which provides detailed instructions on how to contribute to the project.
 
