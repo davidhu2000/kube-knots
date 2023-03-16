@@ -104,10 +104,10 @@ export function Layout({ children }: PropsWithChildren) {
             className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200"
             onClick={() => setShowSetting(true)}
           />
-          <Suspense fallback={<div>Loading Settings</div>}>
+          <Suspense>
             <Settings isOpen={showSetting} handleClose={() => setShowSetting(false)} />
           </Suspense>
-          <Suspense fallback={<div>Loading Settings</div>}>
+          <Suspense>
             <ResourceCreateEditDrawer
               action="create"
               isOpen={showCreate}

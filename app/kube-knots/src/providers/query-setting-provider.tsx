@@ -29,9 +29,11 @@ const ReactQueryDevtoolsProduction = lazy(() =>
 export const useQuerySetting = () => useContext(QuerySettingContext);
 
 const storageKey = "query-refresh-interval";
+const showDevtoolKey = "query-show-devtools";
 
 export function QuerySettingProvider({ children }: PropsWithChildren) {
-  const [showDevtools, setShowDevtools] = useState(false);
+  const showDevtoolsLocal = localStorage.getItem(showDevtoolKey) === "true";
+  const [showDevtools, setShowDevtools] = useState(showDevtoolsLocal);
   const refetchInternalLocal = localStorage.getItem(storageKey) || "2";
   const [refetchInternal, setRefetchInternal] = useState(parseInt(refetchInternalLocal, 10));
   const queryClient = new QueryClient({
@@ -47,7 +49,11 @@ export function QuerySettingProvider({ children }: PropsWithChildren) {
     localStorage.setItem(storageKey, refreshInterval.toString());
   };
 
-  const toggleDevtools = () => setShowDevtools(!showDevtools);
+  const toggleDevtools = () => {
+    const newValue = !showDevtools;
+    localStorage.setItem(showDevtoolKey, newValue.toString());
+    setShowDevtools(newValue);
+  };
 
   return (
     <QuerySettingContext.Provider
