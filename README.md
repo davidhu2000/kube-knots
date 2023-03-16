@@ -6,15 +6,23 @@ Helping untangle the kubernetes web. Kube Knot is a desktop application built us
 
 ## What's in this repo?
 
-This repo is structured as a monorepo with two applications
+This repo is structured as a monorepo with two applications.
 
-- kube-knots - the main application code for both the UI and the backend to interact with the kubernetes cluster
-- docs - the documentation for the project
+```
+├── app
+│   ├── docs
+│   │   ├── blog      - blog posts, I may use this for release notes
+│   │   ├── docs      - documentation for the project in markdown
+│   │   ├── src       - the source code for the main pages outside of documentations
+│   └── kube-knots
+│       ├── src       - the source code for the UI
+│       ├── src-tauri - the source code for the backend
+```
 
 ## Development
 
-TODO
+See [development docs](https://www.davidhu.io/kube-knots/docs/contributing/local-development)
 
 ## Contributing
 
-TODO
+See [contributing docs](https://www.davidhu.io/kube-knots/docs/contributing/contributing)
