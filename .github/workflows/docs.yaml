@@ -27,8 +27,7 @@ jobs:
           node-version: 18
           cache: "yarn"
       - run: yarn install
-      - name: Build demo site
-        run: yarn run doc:build
+      - run: yarn run doc:build
 
       - name: Upload Pages Artifact
         if: ${{ github.event_name != 'pull_request' }}
