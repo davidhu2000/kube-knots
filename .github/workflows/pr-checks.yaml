@@ -4,8 +4,7 @@ on:
   pull_request:
 
 jobs:
-  title:
-    name: Validate PR title
+  title-format:
     runs-on: ubuntu-latest
     steps:
       - uses: hmarr/debug-action@v2
@@ -22,9 +21,11 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            github.rest.issues.addLabels({
+            const { title } = github.event.pull_request
+            const label = title.split(':')[0]
+            github.rest.issues.setLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ["triage"]
+              labels: [label]
             })
