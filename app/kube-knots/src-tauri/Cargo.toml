@@ -6,7 +6,7 @@ authors = ["David Hu"]
 license = ""
 repository = ""
 edition = "2021"
-rust-version = "1.66.1"
+rust-version = "1.68.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,9 +17,9 @@ tauri-build = { version = "1.2", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.2", features = ["api-all", "updater"] }
-kube = { version = "0.78.0", features = ["runtime", "derive"] }
+kube = { version = "0.80.0", features = ["runtime", "derive"] }
 k8s-openapi = { version = "0.17.0", features = ["v1_26"] }
-openssl = { version = "0.10.35", features = ["vendored"] }
+openssl = { version = "0.10.46", features = ["vendored"] }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 
 [features]
