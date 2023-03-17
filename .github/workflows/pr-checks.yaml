@@ -15,6 +15,7 @@ jobs:
         with:
           toolchain: 1.68.0
       - uses: actions-rs/cargo@v1
+        working-directory: ./app/kube-knots/src-tauri
         with:
           command: check
 
