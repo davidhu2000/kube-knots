@@ -48,8 +48,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          # - macos-latest
-          # - windows-latest
+          - macos-latest
+          - windows-latest
           - ubuntu-20.04
 
     runs-on: ${{ matrix.platform }}
