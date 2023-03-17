@@ -9,6 +9,8 @@ env:
   TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
   TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
 
+concurrency: app-release
+
 jobs:
   create-release:
     runs-on: ubuntu-20.04
