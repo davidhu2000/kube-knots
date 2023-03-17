@@ -10,7 +10,7 @@ changelog:
       labels:
         - chore
     - title: Docs 📝
-      label:
+      labels:
         - docs
     - title: Other Changes
       labels:
