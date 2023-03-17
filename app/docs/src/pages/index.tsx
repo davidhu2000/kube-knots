@@ -5,20 +5,6 @@ import appScreenshotUrl from "@site/static/img/app-screenshot.png";
 import Layout from "@theme/Layout";
 import React from "react";
 
-import { availablePlatforms } from "./downloads";
-
-function platformText() {
-  if (availablePlatforms.length === 1) {
-    return availablePlatforms[0];
-  }
-
-  if (availablePlatforms.length === 2) {
-    return availablePlatforms.join(" and ");
-  }
-
-  return availablePlatforms.slice(0, -1).join(", ") + ", and " + availablePlatforms.slice(-1);
-}
-
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -35,7 +21,7 @@ export default function Home(): JSX.Element {
           >
             Download
           </Link>
-          <div>Available on {platformText()}.</div>
+          <div>Available on macOs, Linux and Windows.</div>
         </div>
       </main>
     </Layout>
