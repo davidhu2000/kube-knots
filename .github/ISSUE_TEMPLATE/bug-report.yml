@@ -10,7 +10,7 @@ body:
     validations:
       required: true
   - type: input
-    id: version
+    id: kube-knots-version
     attributes:
       label: Kube Knot Version
       description: You can find this information in About Kube Knot menu
@@ -18,6 +18,7 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: operating-system
     attributes:
       label: Operating System
       description: What operating system are you using?
@@ -29,18 +30,11 @@ body:
     validations:
       required: true
   - type: input
+    id: operating-system-version
     attributes:
       label: Operating System Version
       description: What is the version operating system are you using?
       placeholder: 12.6.3
-    validations:
-      required: true
-  - type: input
-    id: version
-    attributes:
-      label: Kube Knot Version
-      description: You can find this information in About Kube Knot menu
-      placeholder: 0.0.27 (20230317.033921)
     validations:
       required: true
   - type: input
