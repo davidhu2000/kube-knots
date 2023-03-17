@@ -1,0 +1,30 @@
+name: pr-checks
+
+on:
+  pull_request:
+
+jobs:
+  title:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hmarr/debug-action@v2
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            chore
+          wip: true
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["triage"]
+            })
