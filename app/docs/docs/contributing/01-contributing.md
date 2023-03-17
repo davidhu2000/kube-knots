@@ -13,7 +13,7 @@ To name a few 😃.
 
 To get started, please refer to the [guide](/docs/contributing/local-development) on setting up your local development environment, which provides detailed instructions on how to contribute to the project.
 
-Please refer to the [Github docs](https://docs.github.com/en/get-started/quickstart/contributing-to-projects)>>) for more information on how to contribute to projects using the Github workflow.
+Please refer to the [Github docs](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) for more information on how to contribute to projects using the Github workflow.
 
 Please don't hesistate to reach out with any questions.
 
