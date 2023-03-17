@@ -11,8 +11,8 @@ const latestVersion = appPackageJson.version;
 
 // TODO: add linux and windows url which auto adds the download button
 const downloadUrls = {
-  macOS: `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_x64.dmg`,
-  linux: `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.AppImage`,
+  "macOS (.dmg)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_x64.dmg`,
+  "linux (.AppImage)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.AppImage`,
   "linux Ubuntu (.deb)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.deb`,
   "windows (.msi)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_x64_en-US.msi`,
 } as const;
@@ -51,12 +51,7 @@ export default function Downloads(): JSX.Element {
         </div>
 
         <div className="mt-12 text-center">
-          On MacOS, you will see the error "Kube Knots cannot be opened because the developer cannot
-          be verified" when opening the app for the first time. This is because the app is not
-          signed by Apple. To get around this, right click on the app and click "Open". You will see
-          a dialog box that says "Kube Knots" cannot be opened because the developer cannot be
-          verified. Click "Open" and the app will open.
-          <p className=""></p>
+          See <a href="docs/installation">installation instructions</a> for all platforms
         </div>
       </main>
     </Layout>
