@@ -1,0 +1,75 @@
+name: 🐛 Bug Report
+description: Report a reproducible bug
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please provide a brief description of the issue you are facing, including screenshots if needed.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Kube Knot Version
+      description: You can find this information in About Kube Knot menu
+      placeholder: 0.0.27 (20230317.033921)
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Operating System
+      description: What operating system are you using?
+      multiple: false
+      options:
+        - macOS
+        - Linux
+        - Windows
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Operating System Version
+      description: What is the version operating system are you using?
+      placeholder: 12.6.3
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Kube Knot Version
+      description: You can find this information in About Kube Knot menu
+      placeholder: 0.0.27 (20230317.033921)
+    validations:
+      required: true
+  - type: input
+    id: kubernetes-version
+    attributes:
+      label: Kubernetes Version
+      description: What version of kuberentes are you using?. You can run `kubectl version --short` to get the Server Version
+      placeholder: v1.25.6-gke.1000
+    validations:
+      required: true
+  - type: input
+    id: cluster-name
+    attributes:
+      label: Cluster provider
+      description: What cluster provider are you using? AWS, GCP, Azure, or Minikube?
+      placeholder: AWS EKS
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Provide a detailed list of steps that reproduce the issue. Include any kube configs as needed.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Provide any relevant logs from the application. More details on logs [here](https://www.davidhu.io/kube-knots/docs/features/settings#applcation-logging)
+    validations:
+      required: true

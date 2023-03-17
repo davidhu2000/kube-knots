@@ -1,0 +1,40 @@
+name: 😎 Feature Request
+description: New feature request. Let's make someting awesome!
+labels: ["feature"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please provide a brief description of the feature you would like to see added
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Cases
+      description: Please describe the use case for this feature. How would it be helpful or improve the user experience?
+    validations:
+      required: false
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Please provide any additional context that might help us understand the feature better. This could include screenshots, links to related resources, or user feedback
+    validations:
+      required: false
+  - type: checkboxes
+    id: implement
+    attributes:
+      label: Would you be interestined in implementing this feature yourself?
+      options:
+        - label: Yes, I am interested in implementing this feature.
+          required: false
+  - type: checkboxes
+    id: implement
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/davidhu2000/kube-knots/blob/main/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
