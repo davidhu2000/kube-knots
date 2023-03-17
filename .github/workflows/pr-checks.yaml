@@ -6,6 +6,8 @@ on:
 jobs:
   cargo-check:
     runs-on: ubuntu-latest
+    defaults:
+      working-directory: ./app/kube-knots/src-tauri
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
