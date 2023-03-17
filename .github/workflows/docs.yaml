@@ -3,9 +3,13 @@ name: docs
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      - "app/docs/**"
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: read
