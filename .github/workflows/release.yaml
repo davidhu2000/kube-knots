@@ -114,7 +114,3 @@ jobs:
           script: |
             const script = require('./.github/helpers/update-gist.js');
             script({ github, context, fetch, core });
-
-# TODO: workflow improvements: on success publish,
-# - trigger new docs build so download link updates
-
