@@ -37,9 +37,7 @@ module.exports = async ({ github, context }) => {
 
   console.log(`Release ${release.name} (${release.tag_name}) has ${assets.length} assets:`);
   assets.forEach((asset) => {
-    console.log(asset);
-    console.log(asset.name);
+    console.log(`>>> Processing: ${asset.name}`);
+    console.log(asset.browser_download_url);
   });
-
-  // asset.browser_download_url - URL to download the asset
 };
