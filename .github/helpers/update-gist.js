@@ -61,7 +61,7 @@ module.exports = async ({ github, context }) => {
       gistContent.platforms["darwin-aarch64"].url = asset.browser_download_url;
     }
     if (asset.name.endsWith(".app.tar.gz.sig")) {
-      const signature = getFileSignature(asset.browser_download_url);
+      const signature = await getFileSignature(asset.browser_download_url);
       gistContent.platforms["darwin-x86_64"].signature = "TODO";
       gistContent.platforms["darwin-aarch64"].signature = "TODO";
     }
