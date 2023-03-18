@@ -56,7 +56,7 @@ module.exports = async ({ github, context, fetch, core }) => {
     }
     if (asset.name.endsWith(".app.tar.gz.sig")) {
       const signature = await getFileSignature(fetch, asset.browser_download_url);
-      gistContent.platforms["darwin-x86_64"].signature = signature;
+      github.gistContent.platforms["darwin-x86_64"].signature = signature;
       gistContent.platforms["darwin-aarch64"].signature = signature;
     }
 
@@ -93,19 +93,35 @@ module.exports = async ({ github, context, fetch, core }) => {
   //   },
   // });
 
-  await fetch({
-    method: "PATCH",
-    url: `https://api.github.com/gists/${process.env.gistId}`,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `token ${process.env.gistToken}`,
-    },
-    body: JSON.stringify({
+  // await github.request(diff_url);
+
+  await github.request("PATCH /gists/{gist_id}", {
+    gist_id: process.env.gistId,
+    auth: process.env.gistToken,
+    // description: "An updated gist description",
+    files: {
       files: {
         "update.json": gistContent,
       },
-    }),
+    },
+    // headers: {
+    //   "X-GitHub-Api-Version": "2022-11-28",
+    // },
   });
+
+  // await fetch({
+  //   method: "PATCH",
+  //   url: `https://api.github.com/gists/${process.env.gistId}`,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `token ${process.env.gistToken}`,
+  //   },
+  //   body: JSON.stringify({
+  //     files: {
+  //       "update.json": gistContent,
+  //     },
+  //   }),
+  // });
 
   // curl -L \
   // -X PATCH \
