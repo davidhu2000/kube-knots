@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "cargo"
-    directory: "/"
+    directory: "/app/kube-knots/src-tauri"
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
