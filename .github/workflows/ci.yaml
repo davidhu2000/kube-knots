@@ -55,7 +55,19 @@ jobs:
   update-gist:
     runs-on: ubuntu-20.04
     permissions:
-      gist: write
+      actions: write
+      checks: write
+      contents: write
+      deployments: write
+      id-token: write
+      issues: write
+      discussions: write
+      packages: write
+      pages: write
+      pull-requests: write
+      repository-projects: write
+      security-events: write
+      statuses: write
     # needs: [create-release, publish-release]
 
     steps:
