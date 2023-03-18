@@ -1,4 +1,4 @@
-# Actions on Resources & Nodes
+# Actions on resources & nodes
 
 ## Resource Actions
 

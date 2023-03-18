@@ -1,4 +1,4 @@
-# Resource Creation Templates
+# Resource creation templates
 
 Resource creation form supplies a list of example templates for the selected resource type. You can use these templates to create a new resource.
 

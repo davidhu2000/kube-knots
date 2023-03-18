@@ -1,4 +1,4 @@
-# Cluster Overview
+# Cluster overview
 
 See overview of high level metrics on your cluster, such as number of pods, node cpu/memory usage, and more.
 
