@@ -1,3 +1,5 @@
+const { Octokit } = require("@octokit/action");
+
 let gistContent = {
   version: "",
   notes: "",
@@ -82,6 +84,17 @@ module.exports = async ({ github, context, fetch }) => {
 
     console.log(`*** Done: ${asset.name}`);
   }
+
+  const octokit = new Octokit({
+    auth: process.env.gistToken,
+  });
+
+  const response = await octokit.gists.update({
+    gist_id: process.env.gistId,
+    files: {
+      "update.json": gistContent,
+    },
+  });
 
   console.log(gistContent);
   github.rest.gists.update({
