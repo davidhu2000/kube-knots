@@ -82,32 +82,7 @@ module.exports = async ({ github, context, fetch, core }) => {
     console.log(`*** Done: ${asset.name}`);
   }
 
-  // const octokit = new Octokit({
-  //   auth: process.env.gistToken,
-  // });
-
-  // const response = await octokit.gists.update({
-  //   gist_id: process.env.gistId,
-  //   files: {
-  //     "update.json": gistContent,
-  //   },
-  // });
-
-  // await github.request(diff_url);
-
-  // await github.request("PATCH /gists/{gist_id}", {
-  //   gist_id: process.env.gistId,
-  //   auth: process.env.gistToken,
-  //   // description: "An updated gist description",
-  //   files: {
-  //     files: {
-  //       "update.json": gistContent,
-  //     },
-  //   },
-  //   headers: {
-  //     Authorization: `token ${process.env.gistToken}`,
-  //   },
-  // });
+  console.log(gistContent);
 
   const response = await fetch(`https://api.github.com/gists/${process.env.gistId}`, {
     method: "PATCH",
@@ -124,23 +99,10 @@ module.exports = async ({ github, context, fetch, core }) => {
     }),
   });
 
-  const data = await response.json();
-
-  console.log(data);
-
-  // curl -L \
-  // -X PATCH \
-  // -H "Accept: application/vnd.github+json" \
-  // -H "Authorization: Bearer <YOUR-TOKEN>"\
-  // -H "X-GitHub-Api-Version: 2022-11-28" \
-  // https://api.github.com/gists/GIST_ID \
-  // -d '{"description":"An updated gist description","files":{"README.md":{"content":"Hello World from GitHub"}}}'
-
-  // console.log(gistContent);
-  // github.rest.gists.update({
-  //   gist_id: process.env.gistId,
-  //   files: {
-  //     "update.json": gistContent,
-  //   },
-  // });
+  if (response.ok) {
+    console.log("Gist updated successfully");
+  } else {
+    console.log("Gist update failed");
+    core.setFailed("Gist update failed");
+  }
 };
