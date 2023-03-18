@@ -109,9 +109,8 @@ module.exports = async ({ github, context, fetch, core }) => {
   //   },
   // });
 
-  await fetch({
+  await fetch(`https://api.github.com/gists/${process.env.gistId}`, {
     method: "PATCH",
-    url: `https://api.github.com/gists/${process.env.gistId}`,
     headers: {
       "Content-Type": "application/json",
       Authorization: `token ${process.env.gistToken}`,
