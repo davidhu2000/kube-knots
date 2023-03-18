@@ -31,7 +31,7 @@ async function getFileSignature(downloadUrl) {
   // console.log(`Asset downloaded to ${downloadPath}`);
 }
 
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, fetch }) => {
   console.log(process.env.releaseId);
   // console.log(Object.keys(github.rest.repos));
 
