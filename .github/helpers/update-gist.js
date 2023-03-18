@@ -43,7 +43,21 @@ function parseReleaseNotes(releaseNotesRaw) {
     }
   }
 
-  return [`Features: ${features.join(", ")}`, `Bugfixes: ${bugfixes.join(", ")}`];
+  const notes = [];
+
+  if (features.length > 0) {
+    notes.push(`Features: ${features.join(", ")}`);
+  }
+
+  if (bugfixes.length > 0) {
+    notes.push(`Bugfixes: ${bugfixes.join(", ")}`);
+  }
+
+  if (notes.length === 0) {
+    notes.push("No notable changes");
+  }
+
+  return notes.join(". ");
 }
 
 module.exports = async ({ github, context, fetch, core }) => {
