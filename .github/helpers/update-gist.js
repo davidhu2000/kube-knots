@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 let gistContent = {
   version: "",
   notes: "",
