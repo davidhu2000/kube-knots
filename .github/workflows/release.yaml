@@ -97,4 +97,6 @@ jobs:
               prerelease: false
             })
 
-# TODO: update gist content?
+# TODO: workflow improvements: on success publish,
+# - trigger new docs build so download link updates
+# - update gist content with new version and new signature.

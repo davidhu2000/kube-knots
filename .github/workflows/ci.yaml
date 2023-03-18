@@ -51,3 +51,29 @@ jobs:
               repo: context.repo.repo,
               labels: [label]
             })
+
+  update-gist:
+    runs-on: ubuntu-20.04
+    # needs: [create-release, publish-release]
+
+    steps:
+      - name: update gist
+        id: publish-release
+        uses: actions/github-script@v6
+        env:
+          releaseId: 96084714 # ${{ needs.create-release.outputs.release-id }}
+        with:
+          script: |
+            console.log(Object.keys(github.rest))
+            const { data: release } = await github.repos.getRelease({ 
+              release_id: process.env.releaseId, 
+              owner: context.repo.owner, 
+              repo: context.repo.repo,
+            });
+            const { data: assets } = await github.repos.listReleaseAssets({ 
+              release_id: process.env.releaseId, 
+              owner: context.repo.owner, 
+              repo: context.repo.repo,
+            });
+            console.log(`Release ${release.name} (${release.tag_name}) has ${assets.length} assets:`);
+            assets.forEach(asset => console.log(asset.name));
