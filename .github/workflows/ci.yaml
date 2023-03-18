@@ -61,6 +61,8 @@ jobs:
       - name: update gist
         id: publish-release
         uses: actions/github-script@v6
+        permissions:
+          gist: write
         env:
           releaseId: 96084714 # ${{ needs.create-release.outputs.release-id }}
           gistId: b7804a3afa732f578ea0c6b73b9a74f0
