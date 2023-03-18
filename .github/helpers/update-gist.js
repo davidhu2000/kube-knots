@@ -109,7 +109,7 @@ module.exports = async ({ github, context, fetch, core }) => {
   //   },
   // });
 
-  await fetch(`https://api.github.com/gists/${process.env.gistId}`, {
+  const response = await fetch(`https://api.github.com/gists/${process.env.gistId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -121,6 +121,10 @@ module.exports = async ({ github, context, fetch, core }) => {
       },
     }),
   });
+
+  const data = await response.json();
+
+  console.log(data);
 
   // curl -L \
   // -X PATCH \
