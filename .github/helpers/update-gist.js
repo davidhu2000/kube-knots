@@ -104,9 +104,9 @@ module.exports = async ({ github, context, fetch, core }) => {
         "update.json": gistContent,
       },
     },
-    // headers: {
-    //   "X-GitHub-Api-Version": "2022-11-28",
-    // },
+    headers: {
+      Authorization: `token ${process.env.gistToken}`,
+    },
   });
 
   // await fetch({
