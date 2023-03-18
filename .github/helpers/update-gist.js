@@ -27,6 +27,22 @@ async function getFileSignature(fetch, downloadUrl) {
   return await response.text();
 }
 
+function parseReleaseNotes(releaseNotesRaw) {
+  const lines = releaseNotesRaw.split("\n");
+
+  const features = [];
+  const bugfixes = [];
+
+  for (const line of lines) {
+    if (line.startsWith("### New features")) {
+      features.push(line);
+    }
+    if (line.startsWith("### Bug Fixes")) {
+      bugfixes.push(line);
+    }
+  }
+}
+
 module.exports = async ({ github, context, fetch, core }) => {
   console.log(process.env.releaseId);
 
@@ -40,8 +56,7 @@ module.exports = async ({ github, context, fetch, core }) => {
   const { data: assets } = await github.rest.repos.listReleaseAssets(params);
 
   gistContent.version = release.tag_name;
-  // TODO: parse release notes and format it for toast
-  gistContent.notes = release.body;
+  gistContent.notes = "<h2>0.0.31</h2><p>test</p>"; // parseReleaseNotes(release.body);
   gistContent.pub_date = release.published_at;
 
   console.log(`Release ${release.name} (${release.tag_name}) has ${assets.length} assets:`);
