@@ -35,10 +35,10 @@ function parseReleaseNotes(releaseNotesRaw) {
 
   for (const line of lines) {
     const message = line.split("by @")[0];
-    if (line.startsWith("feat")) {
+    if (line.startsWith("* feat")) {
       features.push(message);
     }
-    if (line.startsWith("fix")) {
+    if (line.startsWith("* fix")) {
       bugfixes.push(message);
     }
   }
