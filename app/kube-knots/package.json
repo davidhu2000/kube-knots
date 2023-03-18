@@ -1,7 +1,7 @@
 {
   "name": "kube-knots",
   "private": true,
-  "version": "0.0.32",
+  "version": "0.0.33",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
