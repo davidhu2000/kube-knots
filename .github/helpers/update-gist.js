@@ -116,12 +116,12 @@ module.exports = async ({ github, context, fetch, core }) => {
       Authorization: `token ${process.env.gistToken}`,
       "X-GitHub-Api-Version": "2022-11-28",
     },
-    body: {
+    body: JSON.stringify({
       files: {
         "update.json": { content: JSON.stringify(gistContent) },
       },
       description: "kube knots updater",
-    },
+    }),
   });
 
   const data = await response.json();
