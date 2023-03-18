@@ -24,7 +24,7 @@ let gistContent = {
 
 async function getFileSignature(fetch, downloadUrl) {
   const response = await fetch(downloadUrl);
-  const buffer = await response.buffer();
+  const buffer = await response.text();
 
   console.log(buffer);
 
