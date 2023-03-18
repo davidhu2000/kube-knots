@@ -34,7 +34,7 @@ function parseReleaseNotes(releaseNotesRaw) {
   const bugfixes = [];
 
   for (const line of lines) {
-    const message = line.split("by @")[0];
+    const message = line.replace(/by @.+/, "").replace(/\* \w+:/, "");
     if (line.startsWith("* feat")) {
       features.push(message);
     }
