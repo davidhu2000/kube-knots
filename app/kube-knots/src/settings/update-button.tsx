@@ -55,7 +55,7 @@ export function UpdateButton() {
   return (
     <Transition
       as={Fragment}
-      show={!updateAvailableQuery.isLoading}
+      show={!!updateAvailableQuery.data?.shouldUpdate}
       enter="transform transition duration-[400ms]"
       enterFrom="opacity-0 scale-50"
       enterTo="opacity-100 scale-100"
