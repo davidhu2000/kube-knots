@@ -43,9 +43,8 @@ module.exports = async ({ github, context }) => {
 
   assets.forEach((asset) => {
     console.log(`>>> Processing: ${asset.name}`);
-    console.log(asset.browser_download_url);
 
-    // macos x86_64 and aarch64
+    // macos x86_64 and aarch64, maybe split between two archs in the future
     if (asset.name.endsWith(".app.tar.gz")) {
       gistContent.platforms["darwin-x86_64"].url = asset.browser_download_url;
       gistContent.platforms["darwin-aarch64"].url = asset.browser_download_url;
@@ -71,6 +70,8 @@ module.exports = async ({ github, context }) => {
     if (asset.name.endsWith(".msi.zip.sig")) {
       gistContent.platforms["windows-x86_64"].signature = "TODO";
     }
+
+    console.log(`*** Done: ${asset.name}`);
   });
 
   console.log(gistContent);
