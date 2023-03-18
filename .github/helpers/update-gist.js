@@ -24,17 +24,7 @@ let gistContent = {
 
 async function getFileSignature(fetch, downloadUrl) {
   const response = await fetch(downloadUrl);
-  const buffer = await response.text();
-
-  console.log(buffer);
-
-  // const data = await response.json();
-
-  // console.log(data);
-  // const buffer = await response.buffer();
-  // const downloadPath = `${downloadDir}/${assetName}`;
-  // fs.writeFileSync(downloadPath, buffer);
-  // console.log(`Asset downloaded to ${downloadPath}`);
+  return await response.text();
 }
 
 module.exports = async ({ github, context, fetch }) => {
@@ -66,8 +56,8 @@ module.exports = async ({ github, context, fetch }) => {
     }
     if (asset.name.endsWith(".app.tar.gz.sig")) {
       const signature = await getFileSignature(fetch, asset.browser_download_url);
-      gistContent.platforms["darwin-x86_64"].signature = "TODO";
-      gistContent.platforms["darwin-aarch64"].signature = "TODO";
+      gistContent.platforms["darwin-x86_64"].signature = signature;
+      gistContent.platforms["darwin-aarch64"].signature = signature;
     }
 
     // linux x86_64
@@ -76,7 +66,8 @@ module.exports = async ({ github, context, fetch }) => {
     }
 
     if (asset.name.endsWith(".AppImage.tar.gz.sig")) {
-      gistContent.platforms["linux-x86_64"].signature = "TODO";
+      const signature = await getFileSignature(fetch, asset.browser_download_url);
+      gistContent.platforms["linux-x86_64"].signature = signature;
     }
 
     // windows x86_64
@@ -84,7 +75,8 @@ module.exports = async ({ github, context, fetch }) => {
       gistContent.platforms["windows-x86_64"].url = asset.browser_download_url;
     }
     if (asset.name.endsWith(".msi.zip.sig")) {
-      gistContent.platforms["windows-x86_64"].signature = "TODO";
+      const signature = await getFileSignature(fetch, asset.browser_download_url);
+      gistContent.platforms["windows-x86_64"].signature = signature;
     }
 
     console.log(`*** Done: ${asset.name}`);
