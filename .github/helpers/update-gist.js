@@ -56,7 +56,7 @@ module.exports = async ({ github, context, fetch, core }) => {
     }
     if (asset.name.endsWith(".app.tar.gz.sig")) {
       const signature = await getFileSignature(fetch, asset.browser_download_url);
-      github.gistContent.platforms["darwin-x86_64"].signature = signature;
+      gistContent.platforms["darwin-x86_64"].signature = signature;
       gistContent.platforms["darwin-aarch64"].signature = signature;
     }
 
