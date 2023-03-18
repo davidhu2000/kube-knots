@@ -57,6 +57,7 @@ jobs:
     # needs: [create-release, publish-release]
 
     steps:
+      - uses: actions/checkout@v3
       - name: update gist
         id: publish-release
         uses: actions/github-script@v6
