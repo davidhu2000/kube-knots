@@ -4,17 +4,27 @@ on:
   pull_request:
 
 jobs:
-  # TODO: fix this workflow, need to install a bunch of dependencies
-  # cargo-check:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions-rs/toolchain@v1
-  #       with:
-  #         toolchain: 1.68.0
-  #     - run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
-  #     - run: cargo check
-  #       working-directory: ./app/kube-knots/src-tauri
+  cargo-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.68.0
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt install libwebkit2gtk-4.0-dev \
+            build-essential \
+            curl \
+            wget \
+            libssl-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev
+      - run: mkdir ./app/kube-knots/dist
+      - run: cargo check
+        working-directory: ./app/kube-knots/src-tauri
 
   title-format:
     runs-on: ubuntu-latest
