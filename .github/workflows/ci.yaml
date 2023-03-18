@@ -4,68 +4,50 @@ on:
   pull_request:
 
 jobs:
-  # cargo-check:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions-rs/toolchain@v1
-  #       with:
-  #         toolchain: 1.68.0
-  #     - name: install dependencies
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt install libwebkit2gtk-4.0-dev \
-  #           build-essential \
-  #           curl \
-  #           wget \
-  #           libssl-dev \
-  #           libgtk-3-dev \
-  #           libayatana-appindicator3-dev \
-  #           librsvg2-dev
-  #     - run: mkdir ./app/kube-knots/dist
-  #     - run: cargo check
-  #       working-directory: ./app/kube-knots/src-tauri
-
-  # title-format:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: hmarr/debug-action@v2
-  #     - uses: amannn/action-semantic-pull-request@v5
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         types: |
-  #           feat
-  #           fix
-  #           docs
-  #           chore
-  #         wip: true
-  #     - uses: actions/github-script@v6
-  #       with:
-  #         script: |
-  #           const { title } = context.payload.pull_request;
-  #           const label = title.split(':')[0]
-  #           github.rest.issues.setLabels({
-  #             issue_number: context.issue.number,
-  #             owner: context.repo.owner,
-  #             repo: context.repo.repo,
-  #             labels: [label]
-  #           })
-
-  update-gist:
-    runs-on: ubuntu-20.04
-    # needs: [create-release, publish-release]
-
+  cargo-check:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: update gist
-        id: publish-release
-        uses: actions/github-script@v6
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.68.0
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt install libwebkit2gtk-4.0-dev \
+            build-essential \
+            curl \
+            wget \
+            libssl-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev
+      - run: mkdir ./app/kube-knots/dist
+      - run: cargo check
+        working-directory: ./app/kube-knots/src-tauri
+
+  title-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hmarr/debug-action@v2
+      - uses: amannn/action-semantic-pull-request@v5
         env:
-          releaseId: 96084714 # ${{ needs.create-release.outputs.release-id }}
-          gistId: b7804a3afa732f578ea0c6b73b9a74f0
-          gistToken: ${{ secrets.GIST_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            chore
+          wip: true
+      - uses: actions/github-script@v6
         with:
           script: |
-            const script = require('./.github/helpers/update-gist.js');
-            script({ github, context, fetch, core });
+            const { title } = context.payload.pull_request;
+            const label = title.split(':')[0]
+            github.rest.issues.setLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [label]
+            })
