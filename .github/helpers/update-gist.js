@@ -23,7 +23,9 @@ let gistContent = {
 };
 
 async function getFileSignature(fetch, downloadUrl) {
-  const response = await fetch(downloadUrl);
+  const response = await fetch(downloadUrl, {
+    headers: { "Content-Type": "application/json" },
+  });
 
   const data = await response.json();
 
