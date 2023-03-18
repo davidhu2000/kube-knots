@@ -95,33 +95,33 @@ module.exports = async ({ github, context, fetch, core }) => {
 
   // await github.request(diff_url);
 
-  await github.request("PATCH /gists/{gist_id}", {
-    gist_id: process.env.gistId,
-    auth: process.env.gistToken,
-    // description: "An updated gist description",
-    files: {
-      files: {
-        "update.json": gistContent,
-      },
-    },
-    headers: {
-      Authorization: `token ${process.env.gistToken}`,
-    },
-  });
-
-  // await fetch({
-  //   method: "PATCH",
-  //   url: `https://api.github.com/gists/${process.env.gistId}`,
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: `token ${process.env.gistToken}`,
-  //   },
-  //   body: JSON.stringify({
+  // await github.request("PATCH /gists/{gist_id}", {
+  //   gist_id: process.env.gistId,
+  //   auth: process.env.gistToken,
+  //   // description: "An updated gist description",
+  //   files: {
   //     files: {
   //       "update.json": gistContent,
   //     },
-  //   }),
+  //   },
+  //   headers: {
+  //     Authorization: `token ${process.env.gistToken}`,
+  //   },
   // });
+
+  await fetch({
+    method: "PATCH",
+    url: `https://api.github.com/gists/${process.env.gistId}`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `token ${process.env.gistToken}`,
+    },
+    body: JSON.stringify({
+      files: {
+        "update.json": gistContent,
+      },
+    }),
+  });
 
   // curl -L \
   // -X PATCH \
