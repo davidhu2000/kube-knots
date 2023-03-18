@@ -1,4 +1,4 @@
-# View Pod Logs
+# View pod logs
 
 View live logs from your pod, with the ability to view logs by container.
 

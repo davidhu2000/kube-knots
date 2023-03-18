@@ -1,4 +1,4 @@
-# Notification System
+# Notification system
 
 You'll see notifications in the top right corner of the screen to provide feedback about the status of your actions.
 
