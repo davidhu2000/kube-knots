@@ -66,4 +66,4 @@ jobs:
         with:
           script: |
             const script = require('./.github/helpers/update-gist.js');
-            script({ github });
+            script({ github, context });

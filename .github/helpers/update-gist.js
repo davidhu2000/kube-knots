@@ -1,4 +1,4 @@
-module.exports = async ({ github }) => {
+module.exports = async ({ github, context }) => {
   console.log(process.env.releaseId);
   console.log(Object.keys(github.rest.repos));
   const { data: release } = await github.rest.repos.getRelease({
