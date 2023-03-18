@@ -52,7 +52,7 @@ module.exports = async ({ github, context }) => {
 
   console.log(`Release ${release.name} (${release.tag_name}) has ${assets.length} assets:`);
 
-  assets.forEach(async (asset) => {
+  for (const asset of assets) {
     console.log(`>>> Processing: ${asset.name}`);
 
     // macos x86_64 and aarch64, maybe split between two archs in the future
@@ -84,7 +84,7 @@ module.exports = async ({ github, context }) => {
     }
 
     console.log(`*** Done: ${asset.name}`);
-  });
+  }
 
   console.log(gistContent);
 };
