@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+const fetch = require("node-fetch");
 
 let gistContent = {
   version: "",
@@ -52,7 +52,7 @@ module.exports = async ({ github, context }) => {
 
   console.log(`Release ${release.name} (${release.tag_name}) has ${assets.length} assets:`);
 
-  assets.forEach((asset) => {
+  assets.forEach(async (asset) => {
     console.log(`>>> Processing: ${asset.name}`);
 
     // macos x86_64 and aarch64, maybe split between two archs in the future
