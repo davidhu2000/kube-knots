@@ -21,7 +21,13 @@ export function UpdateButton() {
     },
     onSuccess: (data) => {
       toast.success(
-        <div>App updated to version {data?.version}. Please restart to apply changes.</div>
+        <div>
+          <p className="font-bold">App updated to version {data?.version}.</p>
+          <p>Please restart to apply changes.</p>
+          <br />
+          <p>Release Notes:</p>
+          <p>{data?.body}</p>
+        </div>
       );
     },
     onError: (error) => {
