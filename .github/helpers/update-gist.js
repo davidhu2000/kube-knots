@@ -93,13 +93,33 @@ module.exports = async ({ github, context, fetch, core }) => {
   //   },
   // });
 
-  console.log(Object.keys(github.auth));
-
-  console.log(gistContent);
-  github.rest.gists.update({
-    gist_id: process.env.gistId,
-    files: {
-      "update.json": gistContent,
+  await fetch({
+    method: "PATCH",
+    url: `https://api.github.com/gists/${process.env.gistId}`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `token ${process.env.gistToken}`,
     },
+    body: JSON.stringify({
+      files: {
+        "update.json": gistContent,
+      },
+    }),
   });
+
+  // curl -L \
+  // -X PATCH \
+  // -H "Accept: application/vnd.github+json" \
+  // -H "Authorization: Bearer <YOUR-TOKEN>"\
+  // -H "X-GitHub-Api-Version: 2022-11-28" \
+  // https://api.github.com/gists/GIST_ID \
+  // -d '{"description":"An updated gist description","files":{"README.md":{"content":"Hello World from GitHub"}}}'
+
+  // console.log(gistContent);
+  // github.rest.gists.update({
+  //   gist_id: process.env.gistId,
+  //   files: {
+  //     "update.json": gistContent,
+  //   },
+  // });
 };
