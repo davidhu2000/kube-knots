@@ -23,13 +23,14 @@ let gistContent = {
 };
 
 async function getFileSignature(fetch, downloadUrl) {
-  const response = await fetch(downloadUrl, {
-    headers: { "Content-Type": "application/json" },
-  });
+  const response = await fetch(downloadUrl);
+  const buffer = await response.buffer();
 
-  const data = await response.json();
+  console.log(buffer);
 
-  console.log(data);
+  // const data = await response.json();
+
+  // console.log(data);
   // const buffer = await response.buffer();
   // const downloadPath = `${downloadDir}/${assetName}`;
   // fs.writeFileSync(downloadPath, buffer);
