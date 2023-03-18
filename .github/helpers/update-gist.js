@@ -22,7 +22,7 @@ let gistContent = {
   },
 };
 
-async function getFileSignature(downloadUrl) {
+async function getFileSignature(fetch, downloadUrl) {
   const response = await fetch(downloadUrl);
   console.log(response);
   // const buffer = await response.buffer();
@@ -59,7 +59,7 @@ module.exports = async ({ github, context, fetch }) => {
       gistContent.platforms["darwin-aarch64"].url = asset.browser_download_url;
     }
     if (asset.name.endsWith(".app.tar.gz.sig")) {
-      const signature = await getFileSignature(asset.browser_download_url);
+      const signature = await getFileSignature(fetch, asset.browser_download_url);
       gistContent.platforms["darwin-x86_64"].signature = "TODO";
       gistContent.platforms["darwin-aarch64"].signature = "TODO";
     }
