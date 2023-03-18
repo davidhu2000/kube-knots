@@ -17,6 +17,7 @@ import {
   networkingRoutes,
   workloadsRoutes,
 } from "./router";
+import { UpdateButton } from "./settings/update-button";
 
 const Settings = lazy(() =>
   import("./settings/settings").then((module) => ({ default: module.Settings }))
@@ -100,10 +101,13 @@ export function Layout({ children }: PropsWithChildren) {
           <button onClick={() => setShowContextSwitcher(true)}>
             <Context />
           </button>
-          <Cog8ToothIcon
-            className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200"
-            onClick={() => setShowSetting(true)}
-          />
+          <div className="flex items-center gap-2">
+            <UpdateButton />
+            <Cog8ToothIcon
+              className="h-6 w-6 cursor-pointer fill-gray-600 hover:fill-gray-800 dark:fill-gray-400 dark:hover:fill-gray-200"
+              onClick={() => setShowSetting(true)}
+            />
+          </div>
           <Suspense>
             <Settings isOpen={showSetting} handleClose={() => setShowSetting(false)} />
           </Suspense>
