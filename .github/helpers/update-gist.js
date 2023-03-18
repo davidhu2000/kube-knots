@@ -1,3 +1,6 @@
+const fetch = require("node-fetch");
+const fs = require("fs");
+
 let gistContent = {
   version: "",
   notes: "",
@@ -21,6 +24,15 @@ let gistContent = {
     },
   },
 };
+
+async function getFileSignature(downloadUrl) {
+  const response = await fetch(downloadUrl);
+  console.log(response);
+  // const buffer = await response.buffer();
+  // const downloadPath = `${downloadDir}/${assetName}`;
+  // fs.writeFileSync(downloadPath, buffer);
+  // console.log(`Asset downloaded to ${downloadPath}`);
+}
 
 module.exports = async ({ github, context }) => {
   console.log(process.env.releaseId);
@@ -50,6 +62,7 @@ module.exports = async ({ github, context }) => {
       gistContent.platforms["darwin-aarch64"].url = asset.browser_download_url;
     }
     if (asset.name.endsWith(".app.tar.gz.sig")) {
+      const signature = getFileSignature(asset.browser_download_url);
       gistContent.platforms["darwin-x86_64"].signature = "TODO";
       gistContent.platforms["darwin-aarch64"].signature = "TODO";
     }
