@@ -34,13 +34,16 @@ function parseReleaseNotes(releaseNotesRaw) {
   const bugfixes = [];
 
   for (const line of lines) {
-    if (line.startsWith("### New features")) {
-      features.push(line);
+    const message = line.split("by @")[0];
+    if (line.startsWith("feat")) {
+      features.push(message);
     }
-    if (line.startsWith("### Bug Fixes")) {
-      bugfixes.push(line);
+    if (line.startsWith("fix")) {
+      bugfixes.push(message);
     }
   }
+
+  return [`Features: ${features.join(", ")}`, `Bugfixes: ${bugfixes.join(", ")}`];
 }
 
 module.exports = async ({ github, context, fetch, core }) => {
@@ -56,7 +59,7 @@ module.exports = async ({ github, context, fetch, core }) => {
   const { data: assets } = await github.rest.repos.listReleaseAssets(params);
 
   gistContent.version = release.tag_name;
-  gistContent.notes = "<h2>0.0.31</h2><p>test</p>"; // parseReleaseNotes(release.body);
+  gistContent.notes = parseReleaseNotes(release.body);
   gistContent.pub_date = release.published_at;
 
   console.log(`Release ${release.name} (${release.tag_name}) has ${assets.length} assets:`);
