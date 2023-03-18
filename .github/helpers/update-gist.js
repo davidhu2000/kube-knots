@@ -29,8 +29,6 @@ async function getFileSignature(fetch, downloadUrl) {
 
 module.exports = async ({ github, context, fetch, core }) => {
   console.log(process.env.releaseId);
-  console.log(Object.keys(github));
-  console.log(Object.keys(github.rest));
 
   const params = {
     release_id: process.env.releaseId,
@@ -94,6 +92,8 @@ module.exports = async ({ github, context, fetch, core }) => {
   //     "update.json": gistContent,
   //   },
   // });
+
+  console.log(Object.keys(github.auth));
 
   console.log(gistContent);
   github.rest.gists.update({
