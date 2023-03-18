@@ -1,6 +1,8 @@
+import { Transition } from "@headlessui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { relaunch } from "@tauri-apps/api/process";
 import { checkUpdate, installUpdate } from "@tauri-apps/api/updater";
+import { Fragment } from "react";
 import { toast } from "react-toastify";
 
 async function update() {
@@ -44,10 +46,6 @@ export function UpdateButton() {
     },
   });
 
-  if (updateAvailableQuery.isLoading) {
-    return null;
-  }
-
   const buttonText = updateMutation.isLoading
     ? "Updating..."
     : updateMutation.isSuccess
@@ -55,18 +53,26 @@ export function UpdateButton() {
     : "Update Available";
 
   return (
-    <button
-      onClick={() => {
-        if (updateMutation.isSuccess) {
-          restartMutation.mutate();
-        } else {
-          updateMutation.mutate();
-        }
-      }}
-      disabled={updateMutation.isLoading}
-      className="rounded-lg border-2 border-green-600/75 p-2 text-green-600/75 transition duration-200 hover:border-green-600 hover:text-green-600 dark:border-green-500/75 dark:text-green-500/75 dark:hover:border-green-500 dark:hover:text-green-500"
+    <Transition
+      as={Fragment}
+      show={!updateAvailableQuery.isLoading}
+      enter="transform transition duration-[400ms]"
+      enterFrom="opacity-0 scale-50"
+      enterTo="opacity-100 scale-100"
     >
-      {buttonText}
-    </button>
+      <button
+        onClick={() => {
+          if (updateMutation.isSuccess) {
+            restartMutation.mutate();
+          } else {
+            updateMutation.mutate();
+          }
+        }}
+        disabled={updateMutation.isLoading}
+        className="rounded-lg border-2 border-green-600/75 p-2 text-green-600/75 transition duration-200 hover:border-green-600 hover:text-green-600 dark:border-green-500/75 dark:text-green-500/75 dark:hover:border-green-500 dark:hover:text-green-500"
+      >
+        {buttonText}
+      </button>
+    </Transition>
   );
 }
