@@ -1,7 +1,12 @@
 version: 2
 updates:
   - package-ecosystem: "cargo"
-    directory: "/"
+    directory: "/app/kube-knots/src-tauri"
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
