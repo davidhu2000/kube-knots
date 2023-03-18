@@ -114,11 +114,13 @@ module.exports = async ({ github, context, fetch, core }) => {
     headers: {
       "Content-Type": "application/json",
       Authorization: `token ${process.env.gistToken}`,
+      "X-GitHub-Api-Version": "2022-11-28",
     },
     body: JSON.stringify({
       files: {
-        "update.json": gistContent,
+        "update.json": { content: gistContent },
       },
+      description: "kube knots updater",
     }),
   });
 
