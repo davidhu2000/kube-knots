@@ -41,6 +41,7 @@ module.exports = async ({ github, context, fetch }) => {
   const { data: assets } = await github.rest.repos.listReleaseAssets(params);
 
   gistContent.version = release.tag_name;
+  // TODO: parse release notes and format it for toast
   gistContent.notes = release.body;
   gistContent.pub_date = release.published_at;
 
@@ -83,4 +84,10 @@ module.exports = async ({ github, context, fetch }) => {
   }
 
   console.log(gistContent);
+  github.rest.gists.update({
+    gist_id: process.env.gistId,
+    files: {
+      "update.json": gistContent,
+    },
+  });
 };
