@@ -2,6 +2,8 @@
 
 Helping untangle the kubernetes web. Kube Knot is a desktop application built using rust to help you manage your kubernetes cluster.
 
+[Download here](https://www.davidhu.io/kube-knots/downloads)
+
 ![Kube Knots](./app/docs/static/img/app-screenshot.png)
 
 ## What's in this repo?
