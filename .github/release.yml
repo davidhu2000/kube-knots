@@ -1,4 +1,7 @@
 changelog:
+  exclude:
+    labels:
+      - docs
   categories:
     - title: New Features 🎉
       labels:
@@ -9,9 +12,6 @@ changelog:
     - title: Chores 🛠
       labels:
         - chore
-    - title: Docs 📝
-      labels:
-        - docs
     - title: Other Changes
       labels:
         - "*"
