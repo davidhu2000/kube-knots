@@ -78,6 +78,7 @@ fn main() {
             // jobs
             workloads::jobs::create_job,
             workloads::jobs::delete_job,
+            workloads::jobs::get_job_logs,
             workloads::jobs::get_jobs,
             workloads::jobs::update_job,
             // pod metrics
@@ -109,11 +110,11 @@ fn main() {
             workloads::stateful_sets::scale_stateful_set,
             workloads::stateful_sets::update_stateful_set,
         ])
-        .plugin(
-            tauri_plugin_log::Builder::default()
-                .targets([LogTarget::LogDir, LogTarget::Stdout])
-                .build(),
-        )
+        // .plugin(
+        //     tauri_plugin_log::Builder::default()
+        //         .targets([LogTarget::LogDir, LogTarget::Stdout])
+        //         .build(),
+        // )
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
