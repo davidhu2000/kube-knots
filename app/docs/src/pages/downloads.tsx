@@ -12,9 +12,9 @@ const latestVersion = appPackageJson.version;
 // TODO: add linux and windows url which auto adds the download button
 const downloadUrls = {
   "macOS (.dmg)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_x64.dmg`,
-  "linux (.AppImage)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.AppImage`,
-  "linux Ubuntu (.deb)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.deb`,
-  "windows (.msi)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_x64_en-US.msi`,
+  "Linux (.AppImage)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.AppImage`,
+  "Linux Ubuntu (.deb)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.deb`,
+  "Windows (.msi)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_x64_en-US.msi`,
 } as const;
 
 export const availablePlatforms = Object.keys(downloadUrls) as (keyof typeof downloadUrls)[];
