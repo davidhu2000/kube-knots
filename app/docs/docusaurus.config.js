@@ -9,7 +9,8 @@ const githubLink = "https://github.com/davidhu2000/kube-knots";
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Kube Knots",
-  tagline: "Untangling the web of kubernetes",
+  tagline:
+    "Open Source Desktop App for managing your Kubernetes cluster. Download for Windows, Mac, and Linux.",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
