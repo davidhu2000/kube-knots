@@ -39,7 +39,7 @@ export default function Downloads(): JSX.Element {
     <Layout title={`Downloads`} description={siteConfig.tagline}>
       <main className="m-auto flex flex-col items-center justify-center">
         <div className="flex items-center justify-center ">
-          <img src={appLogoUrl} className="mr-2" />
+          <img src={appLogoUrl} className="mr-2" alt="Logo" />
           <h1 className="m-0 text-4xl">Download Kube Knots</h1>
         </div>
 
