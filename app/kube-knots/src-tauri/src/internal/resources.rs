@@ -4,6 +4,7 @@ use kube::{
     core::{util::Restart, ObjectList},
     Api,
 };
+use log::error;
 use serde::Serialize;
 
 use super::client::get_resource_api;
@@ -26,8 +27,11 @@ where
     let result = api.list(&lp).await;
 
     return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("get_resources: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -74,7 +78,10 @@ where
 
     return match result {
         Ok(resource) => Ok(resource),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("create_resources: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -99,8 +106,11 @@ where
     let result = api.patch(&name, &pp, &Patch::Merge(&resource)).await;
 
     return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("update_resources: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -125,7 +135,10 @@ where
 
     return match result {
         Ok(_) => Ok(true),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("delete_resources: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -145,16 +158,17 @@ where
     <T as kube::Resource>::DynamicType: std::default::Default,
 {
     let api: Api<T> = get_resource_api(context, namespace).await?;
-    let resource = api.restart(&name).await;
+    let result = api.restart(&name).await;
 
-    return match resource {
-        Ok(_resource) => Ok(true),
-        Err(err) => {
-            println!("Error restarting resource {}: {}", name, err);
-            return Err(err.to_string());
+    return match result {
+        Ok(_) => Ok(true),
+        Err(e) => {
+            error!("restart_resources: {}", e);
+            return Err(e.to_string());
         }
     };
 }
+
 pub async fn scale_resource<T>(
     context: Option<String>,
     namespace: Option<String>,
@@ -174,10 +188,13 @@ where
     let spec = serde_json::json!({ "spec": { "replicas": replicas }});
     let pp = PatchParams::default();
     let patch = Patch::Merge(&spec);
-    let resource = api.patch_scale(&name, &pp, &patch).await;
+    let result = api.patch_scale(&name, &pp, &patch).await;
 
-    return match resource {
-        Ok(_resource) => Ok(true),
-        Err(err) => Err(err.to_string()),
+    return match result {
+        Ok(_) => Ok(true),
+        Err(e) => {
+            error!("scale_resources: {}", e);
+            return Err(e.to_string());
+        }
     };
 }

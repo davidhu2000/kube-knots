@@ -1,5 +1,6 @@
 use k8s_openapi::api::core::v1::Namespace;
 use kube::api::{Api, DeleteParams, ListParams, ObjectList, Patch, PatchParams};
+use log::error;
 
 use crate::internal::client::get_client_with_context;
 
@@ -13,8 +14,11 @@ pub async fn get_namespaces(context: Option<String>) -> Result<ObjectList<Namesp
     let result = api.list(&lp).await;
 
     return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("get_namespaces: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -29,7 +33,10 @@ pub async fn create_namespace(
 
     return match result {
         Ok(resource) => Ok(resource),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("create_namespace: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -47,7 +54,10 @@ pub async fn update_namespace(
 
     return match result {
         Ok(resource) => Ok(resource),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("update_namespace: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -59,6 +69,9 @@ pub async fn delete_namespace(context: Option<String>, name: String) -> Result<b
 
     return match result {
         Ok(_) => Ok(true),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("delete_namespace: {}", e);
+            return Err(e.to_string());
+        }
     };
 }

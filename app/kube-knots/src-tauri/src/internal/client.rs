@@ -3,6 +3,7 @@ use kube::{
     config::{KubeConfigOptions, Kubeconfig},
     Api, Client, Config,
 };
+use log::error;
 
 pub async fn get_resource_api<T>(
     context: Option<String>,
@@ -32,7 +33,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Result<Client, 
     let kubeconfig = match kubeconfig {
         Ok(k) => k,
         Err(e) => {
-            println!("get_client_with_context: Error reading kubeconfig: {}", e);
+            error!("get_client_with_context: Error reading kubeconfig: {}", e);
             return Err(e.to_string());
         }
     };
@@ -56,7 +57,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Result<Client, 
             match config {
                 Ok(c) => Client::try_from(c),
                 Err(e) => {
-                    println!(
+                    error!(
                         "get_client_with_context: Error creating client from kubeconfig: {}",
                         e
                     );
@@ -70,7 +71,7 @@ pub async fn get_client_with_context(context: Option<String>) -> Result<Client, 
     return match client {
         Ok(c) => Ok(c),
         Err(e) => {
-            println!("get_client_with_context: Error creating client: {}", e);
+            error!("get_client_with_context: Error creating client: {}", e);
             return Err(e.to_string());
         }
     };
