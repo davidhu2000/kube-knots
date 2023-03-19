@@ -6,7 +6,7 @@ changelog:
     - title: New Features 🎉
       labels:
         - feat
-    - title: Bug Fixes 🛠
+    - title: Bug Fixes 🐛
       labels:
         - fix
     - title: Chores 🛠
