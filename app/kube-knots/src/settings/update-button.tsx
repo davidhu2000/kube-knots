@@ -15,7 +15,10 @@ async function update() {
 }
 
 export function UpdateButton() {
-  const updateAvailableQuery = useQuery(["check-update"], checkUpdate);
+  const updateAvailableQuery = useQuery(["check-update"], checkUpdate, {
+    refetchInterval: false,
+    refetchOnWindowFocus: true,
+  });
 
   const updateMutation = useMutation({
     mutationFn: () => {
