@@ -35,9 +35,8 @@ export function DownloadButton({ platform }: { platform: Platform }): JSX.Elemen
 
 export default function Downloads(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
-
   return (
-    <Layout title={`Download ${siteConfig.title}`} description="Untangling the web of kubernetes">
+    <Layout title={`Downloads`} description={siteConfig.tagline}>
       <main className="m-auto flex flex-col items-center justify-center">
         <div className="flex items-center justify-center ">
           <img src={appLogoUrl} className="mr-2" />

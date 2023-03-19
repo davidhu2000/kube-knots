@@ -8,7 +8,7 @@ import React from "react";
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout title={`${siteConfig.title}`} description="Untangling the web of kubernetes">
+    <Layout description={siteConfig.tagline}>
       <main className="my-12 mx-8 grid grid-cols-1 justify-items-center gap-4 md:grid-cols-2">
         <div className="">
           <img src={appScreenshotUrl} />
