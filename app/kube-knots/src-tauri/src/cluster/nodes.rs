@@ -4,6 +4,7 @@ use kube::{
     core::ObjectList,
     Api,
 };
+use log::error;
 
 use crate::internal::client::get_client_with_context;
 
@@ -14,8 +15,11 @@ pub async fn get_nodes(context: Option<String>) -> Result<ObjectList<Node>, Stri
     let result = api.list(&ListParams::default()).await;
 
     return match result {
-        Ok(nodes) => Ok(nodes),
-        Err(e) => Err(format!("Error getting nodes: {}", e)),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("get_nodes: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -27,7 +31,10 @@ pub async fn create_node(context: Option<String>, resource: Node) -> Result<Node
 
     return match result {
         Ok(resource) => Ok(resource),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("create_node: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -45,7 +52,10 @@ pub async fn update_node(
 
     return match result {
         Ok(resource) => Ok(resource),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("update_node: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -57,7 +67,10 @@ pub async fn delete_node(context: Option<String>, name: String) -> Result<bool, 
 
     return match result {
         Ok(_) => Ok(true),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("delete_node: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -69,8 +82,11 @@ pub async fn cordon_node(context: Option<String>, name: String) -> Result<Node, 
     let result = api.cordon(&name).await;
 
     return match result {
-        Ok(nodes) => Ok(nodes),
-        Err(e) => Err(format!("Error cordon node: {}", e)),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("cordon_node: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -82,7 +98,10 @@ pub async fn uncordon_node(context: Option<String>, name: String) -> Result<Node
     let result = api.uncordon(&name).await;
 
     return match result {
-        Ok(nodes) => Ok(nodes),
-        Err(e) => Err(format!("Error uncordon node: {}", e)),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("uncordon_node: {}", e);
+            return Err(e.to_string());
+        }
     };
 }

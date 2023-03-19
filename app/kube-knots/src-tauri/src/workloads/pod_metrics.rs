@@ -4,6 +4,7 @@ use kube::{
     core::{ObjectList, ObjectMeta},
     Api,
 };
+use log::error;
 
 use crate::internal::client::get_resource_api;
 
@@ -58,11 +59,13 @@ pub async fn get_pod_metrics(
     let api: Api<PodMetrics> = get_resource_api(context, namespace).await?;
 
     let lp = ListParams::default();
-    let metrics_result = api.list(&lp).await;
+    let result = api.list(&lp).await;
 
-    let res = match metrics_result {
-        Ok(metrics) => Ok(metrics),
-        Err(e) => Err(e.to_string()),
+    return match result {
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("get_pod_metrics: {}", e);
+            return Err(e.to_string());
+        }
     };
-    return res;
 }

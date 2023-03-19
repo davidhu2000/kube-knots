@@ -2,6 +2,7 @@ use kube::{
     api::ListParams,
     core::{ObjectList, Request},
 };
+use log::error;
 use serde::{Deserialize, Serialize};
 
 use crate::internal::client::get_client_with_context;
@@ -30,7 +31,10 @@ pub async fn get_node_metrics(context: Option<String>) -> Result<ObjectList<Node
         .await;
 
     return match result {
-        Ok(metrics) => Ok(metrics),
-        Err(e) => Err(format!("Error getting node metrics: {}", e)),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("get_node_metrics: {}", e);
+            return Err(e.to_string());
+        }
     };
 }

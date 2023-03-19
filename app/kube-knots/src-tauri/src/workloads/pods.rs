@@ -5,6 +5,7 @@ use kube::{
     core::ObjectList,
     Api,
 };
+use log::error;
 
 use crate::internal::{
     client::get_resource_api,
@@ -33,8 +34,11 @@ pub async fn get_pod_logs(
     let result = pods.logs(&pod_name, &lp).await;
 
     return match result {
-        Ok(items) => Ok(items),
-        Err(e) => Err(e.to_string()),
+        Ok(resource) => Ok(resource),
+        Err(e) => {
+            error!("get_pod_logs: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
 
@@ -74,6 +78,9 @@ pub async fn evict_pod(
 
     return match result {
         Ok(_) => Ok(true),
-        Err(e) => Err(e.to_string()),
+        Err(e) => {
+            error!("evict_pod: {}", e);
+            return Err(e.to_string());
+        }
     };
 }
