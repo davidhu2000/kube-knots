@@ -1,12 +1,14 @@
 import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 // @ts-expect-error this is how to import static assets in Docusaurus
 import appScreenshotUrl from "@site/static/img/app-screenshot.png";
 import Layout from "@theme/Layout";
 import React from "react";
 
 export default function Home(): JSX.Element {
+  const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout>
+    <Layout title={`${siteConfig.title}`} description={siteConfig.tagline}>
       <main className="my-12 mx-8 grid grid-cols-1 justify-items-center gap-4 md:grid-cols-2">
         <div className="">
           <img src={appScreenshotUrl} />
