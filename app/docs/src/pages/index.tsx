@@ -6,7 +6,7 @@ import React from "react";
 
 export default function Home(): JSX.Element {
   return (
-    <Layout description="Untangling the web of kubernetes">
+    <Layout>
       <main className="my-12 mx-8 grid grid-cols-1 justify-items-center gap-4 md:grid-cols-2">
         <div className="">
           <img src={appScreenshotUrl} />
