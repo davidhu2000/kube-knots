@@ -107,7 +107,7 @@ export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
           <input
             value={search}
             onChange={handleSearch}
-            placeholder="Filter logs..."
+            placeholder="Filter logs"
             className="block h-8 w-40 rounded-md p-2 shadow focus:outline-none dark:bg-gray-800 dark:text-gray-300 sm:text-sm"
           />
         </div>
