@@ -75,7 +75,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: "img/app-screenshot.jpg",
+      image: "img/kube-knots-social-card.png",
       navbar: {
         title: "Kube Knots",
         logo: {
