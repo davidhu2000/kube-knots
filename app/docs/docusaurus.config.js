@@ -93,7 +93,7 @@ const config = {
         style: "dark",
         links: [
           {
-            label: "Bocs",
+            label: "Docs",
             to: "/docs/intro",
           },
           {
