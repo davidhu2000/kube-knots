@@ -52,15 +52,15 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - macos-latest
+          # - macos-latest
           - windows-latest
           - ubuntu-20.04
         include:
-          - plaform: macos-latest
+          - plaform: macos-latest-xl
             target: aarch64-apple-darwin
-          - platform: macos-latest
+          - platform: macos-latest-xl
             target: x86_64-apple-darwin
-          - platform: macos-latest
+          - platform: macos-latest-xl
             target: universal-apple-darwin
 
     runs-on: ${{ matrix.platform }}
