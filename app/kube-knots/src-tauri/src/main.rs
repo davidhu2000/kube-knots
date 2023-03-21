@@ -14,6 +14,7 @@ pub mod networking;
 pub mod workloads;
 
 fn main() {
+    fix_path_env::fix();
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             // events

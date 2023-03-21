@@ -22,6 +22,7 @@ k8s-openapi = { version = "0.17.0", features = ["v1_26"] }
 openssl = { version = "0.10.47", features = ["vendored"] }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 log = "0.4"
+fix-path-env = { git = "https://github.com/tauri-apps/fix-path-env-rs", tag = "fix-path-env-v0.1.0" }
 
 [features]
 # by default Tauri runs in production mode
