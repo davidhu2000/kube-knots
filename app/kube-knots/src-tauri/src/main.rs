@@ -3,6 +3,7 @@
     windows_subsystem = "windows"
 )]
 
+use log::error;
 use tauri_plugin_log::LogTarget;
 
 mod internal;
@@ -14,6 +15,11 @@ pub mod networking;
 pub mod workloads;
 
 fn main() {
+    let fix_result = fix_path_env::fix();
+    if let Err(e) = fix_result {
+        error!("Error while fixing PATH: {}", e);
+    }
+
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             // events
