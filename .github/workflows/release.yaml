@@ -51,13 +51,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # platform:
-        #   - macos-latest
-        #   - windows-latest
-        #   - ubuntu-20.04
+        platform:
+          - macos-latest
+          - windows-latest
+          - ubuntu-20.04
         include:
-          - platform: windows-latest
-          - platform: ubuntu-20.04
           - plaform: macos-latest
             target: aarch64-apple-darwin
           - platform: macos-latest
