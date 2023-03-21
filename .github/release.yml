@@ -14,7 +14,7 @@ changelog:
         - chore
     - title: Deps Updates ⬆️
       labels:
-        - dependencies
+        - chore(deps)
     - title: Other Changes
       labels:
         - "*"
