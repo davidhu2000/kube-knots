@@ -57,11 +57,11 @@ jobs:
           - ubuntu-20.04
         include:
           - plaform: macos-latest
-            target: aarch64-apple-darwin
+            target: universal-apple-darwin
           - platform: macos-latest
             target: x86_64-apple-darwin
           - platform: macos-latest
-            target: universal-apple-darwin
+            target: aarch64-apple-darwin
 
     runs-on: ${{ matrix.platform }}
     steps:
