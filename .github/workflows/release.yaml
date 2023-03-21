@@ -58,6 +58,8 @@ jobs:
         include:
           - plaform: macos-latest
             target: universal-apple-darwin
+          - plaform: macos-latest
+            target: universal-apple-darwin
           - platform: macos-latest
             target: x86_64-apple-darwin
           - platform: macos-latest
