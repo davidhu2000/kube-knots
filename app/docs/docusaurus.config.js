@@ -75,7 +75,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: "img/app-screenshot.jpg",
+      image: "img/kube-knots-social-card.png",
       navbar: {
         title: "Kube Knots",
         logo: {
@@ -110,6 +110,11 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      algolia: {
+        appId: "34C1VBHE4X",
+        apiKey: "71d1c491319a7dfe54df294b48a6db87",
+        indexName: "davidhu",
       },
     }),
 };
