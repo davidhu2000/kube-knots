@@ -56,8 +56,8 @@ jobs:
           - windows-latest
           - ubuntu-20.04
         include:
-          - platform: macos-latest
-            target: universal-apple-darwin
+          # - platform: macos-latest
+          #   target: universal-apple-darwin
           - platform: macos-latest
             target: x86_64-apple-darwin
           - platform: macos-latest
