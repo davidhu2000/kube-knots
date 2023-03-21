@@ -103,20 +103,21 @@ jobs:
     needs: [create-release, build-tauri]
 
     steps:
-      - name: publish release
-        id: publish-release
-        uses: actions/github-script@v6
-        env:
-          releaseId: ${{ needs.create-release.outputs.release-id }}
-        with:
-          script: |
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: process.env.releaseId,
-              draft: false,
-              prerelease: false
-            })
+      - run: echo 'pub'
+      # - name: publish release
+      #   id: publish-release
+      #   uses: actions/github-script@v6
+      #   env:
+      #     releaseId: ${{ needs.create-release.outputs.release-id }}
+      #   with:
+      #     script: |
+      #       github.rest.repos.updateRelease({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         release_id: process.env.releaseId,
+      #         draft: false,
+      #         prerelease: false
+      #       })
 
   update-gist:
     runs-on: ubuntu-20.04
