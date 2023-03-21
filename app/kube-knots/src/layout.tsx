@@ -71,7 +71,7 @@ export function Layout({ children }: PropsWithChildren) {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`group flex items-center rounded-md px-2 py-1 text-sm font-medium text-gray-800 hover:bg-gray-400 dark:text-gray-100 hover:dark:bg-gray-500 ${
+                    className={`group flex items-center rounded-md px-2 py-1 text-sm font-medium text-gray-800 hover:bg-gray-400 focus:outline-none dark:text-gray-100 hover:dark:bg-gray-500 ${
                       window.location.pathname === item.path ? "bg-gray-300 dark:bg-gray-600" : ""
                     }`}
                     search={{}}
