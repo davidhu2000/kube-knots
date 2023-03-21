@@ -80,6 +80,14 @@ jobs:
       - name: install app dependencies
         run: yarn install
       - uses: tauri-apps/tauri-action@v0
+        if: matrix.platform == 'macos-latest-xl'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          releaseId: ${{ needs.create-release.outputs.release-id }}
+          args: --target aarch64-apple-darwin
+      - uses: tauri-apps/tauri-action@v0
+        if: matrix.platform != 'macos-latest-xl'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
