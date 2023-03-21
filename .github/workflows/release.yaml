@@ -85,7 +85,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release-id }}
-          args: --target aarch64-apple-darwin
+          args: --target ${{ matrix.target }}
       - uses: tauri-apps/tauri-action@v0
         if: matrix.platform != 'macos-latest-xl'
         env:
