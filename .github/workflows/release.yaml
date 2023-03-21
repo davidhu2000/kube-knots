@@ -81,8 +81,8 @@ jobs:
       - name: install app dependencies
         run: yarn install
       - name: release for macos builds
-        # update to v0 after this PR merges https://github.com/tauri-apps/tauri-action/pull/399
-        uses: tauri-apps/tauri-action@feat/platform-config
+        # update to v0 after this PR is released https://github.com/tauri-apps/tauri-action/pull/399
+        uses: tauri-apps/tauri-action@dev
         if: matrix.platform == 'macos-latest'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
