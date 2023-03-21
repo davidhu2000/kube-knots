@@ -51,11 +51,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          # - macos-latest
-          - windows-latest
-          - ubuntu-20.04
+        # platform:
+        # - macos-latest
+        # - windows-latest
+        # - ubuntu-20.04
         include:
+          - platform: windows-latest
+          - platform: ubuntu-20.04
           - plaform: macos-latest
             target: aarch64-apple-darwin
           - platform: macos-latest
@@ -80,14 +82,14 @@ jobs:
       - name: install app dependencies
         run: yarn install
       - uses: tauri-apps/tauri-action@v0
-        if: matrix.platform == 'macos-latest-xl'
+        if: matrix.platform == 'macos-latest'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release-id }}
           args: --target ${{ matrix.target }}
       - uses: tauri-apps/tauri-action@v0
-        if: matrix.platform != 'macos-latest-xl'
+        if: matrix.platform != 'macos-latest'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
