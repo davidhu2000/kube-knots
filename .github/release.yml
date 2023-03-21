@@ -12,6 +12,9 @@ changelog:
     - title: Chores 🛠
       labels:
         - chore
+    - title: Deps Updates ⬆️
+      labels:
+        - chore(deps)
     - title: Other Changes
       labels:
         - "*"

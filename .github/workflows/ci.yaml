@@ -39,6 +39,9 @@ jobs:
             fix
             docs
             chore
+          scopes: |
+            deps
+          requireScope: false
           wip: true
       - uses: actions/github-script@v6
         with:
