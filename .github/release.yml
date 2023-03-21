@@ -12,7 +12,7 @@ changelog:
     - title: Chores 🛠
       labels:
         - chore
-    - title: Deps Updates ⬆️
+    - title: Dependency Updates ⬆️
       labels:
         - chore(deps)
     - title: Other Changes
