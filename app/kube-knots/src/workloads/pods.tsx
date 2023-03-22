@@ -60,9 +60,8 @@ function Terminal() {
 }
 
 export function Pods() {
-  const {
-    data: { items: metrics },
-  } = useResourceList<PodMetric>("get_pod_metrics");
+  const podMetricsQuery = useResourceList<PodMetric>("get_pod_metrics");
+  const metrics = podMetricsQuery.data?.items ?? [];
 
   return (
     <ResourceTable<V1Pod>

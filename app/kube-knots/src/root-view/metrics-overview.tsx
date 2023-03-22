@@ -22,14 +22,14 @@ function formatChartData<T>(data: T[], getStatus: (item: T) => string) {
 }
 
 export function MetricsOverview() {
-  const {
-    data: { items: pods },
-  } = useResourceList<V1Pod>("get_pods");
+  const podsQuery = useResourceList<V1Pod>("get_pods");
+  const pods = podsQuery.data?.items ?? [];
+
   const podsData = formatChartData(pods, (pod) => pod.status?.phase ?? "");
 
-  const {
-    data: { items: jobs },
-  } = useResourceList<V1Job>("get_jobs");
+  const jobsQuery = useResourceList<V1Job>("get_jobs");
+  const jobs = jobsQuery.data?.items ?? [];
+
   const jobData = formatChartData(jobs, (item) => {
     const availableStatus = item.status?.conditions?.find((a) => a.type === "Complete");
 
@@ -43,9 +43,8 @@ export function MetricsOverview() {
     }
   });
 
-  const {
-    data: { items: podMetrics },
-  } = useResourceList<PodMetric>("get_pod_metrics");
+  const podMetricsQuery = useResourceList<PodMetric>("get_pod_metrics");
+  const podMetrics = podMetricsQuery.data?.items ?? [];
 
   const totalMemoryUsage = podMetrics.reduce((acc, item) => {
     const memoryInBytes = item.containers
@@ -79,9 +78,9 @@ export function MetricsOverview() {
     return acc + cpuInBytes;
   }, 0);
 
-  const {
-    data: { items: nodes },
-  } = useResourceList<V1Node>("get_nodes");
+  const nodesQuery = useResourceList<V1Node>("get_nodes");
+  const nodes = nodesQuery.data?.items ?? [];
+
   const kubeletVersions = [...new Set(nodes.map((node) => node.status?.nodeInfo?.kubeletVersion))];
   const totalPods = nodes.reduce((acc, node) => {
     const nodePods = node.status?.capacity?.pods ?? "0";
