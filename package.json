@@ -11,8 +11,7 @@
     "build": "yarn workspace kube-knots run tauri build",
     "doc:dev": "yarn workspace docs run start",
     "doc:build": "yarn workspace docs run build",
-    "patch": "sh patch.sh",
-    "typecheck": "yarn workspace kube-knots run build"
+    "patch": "sh patch.sh"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",

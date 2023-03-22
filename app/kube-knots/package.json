@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "format": "prettier --write .",
-    "patch": "npm version patch"
+    "patch": "npm version patch",
+    "typecheck": "../../node_modules/.bin/tsc"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",

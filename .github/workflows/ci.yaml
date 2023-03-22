@@ -27,7 +27,23 @@ jobs:
       - run: mkdir ./app/kube-knots/dist
       - run: cargo check
         working-directory: ./app/kube-knots/src-tauri
-
+  build-tauri:
+    strategy:
+      fail-fast: false
+      matrix:
+        app:
+          - kube-knots
+          - docs
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install app dependencies
+        run: yarn install
+      - run: yarn workspace ${{ matrix.app }} run typecheck
   title-format:
     runs-on: ubuntu-latest
     steps:
