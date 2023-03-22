@@ -143,4 +143,4 @@ jobs:
 
   update-docs:
     needs: [publish-release]
-    uses: ./.github/workflows/docs.yaml@main
+    uses: ./.github/workflows/docs.yaml
