@@ -87,7 +87,7 @@ jobs:
         run: yarn install
 
       - name: release for macos builds
-        # update to v0 after this PR is released https://github.com/tauri-apps/tauri-action/pull/399
+        # TODO: update to v0 after this PR is released https://github.com/tauri-apps/tauri-action/pull/399
         uses: tauri-apps/tauri-action@dev
         if: startsWith(matrix.platform, 'macos')
         env:
