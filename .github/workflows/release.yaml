@@ -73,9 +73,11 @@ jobs:
           node-version: 18
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
+
       - name: install aarch target for macos
         run: rustup target add aarch64-apple-darwin
         if: startsWith(matrix.platform, 'macos')
+
       - name: install dependencies (ubuntu only)
         if: startsWith(matrix.platform, 'ubuntu')
         run: |
@@ -83,6 +85,7 @@ jobs:
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
       - name: install app dependencies
         run: yarn install
+
       - name: release for macos builds
         # update to v0 after this PR is released https://github.com/tauri-apps/tauri-action/pull/399
         uses: tauri-apps/tauri-action@dev
@@ -92,7 +95,8 @@ jobs:
         with:
           releaseId: ${{ needs.create-release.outputs.release-id }}
           args: --target ${{ matrix.target }}
-      - name: release for non-macos builds
+
+      - name: release for windows/linux builds
         uses: tauri-apps/tauri-action@v0
         if: startsWith(matrix.platform, 'macos') != 'true'
         env:
