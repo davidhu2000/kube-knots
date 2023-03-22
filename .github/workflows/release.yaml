@@ -140,3 +140,7 @@ jobs:
           script: |
             const script = require('./.github/helpers/update-gist.js');
             script({ github, context, fetch, core });
+
+  update-docs:
+    needs: [publish-release]
+    uses: .github/workflows/docs.yaml@main

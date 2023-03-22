@@ -1,6 +1,7 @@
 name: docs
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:
@@ -10,9 +11,6 @@ on:
   pull_request:
     branches:
       - main
-  release:
-    types:
-      - published
 
 permissions:
   contents: read
