@@ -1,5 +1,5 @@
 import type { V1Namespace } from "@kubernetes/client-node";
-import type { DefinedUseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
 import { createContext, type PropsWithChildren, useContext, useState } from "react";
@@ -10,7 +10,7 @@ interface NamespaceContextValues {
   currentNamespace: string | null;
   changeNamespace: (ns: string) => void;
   availableNamespaces: string[];
-  namespaceQuery: DefinedUseQueryResult<{ items: V1Namespace[] }> | null;
+  namespaceQuery: UseQueryResult<{ items: V1Namespace[] }> | null;
 }
 
 const NamespaceContext = createContext<NamespaceContextValues>({
@@ -35,7 +35,7 @@ export function NamespaceProvider({ children }: PropsWithChildren) {
         context: currentContext,
       });
     },
-    { retry: false, refetchInterval: false, initialData: { items: [] } }
+    { retry: false, refetchInterval: false }
   );
 
   const changeNamespace = (ns: string | null) => {

@@ -36,7 +36,7 @@ export function useResourceList<T>(command: ResourceListCommands, isNamespaced =
         ...(isNamespaced ? { namespace: currentNamespace } : {}),
       });
     },
-    { onError: (error) => toast.error(error as string), initialData: { items: [] } }
+    { onError: (error) => toast.error(error as string) }
   );
 
   return result;

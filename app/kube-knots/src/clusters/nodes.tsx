@@ -30,14 +30,13 @@ export type NodeActions = "cordon" | "drain" | "uncordon";
 
 export function Nodes() {
   const nodeQuery = useResourceList<V1Node>("get_nodes");
+  const nodes = nodeQuery.data?.items || [];
 
-  const {
-    data: { items: nodeMetrics },
-  } = useResourceList<NodeMetric>("get_node_metrics");
+  const nodeMetricQuery = useResourceList<NodeMetric>("get_node_metrics");
+  const nodeMetrics = nodeMetricQuery.data?.items || [];
 
-  const {
-    data: { items: pods },
-  } = useResourceList<V1Pod>("get_pods", false);
+  const podsQuery = useResourceList<V1Pod>("get_pods", false);
+  const pods = podsQuery.data?.items || [];
 
   const actions: (Actions | NodeActions)[] = ["edit", "cordon", "uncordon", "drain", "delete"];
 
@@ -51,7 +50,7 @@ export function Nodes() {
       <Table>
         <TableHeader headers={["Name", "CPU", "Memory", "Status", "Pods", "Created", ""]} />
         <TableBody>
-          {nodeQuery.data.items.map((item) => {
+          {nodes.map((item) => {
             const metric = nodeMetrics.find((m) => m.metadata?.name === item.metadata?.name);
 
             const requests = item.status?.capacity;
