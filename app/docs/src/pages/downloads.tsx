@@ -11,9 +11,10 @@ const latestVersion = appPackageJson.version;
 
 // TODO: add linux and windows url which auto adds the download button
 const downloadUrls = {
-  "macOS (.dmg)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_x64.dmg`,
+  "macOS (Apple Silicon)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_aarch64.dmg`,
+  "macOS (Intel)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_x64.dmg`,
   "Linux (.AppImage)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.AppImage`,
-  "Linux Ubuntu (.deb)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.deb`,
+  "Ubuntu (.deb)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/kube-knots_${latestVersion}_amd64.deb`,
   "Windows (.msi)": `https://github.com/davidhu2000/kube-knots/releases/download/v${latestVersion}/Kube.Knots_${latestVersion}_x64_en-US.msi`,
 } as const;
 
@@ -37,13 +38,17 @@ export default function Downloads(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout title={`Downloads`} description={siteConfig.tagline}>
-      <main className="m-auto flex flex-col items-center justify-center">
-        <div className="flex items-center justify-center ">
+      <main className="m-auto flex flex-col items-center justify-center p-4">
+        <div className="flex items-center justify-center">
           <img src={appLogoUrl} className="mr-2" alt="Logo" />
           <h1 className="m-0 text-4xl">Download Kube Knots</h1>
         </div>
 
-        <div className={`mt-12 grid grid-cols-1 gap-4`}>
+        <div className="mt-4 text-center">
+          <p className="text-xl">The latest version is v{latestVersion}</p>
+        </div>
+
+        <div className={`mt-4 grid grid-cols-1 gap-4`}>
           {availablePlatforms.map((platform) => (
             <DownloadButton key={platform} platform={platform} />
           ))}
