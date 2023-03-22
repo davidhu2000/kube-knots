@@ -84,7 +84,7 @@ module.exports = async ({ github, context, fetch, core }) => {
   for (const asset of assets) {
     console.log(`>>> Processing: ${asset.name}`);
 
-    // macos x86_64 and aarch64, maybe split between two archs in the future
+    // macos aarch64
     if (asset.name.endsWith("aarch64.app.tar.gz")) {
       gistContent.platforms["darwin-aarch64"].url = asset.browser_download_url;
     }
@@ -94,6 +94,7 @@ module.exports = async ({ github, context, fetch, core }) => {
       gistContent.platforms["darwin-aarch64"].signature = signature;
     }
 
+    // macos x86_64
     if (asset.name.endsWith("x64.app.tar.gz")) {
       gistContent.platforms["darwin-x86_64"].url = asset.browser_download_url;
     }
@@ -127,25 +128,25 @@ module.exports = async ({ github, context, fetch, core }) => {
 
   console.log(gistContent);
 
-  // const response = await fetch(`https://api.github.com/gists/${process.env.gistId}`, {
-  //   method: "PATCH",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: `token ${process.env.gistToken}`,
-  //     "X-GitHub-Api-Version": "2022-11-28",
-  //   },
-  //   body: JSON.stringify({
-  //     files: {
-  //       "update.json": { content: JSON.stringify(gistContent) },
-  //     },
-  //     description: "kube knots updater",
-  //   }),
-  // });
+  const response = await fetch(`https://api.github.com/gists/${process.env.gistId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `token ${process.env.gistToken}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+    body: JSON.stringify({
+      files: {
+        "update.json": { content: JSON.stringify(gistContent) },
+      },
+      description: "kube knots updater",
+    }),
+  });
 
-  // if (response.ok) {
-  //   console.log("Gist updated successfully");
-  // } else {
-  //   console.log("Gist update failed");
-  //   core.setFailed("Gist update failed");
-  // }
+  if (response.ok) {
+    console.log("Gist updated successfully");
+  } else {
+    console.log("Gist update failed");
+    core.setFailed("Gist update failed");
+  }
 };
