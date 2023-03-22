@@ -27,7 +27,7 @@ jobs:
       - run: mkdir ./app/kube-knots/dist
       - run: cargo check
         working-directory: ./app/kube-knots/src-tauri
-  build-tauri:
+  type-check:
     strategy:
       fail-fast: false
       matrix:
