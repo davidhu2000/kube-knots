@@ -98,7 +98,7 @@ jobs:
 
       - name: release for windows/linux builds
         uses: tauri-apps/tauri-action@v0
-        if: startsWith(matrix.platform, 'macos') != 'true'
+        if: startsWith(matrix.platform, 'windows') || startsWith(matrix.platform, 'ubuntu')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
