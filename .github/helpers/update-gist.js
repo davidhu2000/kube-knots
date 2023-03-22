@@ -84,15 +84,24 @@ module.exports = async ({ github, context, fetch, core }) => {
   for (const asset of assets) {
     console.log(`>>> Processing: ${asset.name}`);
 
-    // macos x86_64 and aarch64, maybe split between two archs in the future
-    if (asset.name.endsWith(".app.tar.gz")) {
-      gistContent.platforms["darwin-x86_64"].url = asset.browser_download_url;
+    // macos aarch64
+    if (asset.name.endsWith("aarch64.app.tar.gz")) {
       gistContent.platforms["darwin-aarch64"].url = asset.browser_download_url;
     }
-    if (asset.name.endsWith(".app.tar.gz.sig")) {
+
+    if (asset.name.endsWith("aarch64.app.tar.gz.sig")) {
+      const signature = await getFileSignature(fetch, asset.browser_download_url);
+      gistContent.platforms["darwin-aarch64"].signature = signature;
+    }
+
+    // macos x86_64
+    if (asset.name.endsWith("x64.app.tar.gz")) {
+      gistContent.platforms["darwin-x86_64"].url = asset.browser_download_url;
+    }
+
+    if (asset.name.endsWith("x64.app.tar.gz.sig")) {
       const signature = await getFileSignature(fetch, asset.browser_download_url);
       gistContent.platforms["darwin-x86_64"].signature = signature;
-      gistContent.platforms["darwin-aarch64"].signature = signature;
     }
 
     // linux x86_64
