@@ -45,7 +45,7 @@ export default function Downloads(): JSX.Element {
         </div>
 
         <div className="mt-4 text-center">
-          <p className="text-xl">The latest version is {latestVersion}</p>
+          <p className="text-xl">The latest version is v{latestVersion}</p>
         </div>
 
         <div className={`mt-4 grid grid-cols-1 gap-4`}>
