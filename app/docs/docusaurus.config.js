@@ -90,7 +90,6 @@ const config = {
         ],
       },
       footer: {
-        style: "dark",
         links: [
           {
             label: "Docs",
