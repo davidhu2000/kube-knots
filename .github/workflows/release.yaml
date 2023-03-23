@@ -51,18 +51,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          # - macos-latest
-          - windows-latest
-          - ubuntu-20.04
         include:
-          # TODO: figure out if having universal build is needed. It takes 2x as long to build
-          # - platform: macos-latest
-          #   target: universal-apple-darwin
+          - platform: ubuntu-20.04
+            target: x86_64-unknown-linux-gnu
           - platform: macos-latest
             target: x86_64-apple-darwin
           - platform: macos-latest
             target: aarch64-apple-darwin
+          - platform: windows-latest
+            target: x86_64-pc-windows-msvc
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -74,35 +71,25 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
-      - name: install aarch target for macos
-        run: rustup target add aarch64-apple-darwin
-        if: startsWith(matrix.platform, 'macos')
+      - name: install build target
+        run: rustup target add ${{ matrix.target }}
 
       - name: install dependencies (ubuntu only)
         if: startsWith(matrix.platform, 'ubuntu')
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+
       - name: install app dependencies
         run: yarn install
 
-      - name: release for macos builds
-        # TODO: update to v0 after this PR is released https://github.com/tauri-apps/tauri-action/pull/399
-        uses: tauri-apps/tauri-action@dev
-        if: startsWith(matrix.platform, 'macos')
+      - uses: tauri-apps/tauri-action@dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release-id }}
           args: --target ${{ matrix.target }}
 
-      - name: release for windows/linux builds
-        uses: tauri-apps/tauri-action@v0
-        if: startsWith(matrix.platform, 'windows') || startsWith(matrix.platform, 'ubuntu')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          releaseId: ${{ needs.create-release.outputs.release-id }}
   publish-release:
     runs-on: ubuntu-20.04
     needs: [create-release, build-tauri]
