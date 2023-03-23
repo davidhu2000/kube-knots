@@ -6,6 +6,12 @@ Helping untangle the kubernetes web. Kube Knot is a desktop application built us
 
 ![Kube Knots](./app/docs/static/img/app-screenshot.png)
 
+## Download
+
+You can download the latest version of Kube Knots for your platform [here](https://www.davidhu.io/kube-knots/downloads)
+
+For specific instructions on how to install, see [here](https://www.davidhu.io/kube-knots/docs/category/installation)
+
 ## What's in this repo?
 
 This repo is structured as a monorepo with two applications.
