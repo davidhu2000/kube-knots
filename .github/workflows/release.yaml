@@ -74,10 +74,6 @@ jobs:
       - name: install build target
         run: rustup target add ${{ matrix.target }}
 
-      - name: install xattr
-        if: matrix.os == 'macos-latest'
-        run: pip install xattr
-
       - name: install dependencies (ubuntu only)
         if: startsWith(matrix.platform, 'ubuntu')
         run: |
