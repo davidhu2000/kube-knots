@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Telemetry
 
-This app collect some basic information about your app usage. [umami](https://umami.is/) is used, as it is open source and privacy-focused. From their FAQ regarding GDPR compliance.
+This app collect some basic information about your app usage. [umami](https://umami.is/) is used, as it is open source and privacy-focused. From their [FAQ](https://umami.is/docs/faq) regarding GDPR compliance.
 
 > Yes, Umami does not collect any personally identifiable information and anonymizes all data collected. Users cannot be identified and are never tracked across websites.
 
