@@ -42,6 +42,11 @@ fn main() {
             configurations::config_maps::delete_config_map,
             configurations::config_maps::get_config_maps,
             configurations::config_maps::update_config_map,
+            // pod disruption budgets
+            configurations::pod_disruption_budgets::create_pod_disruption_budget,
+            configurations::pod_disruption_budgets::delete_pod_disruption_budget,
+            configurations::pod_disruption_budgets::get_pod_disruption_budgets,
+            configurations::pod_disruption_budgets::update_pod_disruption_budget,
             // horizontal pod autoscalers
             configurations::horizontal_pod_autoscalers::create_horizontal_pod_autoscaler,
             configurations::horizontal_pod_autoscalers::delete_horizontal_pod_autoscaler,
