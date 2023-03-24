@@ -6,6 +6,7 @@ import { Nodes } from "./clusters/nodes";
 import { ConfigMaps } from "./configurations/config-maps";
 import { ConfigurationOverview } from "./configurations/configuration-overview";
 import { HorizontalPodAutoscalers } from "./configurations/horizontal-pod-autoscalers";
+import { PodDisruptionBudgets } from "./configurations/pod-disruption-budgets";
 import { Secrets } from "./configurations/secrets";
 import { Layout } from "./layout";
 import { Ingresses } from "./networking/ingresses";
@@ -54,6 +55,11 @@ export const networkingRoutes = [
 export const configurationRoutes = [
   { name: "Config Maps", path: "/config-maps", component: ConfigMaps },
   { name: "HPAs", path: "/horizontal-pod-autoscalers", component: HorizontalPodAutoscalers },
+  {
+    name: "Pod Disruption Budgets",
+    path: "/pod-disruption-budgets",
+    component: PodDisruptionBudgets,
+  },
   { name: "Secrets", path: "/secrets", component: Secrets },
 ] as const;
 
