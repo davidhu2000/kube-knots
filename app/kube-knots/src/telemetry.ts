@@ -16,6 +16,7 @@ async function trackAppVersion() {
   let currentWaitTime = 0;
   while (typeof window.umami !== "function") {
     currentWaitTime += 1000;
+    console.log("Waiting for umami to be defined...");
     await sleep(1000);
     if (currentWaitTime > 10000) {
       return;
