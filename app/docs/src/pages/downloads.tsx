@@ -1,8 +1,10 @@
+import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { ArrowDownTrayIcon } from "@heroicons/react/20/solid";
 // @ts-expect-error this is how to import static assets in Docusaurus
 import appLogoUrl from "@site/static/img/StoreLogo.png";
 import Layout from "@theme/Layout";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 
 import appPackageJson from "../../../kube-knots/package.json";
@@ -55,7 +57,8 @@ export default function Downloads(): JSX.Element {
         </div>
 
         <div className="mt-12 text-center">
-          See <a href="/docs/category/installation">installation instructions</a> for all platforms
+          See <Link to="/docs/category/installation">installation instructions</Link> for all
+          platforms
         </div>
       </main>
     </Layout>
