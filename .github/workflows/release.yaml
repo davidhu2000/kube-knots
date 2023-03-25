@@ -89,7 +89,6 @@ jobs:
         with:
           releaseId: ${{ needs.create-release.outputs.release-id }}
           args: --target ${{ matrix.target }}
-          includeDebug: true
 
   publish-release:
     runs-on: ubuntu-20.04
