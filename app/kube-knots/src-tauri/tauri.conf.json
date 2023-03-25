@@ -17,6 +17,10 @@
       },
       "app": {
         "all": true
+      },
+      "process": {
+        "exit": true,
+        "relaunch": true
       }
     },
     "bundle": {
