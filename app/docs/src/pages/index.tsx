@@ -3,6 +3,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 // @ts-expect-error this is how to import static assets in Docusaurus
 import appScreenshotUrl from "@site/static/img/app-screenshot.png";
 import Layout from "@theme/Layout";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 
 export default function Home(): JSX.Element {
