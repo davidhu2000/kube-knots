@@ -12,7 +12,12 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "os": {
+        "all": true
+      },
+      "app": {
+        "all": true
+      }
     },
     "bundle": {
       "active": true,
