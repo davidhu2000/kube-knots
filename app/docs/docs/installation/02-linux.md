@@ -30,13 +30,13 @@ apt install --fix-broken -y
 
 Then you can run
 
-```
+```bash
 dpkg -i kube-knots_X.Y.Z_amd64.deb
 ```
 
 and finally
 
-```
+```bash
 kube-knots
 ```
 
