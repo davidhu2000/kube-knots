@@ -55,7 +55,7 @@ export default function Downloads(): JSX.Element {
         </div>
 
         <div className="mt-12 text-center">
-          See <a href="docs/category/installation">installation instructions</a> for all platforms
+          See <a href="/docs/category/installation">installation instructions</a> for all platforms
         </div>
       </main>
     </Layout>
