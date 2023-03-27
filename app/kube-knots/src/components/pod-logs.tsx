@@ -19,7 +19,7 @@ interface PodLogsProps {
 export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
   const podName = selectedPod?.metadata?.name;
   const namespace = selectedPod?.metadata?.namespace;
-  const [container, setContainer] = useState(selectedPod?.spec?.containers?.[0].name);
+  const [container, setContainer] = useState(selectedPod?.spec?.containers[0].name);
   const { currentContext } = useCurrentContext();
 
   const [followLogs, setFollowLogs] = useState(true);
@@ -40,9 +40,8 @@ export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
   const result = useQuery(
     ["pod-logs", currentContext, namespace, podName, container],
     () => {
-      console.log(selectedPod?.metadata?.labels?.["controller-uid"]);
-      return invoke<string>("get_job_logs", {
-        controllerId: selectedPod?.metadata?.labels?.["controller-uid"],
+      return invoke<string>("get_pod_logs", {
+        podName: podName,
         namespace,
         container,
         context: currentContext,
@@ -59,15 +58,13 @@ export function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
 
   const logBottomRef = useScrollBottom([result.data, followLogs]);
 
-  console.log(result.data);
-
   return (
     <Drawer
       isOpen={isOpen}
       handleClose={handleClose}
       title={selectedPod?.metadata?.name ?? ""}
       description={
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           <Listbox value={container} onChange={(e) => setContainer(e)}>
             <div className="relative z-10 w-60">
               <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left shadow-md dark:bg-gray-800">
