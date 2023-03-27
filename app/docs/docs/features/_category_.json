@@ -2,6 +2,7 @@
   "label": "Features",
   "position": 3,
   "link": {
-    "type": "generated-index"
+    "type": "generated-index",
+    "description": "The list of features available on Kube Knots"
   }
 }
