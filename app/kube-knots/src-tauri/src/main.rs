@@ -89,6 +89,7 @@ fn main() {
             // jobs
             workloads::jobs::create_job,
             workloads::jobs::delete_job,
+            workloads::jobs::get_job_logs,
             workloads::jobs::get_jobs,
             workloads::jobs::update_job,
             // pod metrics
