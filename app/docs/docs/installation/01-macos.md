@@ -29,7 +29,7 @@ This is because the app is not signed by Apple. (Again, for now at least) and ap
 To get around this, we can use the `xattr` command to remove the quarantine attribute from the app.
 
 ```bash
-xattr -r -d com.apple.quarantine /Applications/Kube\ Knots.app
+xattr -d com.apple.quarantine /Applications/Kube\ Knots.app
 ```
 
 Then you can open the app.
@@ -37,5 +37,5 @@ Then you can open the app.
 Try the following command if you still see the error:
 
 ```bash
-xattr -rc /Applications/Kube\ Knots.app
+xattr -c /Applications/Kube\ Knots.app
 ```
