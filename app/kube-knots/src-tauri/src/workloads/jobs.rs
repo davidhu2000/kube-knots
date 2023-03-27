@@ -55,7 +55,7 @@ pub async fn get_job_logs(
     let pod = result.items.get(0);
 
     if pod.is_none() {
-        return Err("No pod found".to_string());
+        return Ok("No pod found for job".to_string());
     }
 
     let pod = pod.unwrap();
