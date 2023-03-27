@@ -12,7 +12,7 @@ export default function Home(): JSX.Element {
     <Layout description={siteConfig.tagline}>
       <main className="my-12 mx-8 grid grid-cols-1 justify-items-center gap-4 md:grid-cols-2">
         <div className="">
-          <img src={appScreenshotUrl} />
+          <img src={appScreenshotUrl} alt="Kube Knot Screenshot" />
         </div>
         <div className="flex max-w-md flex-col justify-center gap-y-4">
           <div className="text-5xl tracking-tight">Untangling the web of kubernetes with ease</div>
