@@ -50,7 +50,9 @@ export function ResourceTable<T extends ResourceBase>({
     (typeof actions)[number]
   >();
 
-  const { filteredData, handleSearch, search } = useSearch({ data: resourceListQuery.data.items });
+  const { filteredData, handleSearch, search } = useSearch({
+    data: resourceListQuery.data?.items || [],
+  });
 
   return (
     <QueryWrapper query={resourceListQuery}>

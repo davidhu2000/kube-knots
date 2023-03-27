@@ -2,6 +2,7 @@
   "label": "Contributing",
   "position": 5,
   "link": {
-    "type": "generated-index"
+    "type": "generated-index",
+    "description": "Guide on local development setup and how to contribute to this project"
   }
 }

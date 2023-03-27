@@ -17,6 +17,7 @@ export type ResourceListCommands =
   | "get_namespaces"
   | "get_node_metrics"
   | "get_nodes"
+  | "get_pod_disruption_budgets"
   | "get_pod_metrics"
   | "get_pods"
   | "get_replica_sets"
@@ -36,7 +37,7 @@ export function useResourceList<T>(command: ResourceListCommands, isNamespaced =
         ...(isNamespaced ? { namespace: currentNamespace } : {}),
       });
     },
-    { onError: (error) => toast.error(error as string), initialData: { items: [] } }
+    { onError: (error) => toast.error(error as string) }
   );
 
   return result;
