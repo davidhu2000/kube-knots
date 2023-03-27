@@ -13,7 +13,7 @@ import { ToggleButton } from "./base/toggle-button";
 
 interface PodLogsProps {
   isOpen: boolean;
-  selectedPod: V1Job | V1Pod | null;
+  selected: V1Job | V1Pod | null;
   handleClose: () => void;
 }
 
@@ -21,12 +21,12 @@ function isPod(resource: V1Job | V1Pod | null): resource is V1Pod {
   return (resource as V1Pod)?.kind === "Pod";
 }
 
-export const PodLogs = memo(function PodLogs({ isOpen, selectedPod, handleClose }: PodLogsProps) {
-  const name = selectedPod?.metadata?.name;
-  const namespace = selectedPod?.metadata?.namespace;
+export const PodLogs = memo(function PodLogs({ isOpen, selected, handleClose }: PodLogsProps) {
+  const name = selected?.metadata?.name;
+  const namespace = selected?.metadata?.namespace;
 
   const containerName =
-    selectedPod && isPod(selectedPod) ? selectedPod?.spec?.containers[0].name : undefined;
+    selected && isPod(selected) ? selected?.spec?.containers[0].name : undefined;
 
   const [container, setContainer] = useState(containerName);
   const { currentContext } = useCurrentContext();
@@ -42,11 +42,11 @@ export const PodLogs = memo(function PodLogs({ isOpen, selectedPod, handleClose 
   }, []);
 
   useEffect(() => {
-    setContainer(isPod(selectedPod) ? selectedPod?.spec?.containers[0].name : undefined);
+    setContainer(isPod(selected) ? selected?.spec?.containers[0].name : undefined);
     setSearch("");
-  }, [selectedPod]);
+  }, [selected]);
 
-  const command = isPod(selectedPod) ? "get_pod_logs" : "get_job_logs";
+  const command = isPod(selected) ? "get_pod_logs" : "get_job_logs";
 
   const result = useQuery(
     [command, currentContext, namespace, name, container],
@@ -56,9 +56,9 @@ export const PodLogs = memo(function PodLogs({ isOpen, selectedPod, handleClose 
         context: currentContext,
       };
 
-      const args = isPod(selectedPod)
+      const args = isPod(selected)
         ? { container, podName: name }
-        : { jobName: selectedPod?.metadata?.labels?.["job-name"] };
+        : { jobName: selected?.metadata?.labels?.["job-name"] };
 
       return invoke<string>(command, { ...sharedArgs, ...args });
     },
@@ -85,10 +85,10 @@ export const PodLogs = memo(function PodLogs({ isOpen, selectedPod, handleClose 
     <Drawer
       isOpen={isOpen}
       handleClose={handleClose}
-      title={selectedPod?.metadata?.name ?? ""}
+      title={selected?.metadata?.name ?? ""}
       description={
         <div className="flex items-center gap-4">
-          {isPod(selectedPod) && (
+          {isPod(selected) && (
             <Listbox value={container} onChange={(e) => setContainer(e)}>
               <div className="relative z-10 w-60">
                 <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left shadow-md dark:bg-gray-800">
@@ -99,7 +99,7 @@ export const PodLogs = memo(function PodLogs({ isOpen, selectedPod, handleClose 
                 </Listbox.Button>
 
                 <Listbox.Options className="absolute mt-1 w-full overflow-auto rounded-md bg-gray-100 text-gray-800 shadow-lg dark:bg-gray-900 dark:text-gray-100">
-                  {selectedPod?.spec?.containers.map((container, idx) => (
+                  {selected?.spec?.containers.map((container, idx) => (
                     <Listbox.Option
                       key={idx}
                       className={`relative cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-gray-200 dark:hover:bg-gray-800`}

@@ -138,7 +138,7 @@ export function ResourceTable<T extends ResourceBase>({
 
       <Suspense fallback={<div>Loading Logs</div>}>
         {actions.includes("logs") && (
-          <PodLogs isOpen={action === "logs"} handleClose={handleClose} selectedPod={selected} />
+          <PodLogs isOpen={action === "logs"} handleClose={handleClose} selected={selected} />
         )}
       </Suspense>
     </QueryWrapper>
