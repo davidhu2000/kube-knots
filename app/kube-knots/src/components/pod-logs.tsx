@@ -3,7 +3,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import type { V1Pod, V1Job } from "@kubernetes/client-node";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
-import { type ChangeEvent, useCallback, useEffect, useState, memo } from "react";
+import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { useScrollBottom } from "../hooks/use-scroll-bottom";
@@ -21,7 +21,7 @@ function isPod(resource: V1Job | V1Pod | null): resource is V1Pod {
   return (resource as V1Pod)?.kind === "Pod";
 }
 
-export const PodLogs = memo(function PodLogs({ isOpen, selected, handleClose }: PodLogsProps) {
+export function PodLogs({ isOpen, selected, handleClose }: PodLogsProps) {
   const name = selected?.metadata?.name;
   const namespace = selected?.metadata?.namespace;
 
@@ -144,4 +144,4 @@ export const PodLogs = memo(function PodLogs({ isOpen, selected, handleClose }: 
       </pre>
     </Drawer>
   );
-});
+}
