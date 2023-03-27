@@ -44,11 +44,11 @@ pub async fn delete_job(
 pub async fn get_job_logs(
     context: Option<String>,
     namespace: Option<String>,
-    controller_id: String,
+    job_name: String,
 ) -> Result<String, String> {
     let api: Api<Pod> = get_resource_api(context.clone(), namespace.clone()).await?;
     let mut lp = ListParams::default();
-    lp.label_selector = Some(format!("controller-uid={}", controller_id));
+    lp.label_selector = Some(format!("job-name={}", job_name));
 
     let result = api.list(&lp).await.unwrap();
 

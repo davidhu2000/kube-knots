@@ -58,7 +58,7 @@ export const PodLogs = memo(function PodLogs({ isOpen, selectedPod, handleClose 
 
       const args = isPod(selectedPod)
         ? { container, podName: name }
-        : { controllerId: selectedPod?.metadata?.labels?.["controller-uid"] };
+        : { jobName: selectedPod?.metadata?.labels?.["job-name"] };
 
       return invoke<string>(command, { ...sharedArgs, ...args });
     },
@@ -75,7 +75,7 @@ export const PodLogs = memo(function PodLogs({ isOpen, selectedPod, handleClose 
     return item.toLowerCase().includes(search.toLowerCase());
   });
 
-  if (filteredData.length === 1 && filteredData[0] === "") {
+  if ((filteredData.length === 1 && filteredData[0] === "") || filteredData.length === 0) {
     filteredData = ["Waiting for logs..."];
   }
 
