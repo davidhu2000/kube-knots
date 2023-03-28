@@ -35,6 +35,15 @@ const config = {
     locales: ["en"],
   },
 
+  scripts: [
+    {
+      src: "https://analytics.umami.is/script.js",
+      async: true,
+      defer: true,
+      "data-website-id": "c4e74a60-fb22-4a29-89a9-aa96e328adc5",
+    },
+  ],
+
   presets: [
     [
       "classic",
