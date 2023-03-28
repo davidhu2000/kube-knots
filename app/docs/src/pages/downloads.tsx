@@ -28,7 +28,8 @@ export function DownloadButton({ platform }: { platform: Platform }): JSX.Elemen
   return (
     <a
       href={downloadUrls[platform]}
-      className="group relative flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-500/80 px-12 py-2 text-black shadow hover:bg-blue-500 hover:text-black hover:no-underline dark:bg-blue-600/80 dark:text-white dark:hover:bg-blue-600 dark:hover:text-white"
+      // eslint-disable-next-line tailwindcss/no-custom-classname
+      className={`umami--click--download-button-${platform.toLowerCase()} group relative flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-500/80 px-12 py-2 text-black shadow hover:bg-blue-500 hover:text-black hover:no-underline dark:bg-blue-600/80 dark:text-white dark:hover:bg-blue-600 dark:hover:text-white`}
     >
       <span className="text-xl">{platform}</span>
       <ArrowDownTrayIcon className="absolute right-4 h-5 w-5 opacity-0 transition duration-200 group-hover:opacity-80" />
