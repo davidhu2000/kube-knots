@@ -1,4 +1,4 @@
-# Linux
+# Linux Installation
 
 The app bundle is built using ubuntu 20.04, so it should work on any newer distributions. See tauri [docs](https://tauri.app/v1/guides/building/linux#limitations) for potential issues with running on older distributions.
 
