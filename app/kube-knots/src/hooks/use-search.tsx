@@ -28,7 +28,7 @@ export function useSearch<T extends ResourceBase>({ data }: { data: T[] }) {
       return true;
     }
 
-    return item.metadata?.name?.toLowerCase().includes(search.toLowerCase());
+    return new RegExp(search, "i").test(item.metadata?.name || "");
   });
 
   return { filteredData, search, handleSearch };
