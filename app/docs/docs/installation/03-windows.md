@@ -1,4 +1,4 @@
-# Windows
+# Windows Installation
 
 After downloading the latest version of the windows `.msi` file. Double click the file to start the installation process.
 

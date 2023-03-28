@@ -1,4 +1,4 @@
-# macOS
+# macOS Installation
 
 Download the `.dmg` file from the [Downloads](/downloads) page. And double click the downloaded file to open the Disk Image.
 
