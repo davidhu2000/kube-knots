@@ -26,7 +26,11 @@ export type ResourceListCommands =
   | "get_services"
   | "get_stateful_sets";
 
-export function useResourceList<T>(command: ResourceListCommands, isNamespaced = true) {
+export function useResourceList<T>(
+  command: ResourceListCommands,
+  isNamespaced = true,
+  options = { enabled: true }
+) {
   const { currentNamespace } = useNamespace();
   const { currentContext } = useCurrentContext();
   const result = useQuery(
@@ -37,7 +41,7 @@ export function useResourceList<T>(command: ResourceListCommands, isNamespaced =
         ...(isNamespaced ? { namespace: currentNamespace } : {}),
       });
     },
-    { onError: (error) => toast.error(error as string) }
+    { onError: (error) => toast.error(error as string), enabled: options.enabled }
   );
 
   return result;

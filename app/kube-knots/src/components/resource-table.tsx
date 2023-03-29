@@ -43,12 +43,12 @@ export function ResourceTable<T extends ResourceBase>({
   actions,
   renderData,
 }: ResourceListProps<T>) {
-  const resourceListQuery = useResourceList<T>(command);
-
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     T,
     (typeof actions)[number]
   >();
+
+  const resourceListQuery = useResourceList<T>(command, undefined, { enabled: !action });
 
   const { filteredData, handleSearch, search } = useSearch({
     data: resourceListQuery.data?.items || [],
