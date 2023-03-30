@@ -55,7 +55,13 @@ export function ResourceTable<T extends ResourceBase>({
   });
 
   return (
-    <QueryWrapper query={resourceListQuery}>
+    <QueryWrapper
+      queryIsSuccess={resourceListQuery.isSuccess}
+      queryIsLoading={resourceListQuery.isLoading}
+      queryIsError={resourceListQuery.isError}
+      queryError={resourceListQuery.error}
+      queryDataLength={resourceListQuery.data?.items.length || 0}
+    >
       <div className="flex justify-between">
         <PathnameTitle />
         <SearchInput onChange={handleSearch} value={search} />

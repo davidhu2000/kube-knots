@@ -128,7 +128,13 @@ export function Layout({ children }: PropsWithChildren) {
         <main className="flex-1 select-none">
           <div className="mx-auto max-w-7xl">
             {namespaceQuery && (
-              <QueryWrapper query={namespaceQuery}>
+              <QueryWrapper
+                queryIsSuccess={namespaceQuery.isSuccess}
+                queryIsLoading={namespaceQuery.isLoading}
+                queryIsError={namespaceQuery.isError}
+                queryError={namespaceQuery.error}
+                queryDataLength={namespaceQuery.data?.items.length || 0}
+              >
                 <div className="p-4">{children}</div>
               </QueryWrapper>
             )}
