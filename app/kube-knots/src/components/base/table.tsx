@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 export function Table({ children }: { children: React.ReactNode }) {
   return (
     <table className="min-w-full select-text divide-y divide-gray-300 rounded-md border-2 border-solid dark:divide-gray-600 dark:border-gray-700">
@@ -6,7 +8,7 @@ export function Table({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function TableHeader({ headers }: { headers: string[] }) {
+export const TableHeader = memo(function TableHeader({ headers }: { headers: string[] }) {
   return (
     <thead className="bg-gray-200 dark:bg-gray-700">
       <tr>
@@ -22,7 +24,7 @@ export function TableHeader({ headers }: { headers: string[] }) {
       </tr>
     </thead>
   );
-}
+});
 
 export function TableBody({ children }: { children: React.ReactNode }) {
   return (
@@ -32,10 +34,10 @@ export function TableBody({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function TableCell({ children }: { children: React.ReactNode }) {
+export const TableCell = memo(function TableCell({ children }: { children: React.ReactNode }) {
   return (
     <td className="max-w-xs overflow-scroll whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
       {children}
     </td>
   );
-}
+});
