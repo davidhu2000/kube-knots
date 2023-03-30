@@ -56,9 +56,7 @@ export function PodLogs({ isOpen, selected, handleClose }: PodLogsProps) {
         context: currentContext,
       };
 
-      const args = isPod(selected)
-        ? { container, podName: name }
-        : { jobName: selected?.metadata?.labels?.["job-name"] };
+      const args = isPod(selected) ? { container, podName: name } : { jobName: name };
 
       return invoke<string>(command, { ...sharedArgs, ...args });
     },
