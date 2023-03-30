@@ -1,5 +1,6 @@
 import type { PodMetric, V1Pod } from "@kubernetes/client-node";
-import { type ChangeEvent, useEffect, useRef, useState, type FormEvent } from "react";
+import { type ColumnDef } from "@tanstack/react-table";
+import { type ChangeEvent, useEffect, useRef, useState, type FormEvent, useMemo } from "react";
 
 import { TableCell } from "../components/base/table";
 import { ResourceTable } from "../components/resource-table";
@@ -63,11 +64,41 @@ export function Pods() {
   const podMetricsQuery = useResourceList<PodMetric>("get_pod_metrics");
   const metrics = podMetricsQuery.data?.items ?? [];
 
+  const columns = useMemo<ColumnDef<V1Pod>[]>(
+    () => [
+      {
+        accessorFn: (row) => row.metadata?.name,
+        header: "Name",
+        size: 60,
+        enableSorting: true,
+      },
+      {
+        accessorFn: (row) => row.status?.phase,
+        header: "Phase",
+        size: 60,
+      },
+      // {
+      //   accessorFn: (row) => row.status?.phase,
+      //   header: "CPU",
+      //   size: 60,
+      // },
+
+      // {
+      //   accessorFn: (row) => row.metadata?.namespace,
+      //   id: "lastName",
+      //   cell: (info) => info.getValue(),
+      //   header: () => <span>Last Name</span>,
+      // },
+    ],
+    []
+  );
+
   return (
     <ResourceTable<V1Pod>
       command="get_pods"
       headers={["Name", "Status", "CPU", "Memory"]}
       actions={["logs", "edit", "delete"]}
+      columns={columns}
       renderData={(item) => {
         const metric = metrics.find((metric) => metric.metadata.name === item.metadata?.name);
 
