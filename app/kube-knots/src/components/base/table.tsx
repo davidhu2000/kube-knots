@@ -1,12 +1,12 @@
 import { memo } from "react";
 
-export function Table({ children }: { children: React.ReactNode }) {
+export const Table = memo(function Table({ children }: { children: React.ReactNode }) {
   return (
     <table className="min-w-full select-text divide-y divide-gray-300 rounded-md border-2 border-solid dark:divide-gray-600 dark:border-gray-700">
       {children}
     </table>
   );
-}
+});
 
 export const TableHeader = memo(function TableHeader({ headers }: { headers: string[] }) {
   return (
@@ -26,13 +26,13 @@ export const TableHeader = memo(function TableHeader({ headers }: { headers: str
   );
 });
 
-export function TableBody({ children }: { children: React.ReactNode }) {
+export const TableBody = memo(function TableBody({ children }: { children: React.ReactNode }) {
   return (
     <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
       {children}
     </tbody>
   );
-}
+});
 
 export const TableCell = memo(function TableCell({ children }: { children: React.ReactNode }) {
   return (

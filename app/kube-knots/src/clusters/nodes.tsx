@@ -46,7 +46,13 @@ export function Nodes() {
   >();
 
   return (
-    <QueryWrapper query={nodeQuery}>
+    <QueryWrapper
+      queryIsSuccess={nodeQuery.isSuccess}
+      queryIsLoading={nodeQuery.isLoading}
+      queryIsError={nodeQuery.isError}
+      queryError={nodeQuery.error}
+      queryDataLength={nodeQuery.data?.items.length || 0}
+    >
       <Table>
         <TableHeader headers={["Name", "CPU", "Memory", "Status", "Pods", "Created", ""]} />
         <TableBody>
