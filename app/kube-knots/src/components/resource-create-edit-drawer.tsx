@@ -182,6 +182,7 @@ export function ResourceCreateEditDrawer<T extends { kind?: string; metadata?: V
           value={code}
           theme={editorTheme}
           onChange={(code) => setCode(code ?? "")}
+          options={{ tabSize: 2 }}
         />
       )}
     </Drawer>
