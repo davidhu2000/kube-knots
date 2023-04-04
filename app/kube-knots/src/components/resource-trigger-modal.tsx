@@ -42,7 +42,7 @@ export function ResourceTriggerModal({
       return invoke("create_job", {
         context: currentContext,
         namespace: cronjob.metadata?.namespace,
-        job: formatCronjobAsJob(cronjob),
+        resource: formatCronjobAsJob(cronjob),
       });
     },
     onSuccess: (_data, variables) => {
