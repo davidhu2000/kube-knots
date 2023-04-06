@@ -3,7 +3,9 @@ import { useEffect } from "react";
 
 declare global {
   interface Window {
-    umami: (event: string) => void;
+    umami?: {
+      track: (event: string) => void;
+    };
   }
 }
 
@@ -14,7 +16,7 @@ function sleep(ms: number) {
 async function trackAppVersion() {
   const appVersion = await getVersion();
   let currentWaitTime = 0;
-  while (typeof window.umami !== "function") {
+  while (typeof window.umami?.track !== "function") {
     currentWaitTime += 1000;
     console.log("Waiting for window.umami to be defined...");
     await sleep(1000);
@@ -23,7 +25,7 @@ async function trackAppVersion() {
     }
   }
 
-  window.umami(`v${appVersion}`);
+  window.umami.track(`v${appVersion}`);
 }
 
 export function useTelemetry() {
