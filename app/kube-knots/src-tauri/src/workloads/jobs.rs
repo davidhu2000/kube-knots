@@ -17,8 +17,8 @@ pub async fn get_jobs(
 }
 
 #[tauri::command]
-pub async fn create_job(context: Option<String>, job: Job) -> Result<Job, String> {
-    return create_resource(context, job).await;
+pub async fn create_job(context: Option<String>, resource: Job) -> Result<Job, String> {
+    return create_resource(context, resource).await;
 }
 
 #[tauri::command]
