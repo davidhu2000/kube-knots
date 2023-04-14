@@ -18,6 +18,21 @@ export function Events() {
           <TableCell>{formatDateString(item.lastTimestamp)}</TableCell>
         </>
       )}
+      sortData={(itemOne, itemTwo) => {
+        if (!itemOne.lastTimestamp || !itemTwo.lastTimestamp) {
+          return 0;
+        }
+
+        if (itemOne.lastTimestamp > itemTwo.lastTimestamp) {
+          return -1;
+        }
+
+        if (itemOne.lastTimestamp < itemTwo.lastTimestamp) {
+          return 1;
+        }
+
+        return 0;
+      }}
     />
   );
 }
