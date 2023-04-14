@@ -35,6 +35,7 @@ interface ResourceListProps<T> {
   headers: string[];
   actions: Actions[];
   renderData: (item: T) => JSX.Element;
+  sortData?: (itemOne: T, itemTwo: T) => -1 | 0 | 1;
 }
 
 export function ResourceTable<T extends ResourceBase>({
@@ -42,6 +43,7 @@ export function ResourceTable<T extends ResourceBase>({
   headers,
   actions,
   renderData,
+  sortData,
 }: ResourceListProps<T>) {
   const { selected, handleOpen, handleClose, action } = useResourceActions<
     T,
@@ -53,6 +55,8 @@ export function ResourceTable<T extends ResourceBase>({
   const { filteredData, handleSearch, search } = useSearch({
     data: resourceListQuery.data?.items || [],
   });
+
+  const sortedData = filteredData.sort(sortData);
 
   return (
     <QueryWrapper
@@ -70,7 +74,7 @@ export function ResourceTable<T extends ResourceBase>({
       <Table>
         <TableHeader headers={[...headers, ...(actions.length > 0 ? [""] : [])]} />
         <TableBody>
-          {filteredData.map((item) => (
+          {sortedData.map((item) => (
             <tr key={item.metadata?.uid}>
               {renderData(item)}
               <td>
